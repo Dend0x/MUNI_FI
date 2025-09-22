@@ -1,0 +1,105 @@
+# B. Želví grafika
+
+Tato kapitola je náplní cvičení ve druhém týdnu semestru, a jejím
+smyslem je seznámit Vás s organizací cvičení, se studijními
+materiály (tedy zejména touto sbírkou), s programovacím prostředím
+Thonny a se základními elementy syntaxe jazyka Python. Zároveň Vám
+připomeneme (nebo ukážeme) základy algoritmizace pomocí tzv. želví
+grafiky.
+
+## Programovací jazyk
+
+V tomto kurzu budeme používat jazyk Python, resp. jeho značně
+zjednodušenou podobu.¹ V této úvodní kapitole budeme programy
+zapisovat pouze na intuitivní úrovni: všechny konstrukce, které
+potřebujete, můžete odvodit z příkladů v ukázkových zdrojových
+kódech.
+
+Každá další kapitola bude obsahovat sekci, která uvede syntaxi
+(zápis) a sémantiku (význam, chování) nových jazykových prostředků.
+Od chvíle, kdy bude nějaký nový prostředek takto uveden, jej můžete
+ve svých programech využívat.² Naopak, nic co nebylo tímto způsobem
+uvedeno, pro účely tohoto kurzu neexistuje, i když to třeba
+naleznete na internetu, nebo to znáte z předchozího programování
+v jazyce Python.
+
+¹ Nicméně bude vždy platit, že programy, které v tomto kurzu
+  naprogramujete, jsou plnohodnotné programy ve skutečném
+  (neomezeném) jazyce Python. Nemusíte se tedy bát, že byste
+  znalosti, které se tu naučíte, nevyužili v praxi.
+
+² V sadách domácích úloh se budou objevovat zadání, která využívají
+  jazyk ze začátku bloku – i v případě, když takovou úlohu začnete
+  řešit později, platí omezení jazyka na týden uvedený v záhlaví
+  zadání.
+
+## Přehled příkladů
+
+Jednotlivé kapitoly sbírky obsahují 5 druhů příkladů: první sada
+jsou tzv. «ukázky» – jedná se o komentované řešení nějakého
+problému, které Vám ilustruje použití konstrukcí, které v daném
+týdnu budeme ve cvičení potřebovat. Tyto ukázky «nenahrazují»
+přednášku, přestože s ní mají určitý překryv – slouží k jejímu
+doplnění delšími, komentovanými ukázkami použití, které můžete
+využít jako inspiraci při řešení příkladů z ostatních částí. Tato
+kapitola obsahuje pět ukázek:
+
+ 1. ‹square›    – kreslení čtverce přímo a pomocí cyklu
+ 2. ‹hexagon›   – použití podprogramu
+ 3. ‹boxes›     – podprogramy s parametry
+ 4. ‹isosceles› – použití proměnné
+ 5. ‹flower›    – podmíněné provádění kódu
+
+Jak ukázky, tak příklady v dalších sekcích, mohou být označeny
+dýkou (†): jedná se o složitější příklady, které byste nicméně měli
+být schopni řešit (i bez dodatečných znalostí). Příklady označené
+dvojitou dýkou (‡) naopak předbíhají probranou látku, a neumíte-li
+je vyřešit, není to žádný problém.
+
+Další část obsahuje „elementární“ příklady, které by měly sloužit
+k tomu, abyste si v rychlosti ověřili, že rozumíte základním
+konstrukcím a pojmům představeným v přednášce a ukázkách.
+Vypracovaná řešení této kategorie příkladů naleznete v kapitole R,
+resp. ve složce ‹sol› ve studijních materiálech. Do této kapitoly
+jsou zařazeny tyto elementární úlohy:
+
+ 1. ‹pentagon›  – pravidelný pětiúhelník
+ 2. ‹right›     – pravoúhlý trojúhelník (parametrický)
+ 3. ‹polygon›   – pravidelný n-úhelník
+
+Další část tvoří «přípravy»: jsou to příklady, ze kterých si některé
+vyberete a «samostatně» vyřešíte v předstihu před samotným cvičením
+k danému tématu. Za tyto příklady dostáváte body, ale pouze pokud
+«odevzdáte» funkční řešení nejpozději v sobotu před příslušným
+cvičením.
+
+Přípravy pro tento týden si můžete vyřešit dopředu také – je to ale
+výjimečně bez bodů:
+
+ 1. ‹trapezoid› – rovnoramenný lichoběžník
+ 2. ‹fence›     – plot pomocí cyklu
+ 3. ‹spiral›    – spirála
+ 4. ‹heartbeat› – stylizované EKG pomocí cyklu
+ 5. ‹diamond›   – kreslení stylizovaného diamantu
+ 6. ‹tunnel›    – soustředné čtverce (pohled do „tunelu“)
+
+Předposlední část každé kapitoly tvoří «řešené» (rozšířené) příklady
+– tyto mají opět přiložená vzorová řešení. Část jich budete řešit ve
+cvičeních, část můžete použít pro další domácí přípravu (s možností
+samostatné kontroly svého řešení vůči tomu vzorovému) nebo také jako
+zdroj příkladů k procvičení před zkouškou. Tento týden do této
+kategorie spadají následující příklady:
+
+ 1. ‹circle›    – kružnice
+ 2. ‹pizza› †   – kruhová výseč
+ 3. ‹target›    – terč (soustředné kružnice)
+ 4. ‹arrow›     – obrys šipky
+ 5. ‹koch› ‡    – Kochova vločka
+ 6. ‹hilbert› ‡ – Hilbertova křivka
+
+Kapitolu uzavírají příklady «volitelné», které nejsou ve sbírce
+vyřešené, ale na kterých si můžete látku dále procvičovat.
+
+ 1. ‹house›     – domeček se stříškou
+ 2. ‹star›      – parametrizovaná hvězda
+ 3. ‹flag›      – státní vlajka

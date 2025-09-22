@@ -1,0 +1,66 @@
+## Závěrečný test
+
+Zkouškové období tvoří pomyslný 4. blok a platí zde stejné kritérium
+jako pro všechny ostatní bloky: musíte získat alespoň 50 bodů.
+Závěrečný test:
+
+ • proběhne v počítačové učebně bez přístupu k internetu nebo
+   vlastním materiálům,
+ • k dispozici budete mít přehled jazyka (‹ib111.language.pdf› a
+   ‹.html›) a zabudovanou nápovědu dostupných programů (jiné
+   materiály nejsou povoleny),
+ • budete moct používat textový editor, interpret jazyka Python a
+   vývojová prostředí Thonny a VS Code.
+
+Na vypracování testu budete mít 4 hodiny čistého času, a bude
+sestávat ze dvou částí (zadávají a odevzdávají se ovšem společně):
+
+ • pět programovacích příkladů, které budou hodnoceny automatickými
+   testy; za každý příklad, který splní testy „verity“ získáte 16
+   bodů (za všechny ostatní 0), za celkem 0 až 80 bodů,
+ • deset teoretických otázek, přitom každá bude složená z 5 tvrzení,
+   z toho dvou pravdivých a tří nepravdivých; hodnocení/otázka:
+   
+   ◦ -2 body za 2 nepravdivé odpovědi,
+   ◦ -1 bod za 1 pravdivou + 1 nepravdivou, nebo za žádnou odpověď,
+   ◦ 0 bodů za 1 pravdivou a druhou nevybranou,
+   ◦ 2 body za 2 pravdivé odpovědi,
+   
+   celkem za -20 až +20 bodů.
+
+Celkový maximální zisk je tedy 100 bodů (80+20). Základní možnosti,
+jak splnit minimální bodovou hranici, jsou 3 příklady + 2 body za
+teorii, nebo 2 příklady + 18 bodů za teorii. Nechcete-li se teorií
+vůbec zabývat, máte také možnost vyřešit 4 příklady (64 - 10 = 54
+bodů).
+
+Programovací příklady budou na stejné úrovni obtížnosti jako
+příklady typu ‹p›/‹r›/‹v› ze sbírky.
+
+Během zkoušky můžete kdykoliv odevzdat (na počet odevzdání není
+žádný konkrétní limit) a vždy dostanete zpět výsledek testů syntaxe
+a sanity. Součástí zadání bude navíc soubor ‹tokens.txt›, kde
+naleznete 3 kódy. Každý z nich lze použít nejvýše jednou (vložením
+do komentáře do jednoho z příkladů), a každé použití kódu odhalí
+výsledek verity testu pro ten soubor, do kterého byl vložen. Toto se
+projeví pouze při prvním odevzdání s vloženým kódem, v dalších
+odevzdáních bude tento kód ignorován (bez ohledu na soubor, do
+kterého bude vložen).
+
+### Vnitrosemestrálky
+
+V posledním týdnu každého bloku, tedy
+
+ • cvičení 4 (20.–24. října),
+ • cvičení 8 (17.–21. listopadu),
+ • cvičení 12 (15.–19. prosince),
+
+proběhne v rámci cvičení programovací test na 60 minut. Tyto testy
+budou probíhat za stejných podmínek, jako výše popsaný závěrečný
+test (slouží tedy mimo jiné jako příprava na něj). Řešit budete vždy
+ale pouze dva příklady, přitom za každý můžete získat 3 body
+(splní-li verity testy) a dále 3 teoretické otázky (hodnoceny jedním
+bodem za dvě pravdivá tvrzení, jinak nulou). Celkem tak můžete
+získat 0 až 9 bodů, které se počítají jako aktivita v příslušném
+bloku. Součástí zadání bude také 1 token pro odhalení výsledku
+verity testu.

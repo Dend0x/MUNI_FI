@@ -1,0 +1,36 @@
+## Kostry úloh
+
+Pracujete-li na studentském serveru ‹aisa›, můžete pro překlad
+jednotlivých příkladů použít přiložený soubor ‹makefile›, a to
+zadáním příkazu
+
+    $ make příklad
+
+kde ‹příklad› je název souboru bez přípony (např. tedy ‹make
+e1_factorial›). Tento příkaz postupně:
+
+    XXX
+
+Selže-li některý krok, další už se provádět nebude. Povede-li se
+překlad v prvním kroku, v pracovním adresáři naleznete spustitelný
+soubor s názvem ‹příklad.bin›, se kterým můžete dále pracovat.
+
+Existující přeložené soubory můžete smazat příkazem ‹make clean›
+(vynutíte tak jejich opětovný překlad a spuštění všech kontrol).
+
+### Textový editor
+
+Na stroji ‹aisa› je k dispozici jednoduchý editor ‹micro›, který má
+podobné ovládání jako klasické textové editory, které pracují
+v grafickém režimu, a který má slušnou podporu pro práci se
+zdrojovým kódem. Doporučujeme zejména méně pokročilým. Další
+možností jsou samozřejmě pokročilé editory ‹vim› a ‹emacs›.
+
+Mimo lokálně dostupné editory si můžete ve svém oblíbeném editoru,
+který máte nainstalovaný u sebe, nastavit režim vzdálené editace
+(použitím protokolu ‹ssh›). Minimálně ve VS Code je takový režim
+k dispozici a je uspokojivě funkční.
+
+### Vlastní prostředí
+
+XXX
