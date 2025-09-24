@@ -23,6 +23,7 @@ def largest_triple(max_side):
             if c == round(c):
                 if (a + b + c) > result:
                     result = a + b + c
+
     return result
 
 

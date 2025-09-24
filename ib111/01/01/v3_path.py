@@ -11,7 +11,17 @@ from ib111 import week_01  # noqa
 #  • je-li ‹num› rovno jedné, skončili jsme.
 
 def largest_on_path(num):
-    pass
+    largest = num
+
+    while num != 1:
+        if num % 2 == 0:
+            num //= 2
+        else:
+            num = 3 * num + 1
+            if num > largest:
+                largest = num
+
+    return largest
 
 
 def main():

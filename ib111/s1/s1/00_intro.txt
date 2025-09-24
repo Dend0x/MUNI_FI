@@ -1,0 +1,13 @@
+# S.1. Sada úloh k prvnímu bloku
+
+V prvním bloku jsou následující domácí úkoly:
+
+ • ‹a_clock› – vykreslení ciferníku hodin pomocí želví grafiky,
+ • ‹b_primes› – rozklad na prvočinitele,
+ • ‹c_race› – hra ve stylu „Člověče, nezlob se“ s číselnou reprezentací,
+ • ‹d_mancala› – mankalová hra,
+ • ‹e_2048› – jednorozměrná varianta hry 2048,
+ • ‹f_freecell› – zhodnocení stavu hry FreeCell.
+
+První tři úkoly vyžadují pouze znalosti základních příkazů a celočíselné
+aritmetiky; zbývající tři úkoly používají seznamy.

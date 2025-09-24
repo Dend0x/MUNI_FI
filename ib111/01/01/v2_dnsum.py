@@ -10,7 +10,17 @@ from ib111 import week_01  # noqa
 # případě.)
 
 def sum_elements_dn(div, nondiv, count):
-    pass
+    result = 0
+    found = 0
+    number = 1
+
+    while found < count:
+        if number % div == 0 and number % nondiv != 0:
+            result += number
+            found += 1
+        number += 1
+
+    return result
 
 
 def main():

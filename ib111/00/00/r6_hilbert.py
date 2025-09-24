@@ -10,9 +10,17 @@ from turtle import forward, backward, left, right, penup, \
 # papír), naleznete na adrese ‹https://is.muni.cz/go/9fh9k4›.
 
 def hilbert(size, iterations):
-    if(iterations == 0):
+    if iterations == 0:
         forward(size)
         return
+
+    hilbert(size / 2.0, iterations - 1)
+    forward(size)
+    left(90)
+    forward(size)
+    left(90)
+    forward(size)
+
     
 
 

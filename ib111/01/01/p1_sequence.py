@@ -15,6 +15,7 @@ from ib111 import week_01  # noqa
 
 # Očekávaný výsledek pro volání ‹sequence(2, 3, 2)› je tedy ‹8›.
 
+
 def sequence(n, k, initial):
     a = initial
 

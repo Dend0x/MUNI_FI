@@ -20,6 +20,7 @@ from ib111 import week_01  # noqa
 #
 # Vaším úkolem je najít ‹n›-tý prvek posloupnosti ⟦B⟧.
 
+
 def nested(n):
     i = 1
     n += 1
@@ -33,6 +34,7 @@ def nested(n):
 
 # Dále napište funkci ‹nested_sum›, která spočítá sumu prvních ‹n› členů
 # této posloupnosti.
+
 
 def nested_sum(n):
     result = 0

@@ -13,7 +13,19 @@ from ib111 import week_01  # noqa
 # indexujeme posloupnost od nuly).
 
 def nth_element_lv(p, q, index):
-    pass
+    if index == 0:
+        return 2
+    if index == 1:
+        return p
+
+    x0 = 2
+    x1 = p
+
+    for i in range(index - 1):
+        x_temp = p * x1 - q * x0
+        x0 = x1
+        x1 = x_temp
+    return x1
 
 
 def main():
