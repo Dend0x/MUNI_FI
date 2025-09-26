@@ -53,8 +53,9 @@ def ten_to_five(number):
         result += (number % 5) * 10 ** digit
         number //= 5
         digit += 1
-    
+
     return result
+
 
 def find_position(arena, player):
     actual_position = 0
@@ -87,7 +88,6 @@ def is_occupied_by_whom(number, position):
     return number % 10
 
 
-
 def play(arena, player, throw):
     arena_5 = ten_to_five(arena)
     actual_position = find_position(arena_5, player)
@@ -106,8 +106,8 @@ def play(arena, player, throw):
 
 def main():
 
-    #for p in range(1, 5):
-    #    assert play(0, p, 1) == p
+    for p in range(1, 5):
+        assert play(0, p, 1) == p
 
     assert play(11, 3, 3) == 86
     assert play(84770, 4, 5) == 147250

@@ -22,7 +22,7 @@ def nth_smallest_prime_divisor(num, index):
     index_tracker = 1
 
     while num > 1:
-        while(num % divider == 0):
+        while num % divider == 0:
             num //= divider
             if index == index_tracker:
                 return divider
