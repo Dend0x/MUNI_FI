@@ -7,16 +7,16 @@ from ib111 import week_01  # noqa
 # 2 + 8 + 34›.
 
 def fibsum(n):
-    odd_found = 0
+    even_found = 0
     result = 0
     a = 1
     b = 1
 
-    while odd_found < n:
+    while even_found < n:
         c = a + b
         if c % 2 == 0:
             result += c
-            odd_found += 1
+            even_found += 1
         a = b
         b = c
 
