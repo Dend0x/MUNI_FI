@@ -19,6 +19,8 @@ def next_multiple(number, k):
 # ‹number› najde nejbližší větší prvočíslo.
 
 def is_prime(number):
+    if number == 1:
+        return False
     top_divider = sqrt(number)
     i = 2
 
