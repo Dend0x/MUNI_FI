@@ -21,6 +21,7 @@ def two_to_ten(number):
 
     return result
 
+
 def joined(start, count):
     bi_number = 0
 

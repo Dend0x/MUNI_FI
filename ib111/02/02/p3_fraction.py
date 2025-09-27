@@ -1,5 +1,4 @@
 from ib111 import week_02  # noqa
-import math
 
 # V této úloze bude Vaším úkolem získat hodnotu ‹index›-tého
 # koeficientu řetězového zlomku pro racionální číslo s čitatelem
@@ -25,20 +24,23 @@ import math
 #  2. Pro získání dalšího koeficientu opakujte 1. krok s převrácenou
 #     hodnotou zlomkové části ⟦(1/q)⟧.
 
+
 def continued_fraction(nom, denom, index):
-    current_index = 0
     p = nom // denom
-    q = float(nom) / denom - nom // denom
+    qnom = nom % denom
+    qdenom = denom
+
+    current_index = 0
 
     while index != current_index:
-        side_calc = 1 / q
-        if(math.isclose(side_calc, round(side_calc))):
-            p = round(side_calc)
-        else:
-            p = math.floor(side_calc)
-        q = side_calc - p
+        p = qdenom // qnom
+        side_qnom = qnom
+        qnom = qdenom % qnom
+        qdenom = side_qnom
         current_index += 1
+
     return p
+
 
 def main():
     assert continued_fraction(2, 1, 0) == 2
