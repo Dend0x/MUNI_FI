@@ -23,7 +23,39 @@ from ib111 import week_02  # noqa
 # • číslo 1729 zapíše cvelf jako ⟦(1001)ᵦ⟧ a to se tedy mícháním nezmění.
 
 def zwelf_shuffle(num):
-    pass
+    elf_counter = 0
+    zwelf_counter = 0
+    middle_result = 0
+    i = 0
+    number_pointer = 0
+    result = 0
+
+    while num > 0:
+        remainder = num % 12
+        num //= 12
+        if remainder == 10:
+            elf_counter += 1
+        elif remainder == 11:
+            zwelf_counter += 1
+        else:
+            middle_result += remainder * 10 ** i
+            i += 1
+
+
+    for z in range(zwelf_counter):
+        result += 11 * 12 ** number_pointer
+        number_pointer += 1
+    for m in range(i):
+        remainder = middle_result % 10
+        middle_result //= 10
+        result += remainder * 12 ** number_pointer
+        number_pointer += 1
+    
+    for e in range(elf_counter):
+        result += 10 * 12 ** number_pointer
+        number_pointer += 1
+
+    return result
 
 
 def main() -> None:
