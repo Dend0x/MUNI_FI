@@ -21,7 +21,21 @@ from math import sqrt
 # volat jako libovolnou jinou funkci.
 
 def bisect(fun, low, high, eps):
-    pass
+    flow = fun(low)
+    middle = (low + high) / 2
+    fmiddle = fun(middle)
+
+    while abs(fmiddle) > eps:
+        if flow * fmiddle < 0:
+            high = middle
+        else:
+            low = middle
+            flow = fmiddle
+        
+        middle = (low + high) / 2
+        fmiddle = fun(middle)
+
+    return middle
 
 
 def fun_a(x):

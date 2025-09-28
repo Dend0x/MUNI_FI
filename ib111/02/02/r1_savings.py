@@ -25,8 +25,15 @@ from ib111 import week_02  # noqa
 # ‹15› místo ‹1.5›).
 
 def savings_years(savings, interest_rate, inflation, withdraw):
-    pass
+    years = 0
 
+    while savings >= withdraw:
+        savings = savings - withdraw
+        savings += savings * (interest_rate / 100)
+        withdraw += withdraw * (inflation / 100)
+        years += 1
+
+    return years
 
 def main():
     assert savings_years(1000, 0.0, 0.0, 100) == 10

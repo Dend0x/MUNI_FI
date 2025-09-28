@@ -5,8 +5,44 @@ from ib111 import week_02  # noqa
 # najde největší možné číslo, které lze získat smazáním jedné
 # desítkové cifry.
 
+
+def digit_count(number):
+    count = 0
+
+    while number > 0:
+        number //= 10
+        count += 1
+
+    return count
+
+
+def get_digit(number, k):
+    
+    for i in range(k):
+        number //= 10
+    
+    return number % 10
+
+
+def modify_number(number, i):
+    right_number_part = 0
+    for j in range(i):
+        right_number_part += (number % 10) * 10 ** j
+        number //= 10
+    
+    number //= 10
+    number *= 10 ** i
+    return number + right_number_part
+
+
 def delete_to_maximal(number):
-    pass
+    count = digit_count(number)
+
+    for i in range(count - 1, 0, -1):
+        if get_digit(number, i) < get_digit(number, i - 1):
+            return modify_number(number, i)
+
+    return number // 10
 
 
 # Napište funkci ‹delete_k_to_maximal›, která pro dané číslo
@@ -14,7 +50,9 @@ def delete_to_maximal(number):
 # (vynecháním) ‹k› desítkových cifer.
 
 def delete_k_to_maximal(number, k):
-    pass
+    for i in range(k):
+        number = delete_to_maximal(number)
+    return number
 
 
 def main():

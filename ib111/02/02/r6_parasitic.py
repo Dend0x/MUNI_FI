@@ -14,8 +14,27 @@ from ib111 import week_02  # noqa
 # takové ⟦k⟧ vrátí; jinak vrátí ‹None›.
 
 
+def pattern_match(num, num_multiplied, base):
+    right_part_multiplied = num % base
+    num //= base
+
+    while num > 0 and num_multiplied > 0:
+        if num % base != num_multiplied % base:
+            return False
+        num //= base
+        num_multiplied //= base
+
+    return right_part_multiplied == num_multiplied
+
+
 def is_parasitic(num, base):
-    pass
+    for i in range(1, base):
+        num_multiplied = num * i
+
+        if pattern_match(num, num_multiplied, base):
+            return i
+
+    return None
 
 
 def main() -> None:

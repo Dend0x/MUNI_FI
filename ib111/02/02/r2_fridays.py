@@ -10,8 +10,24 @@ from ib111 import week_02  # noqa
 # den. Jsou to roky, které jsou dělitelné čtyřmi, s výjimkou těch,
 # které jsou zároveň dělitelné 100 a nedělitelné 400.
 
+
+def is_leap(year):
+    return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
+
+
 def fridays(year, day_of_week):
-    pass
+    if is_leap(year):
+        if day_of_week == 6:
+            return 3
+        if day_of_week > 3 or day_of_week == 1:
+            return 1
+        return 2
+    
+    if day_of_week == 3:
+        return 3
+    if day_of_week > 1 and day_of_week < 6:
+        return 1
+    return 2
 
 
 def main():
