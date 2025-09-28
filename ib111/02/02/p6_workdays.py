@@ -46,48 +46,51 @@ def first_day(year):
 def set_all_workdays(year):
     first_day_year = first_day(year)
     if not is_leap(year):
-        if(first_day_year < 5):
+        if first_day_year < 5:
             return 261
         return 260
-    
+
     if first_day_year == 5:
         return 260
     if first_day_year < 4:
         return 262
     return 261
 
+
 def is_weekend(day, year):
     test_day = (first_day(year) + day) % 7
-    return (test_day > 4 and test_day < 7)
+    return test_day >= 5
 
-def check_holiday(workdays, day, year):
-    return workdays - (not is_weekend(day, year))
+
+def check_holiday(workdays_count, day, year):
+    return workdays_count - (not is_weekend(day, year))
+
 
 def workdays(year):
     workdays_count = set_all_workdays(year)
     leap = is_leap(year)
 
-    #DOSCS
+    # DOSCS
     workdays_count = check_holiday(workdays_count, 0, year)
-    #SP
+    # SP
     workdays_count = check_holiday(workdays_count, 120 + leap, year)
-    #DV
+    # DV
     workdays_count = check_holiday(workdays_count, 127 + leap, year)
-    #DSVCAM
+    # DSVCAM
     workdays_count = check_holiday(workdays_count, 185 + leap, year)
-    #DUJH
+    # DUJH
     workdays_count = check_holiday(workdays_count, 186 + leap, year)
-    #DCS
+    # DCS
     workdays_count = check_holiday(workdays_count, 270 + leap, year)
-    #DVSCS
+    # DVSCS
     workdays_count = check_holiday(workdays_count, 300 + leap, year)
-    #DBZSAD
+    # DBZSAD
     workdays_count = check_holiday(workdays_count, 320 + leap, year)
-    #SD
+    # SD
     workdays_count = check_holiday(workdays_count, 357 + leap, year)
-    #PSV
+    # PSV
     workdays_count = check_holiday(workdays_count, 358 + leap, year)
-    #DSV
+    # DSV
     workdays_count = check_holiday(workdays_count, 359 + leap, year)
 
     return workdays_count - 2

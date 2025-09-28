@@ -12,13 +12,13 @@ def poly(x):
 
 
 def maximum(low, high):
-    max = poly(low)
+    maxValue = poly(low)
     maxIndex = low
 
     for i in range(low + 1, high + 1):
         number = poly(i)
-        if number > max:
-            max = number
+        if number > maxValue:
+            maxValue = number
             maxIndex = i
 
     return maxIndex
