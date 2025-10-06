@@ -19,8 +19,41 @@ from ib111 import week_02  # noqa
 # (1δ21)ₑ⟧, ⟦1211 = (δ01)ₑ⟧ a ⟦33670 = (2332δ)ₑ⟧.
 # Elfími palindromy «nejsou» čísla ⟦233 = (1δ2)ₑ⟧, ⟦1729 = (1332)ₑ⟧.
 
+
+def get_digit(number, k):
+    return (number // 10 ** k) % 10
+
+def digit_count(number):
+    count = 0
+
+    while number > 0:
+        number //= 10
+        count += 1
+
+    return count
+
+
+def is_palindrome(number):
+    number_digit_count = digit_count(number)
+    for i in range(number_digit_count // 2):
+        if get_digit(number, i) != get_digit(number, number_digit_count - i - 1):
+            return False
+
+    return True
+
+
 def elf_palindrome(num):
-    pass
+    result_number = 0
+    i = 0
+
+    while num > 0:
+        remainder = num % 11
+        num //= 11
+        if remainder != 10:
+            result_number += remainder * 10 ** i
+            i += 1
+
+    return is_palindrome(result_number)
 
 
 def main() -> None:

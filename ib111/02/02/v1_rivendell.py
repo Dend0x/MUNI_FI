@@ -15,7 +15,19 @@ from ib111 import week_02  # noqa
 #  • a ⟦999987 = (62334δ)ₑ⟧ má součet ⟦6 + 2 + 3 + 3 + 4 - 1 = 17⟧.
 
 def elf_digit_sum(num):
-    pass
+    result = 0
+    overflow = 0
+
+    while num + overflow > 0:
+        remainder = (num + overflow) % 11
+        num //= 11
+        if remainder < 10:
+            result += remainder
+            overflow = 0
+        else:
+            result -= 1
+            overflow = 1
+    return result
 
 
 def main() -> None:
