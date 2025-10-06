@@ -15,10 +15,10 @@ def is_abundant(number):
     n = sqrt(number)
     i = 2
 
-    while(i <= n):
-        if(number % i == 0):
+    while i <= n:
+        if number % i == 0:
             divisors_sum += i
-            if(sqrt(number) != i):
+            if sqrt(number) != i:
                 divisors_sum += number // i
         i += 1
     
