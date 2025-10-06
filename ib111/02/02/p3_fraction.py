@@ -60,6 +60,7 @@ def main():
     assert continued_fraction(688, 219, 1) == 7
     assert continued_fraction(688, 219, 2) == 15
     assert continued_fraction(688, 219, 3) == 2
+    print(continued_fraction(123456789, 98765432, 3))
 
 
 if __name__ == "__main__":

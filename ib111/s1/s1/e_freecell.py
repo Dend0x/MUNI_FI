@@ -48,8 +48,84 @@ HEARTS, DIAMONDS, CLUBS, SPADES = 0, 1, 2, 3
 # Předpokládejte, že vstupní situace je skutečnou situací ve hře (např. není
 # možné, aby se někde objevila stejná karta dvakrát).
 
+def has_none(array):
+    for i in array:
+        if i is None:
+            return True
+
+    return False
+
+
+def only_none(array):
+    for i in array:
+        if i is not None:
+            return False
+
+    return True
+
+
+def setup(data, cards):
+    for card in cards:
+        if card is None:
+            continue
+        rank, color = card
+        data[color][rank - 1] = True
+
+
+def aces_foundation(data, foundation):
+    if not has_none(foundation):
+        return False
+
+    for color in range(4):
+        if data[color][0]:
+            return True
+
+    return False
+
+
+def foundation_look_up(data, foundation):
+    for card in foundation:
+        if card is None:
+            continue
+        rank, color = card
+        if rank == KING:
+            continue
+        if data[color][rank]:
+            return True
+
+    return False
+
+
+def cascades_look_up(data, cascades):
+    for card in cascades:
+        if card is None:
+            continue
+        rank, color = card
+        if rank == 1:
+            continue
+        if data[(2 + color) % 4][rank - 2] or data[(3 - color) % 4][rank - 2]:
+            return True
+
+    return False
+
+
 def can_move(cascades, cells, foundation):
-    pass
+
+    if only_none(cascades) and only_none(cells):
+        return False
+
+    if has_none(cascades) or has_none(cells):
+        return True
+
+    data = [[False for j in range(13)] for i in range(4)]
+    setup(data, cascades)
+    setup(data, cells)
+
+    return (
+        aces_foundation(data, foundation)
+        or foundation_look_up(data, foundation)
+        or cascades_look_up(data, cascades)
+    )
 
 
 def main():

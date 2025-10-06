@@ -31,8 +31,53 @@ from ib111 import week_03  # noqa
 # modifikuje parametr ‹row› a vrací ‹True›, pokud posunem došlo k nějaké
 # změně; v opačném případě vrací ‹False›.
 
+
+def rotate(row):
+    for i in range(len(row) // 2):
+        row[i], row[len(row) - i - 1] = row[len(row) - i - 1], row[i]
+
+
+# Vrací posunutou hlavu když je potřeba, druhý Bool
+# když dojde k přepisu
+
+def slide_number(current_index, working_index, row):
+
+    cur_number = row[current_index]
+    work_number = row[working_index]
+
+    if current_index == working_index:
+        return working_index, False
+
+    if work_number == 0 or work_number == cur_number:
+        row[working_index] += cur_number
+        row[current_index] = 0
+        return working_index + (work_number == cur_number), True
+
+    working_index += 1
+
+    if working_index == current_index:
+        return working_index, False
+
+    row[working_index] += cur_number
+    row[current_index] = 0
+
+    return working_index, True
+
+
 def slide(row, to_left):
-    pass
+    if not to_left:
+        rotate(row)
+
+    working_index = 0
+    changed = False
+
+    for i, number in enumerate(row):
+        if number > 0:
+            working_index, has_changed = slide_number(i, working_index, row)
+            changed = changed or has_changed
+
+    rotate(row) if not to_left else row
+    return changed
 
 
 def main():

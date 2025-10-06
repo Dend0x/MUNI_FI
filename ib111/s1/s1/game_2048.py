@@ -2,7 +2,7 @@ from random import choice
 import tkinter as tk
 
 # change e_2048 below if your file name is different
-import e_2048 as student
+import d_2048 as student
 
 # game parameters; feel free to change them
 ROW_SIZE = 17
