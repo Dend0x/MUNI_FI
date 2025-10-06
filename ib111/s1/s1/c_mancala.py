@@ -63,7 +63,9 @@ from ib111 import week_03  # noqa
 # i ‹start› jsou kladná celá čísla.
 
 def init(size, start):
-    pass
+    board = [start for i in range(size)]
+    board.append(0)
+    return board, board.copy()
 
 
 # Dále napište proceduru ‹play›, která odehraje jedno kolo hry. Parametr
@@ -87,12 +89,51 @@ PLAY_AGAIN = 3
 
 
 def play(our, their, position):
-    pass
+    if position >= len(our) - 1 or position < 0:
+        return INVALID_POSITION
+
+    if our[position] == 0:
+        return EMPTY_POSITION
+
+    ball_count = our[position]
+    my_side = True
+    our[position] = 0
+    our_bank = len(our) - 1
+    their_last_hole = len(their) - 2
+
+    for _ in range(ball_count):
+        if my_side:
+            if position >= our_bank:
+                my_side = False
+                position = 0
+                their[position] += 1
+            else:
+                position += 1
+                our[position] += 1
+        else:
+            if position >= their_last_hole:
+                my_side = True
+                position = 0
+                our[position] += 1
+            else:
+                position += 1
+                their[position] += 1
+
+    if my_side and position == our_bank:
+        return PLAY_AGAIN
+
+    their_opposite_index = len(their) - position - 2
+
+    if my_side and our[position] == 1 and their[their_opposite_index] != 0:
+        our[-1] += 1 + their[their_opposite_index]
+        our[position] = 0
+        their[their_opposite_index] = 0
+
+    return ROUND_OVER
 
 
 def main():
     # --- init ---
-
     assert init(6, 3) \
         == ([3, 3, 3, 3, 3, 3, 0], [3, 3, 3, 3, 3, 3, 0])
 

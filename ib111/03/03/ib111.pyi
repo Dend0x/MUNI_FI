@@ -1,0 +1,22 @@
+week_00 = ()
+week_01 = ()
+week_02 = ()
+week_03 = ()
+week_04 = ()
+week_05 = ()
+week_06 = ()
+week_07 = ()
+week_08 = ()
+week_09 = ()
+week_10 = ()
+week_11 = ()
+week_12 = ()
+
+class manager:
+    def __enter__( self ) -> None:
+        pass
+    def __exit__( self, x: None, y: None, z: None ) -> None:
+        pass
+
+except_data_structures = manager
+global_fs_proxy = manager()
