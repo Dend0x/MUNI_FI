@@ -11,7 +11,14 @@ from ib111 import week_03  # noqa
 # body).
 
 def mark_points(answers, solution):
-    pass
+    result = 0
+
+    for index, answer in enumerate(answers):
+        right, points = answer
+        if right == solution[index]:
+            result += points
+
+    return result
 
 
 def main():

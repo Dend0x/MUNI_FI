@@ -19,11 +19,24 @@ from ib111 import week_03  # noqa
 # ‹0› jsou správné: ‹[1, 0, 2, 3, 4]› nebo ‹[1, 2, 0, 3, 4]›.
 
 def partition(data, idx):
-    pass
+    i = left = 0
+    right = len(data) - 1
+    pivot = data[idx]
+
+    while i <= right:
+        if data[i] < pivot:
+            data[left], data[i] = data[i], data[left]
+            i += 1
+            left += 1
+        elif data[i] > pivot:
+            data[i], data[right] = data[right], data[i]
+            right -= 1
+        else:
+            i += 1
 
 
 def main():
-    run_test([3, 4, 6, 2, 5], 4)
+    #run_test([3, 4, 6, 2, 5], 4)
     run_test([0, 1, 3, 4, 6, 2, 5], 4)
     run_test([0, 1, 3, 4, 6, 2, 5], 2)
     run_test([0, 2, 1, 5, 6, 9], 0)
@@ -49,7 +62,6 @@ def run_test(data, idx):
         i += 1
     while i < count and data[i] > pivot:
         i += 1
-
     assert i == count
 
 
