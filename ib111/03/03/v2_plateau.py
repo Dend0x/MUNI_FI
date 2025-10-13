@@ -11,7 +11,27 @@ from ib111 import week_03  # noqa
 # v seznamu; v opačném případě vrátí číslo ‹-1›.
 
 def rightmost_plateau(heights):
-    pass
+
+    for i in range(len(heights) - 1, 0, -1):
+        
+        if heights[i] != heights[i - 1]:
+            continue
+        if i + 1 == len(heights) or heights[i] < heights[i + 1]:
+            continue
+        if i - 2 == 0 or heights[i - 1] < heights[i - 2]:
+            continue
+        
+        j = i - 1
+
+        while j >= 0 and heights[j - 1] == heights[j]:
+            j -= 1
+        
+        if heights[j - 1] > heights[j]:
+            continue
+
+        return j
+
+    return -1
 
 
 # Příklad: Volání ‹rightmost_plateau([2, 2, 4, 5, 5, 2])› vrátí ‹3›, protože

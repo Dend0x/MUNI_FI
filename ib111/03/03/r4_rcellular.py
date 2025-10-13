@@ -26,8 +26,17 @@ from ib111 import week_03  # noqa
 # bude editovat seznam, který dostala jako parametr (viz též úvod
 # k tomuto týdnu).
 
+
+def evaluate(value):
+    return 1 < value < 7 and value != 4
+
+
 def cellular_in_situ(state):
-    pass
+    for i in range(len(state)):
+        left = state[i]
+        middle = state[i + 1] if i + 1 < len(state) else 0
+        right = state[i + 2] if i + 2 < len(state) else 0
+        state[i] = evaluate(left + 2 * middle + 4 * right)
 
 
 def main():

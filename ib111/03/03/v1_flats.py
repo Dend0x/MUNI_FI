@@ -10,7 +10,13 @@ from ib111 import week_03  # noqa
 # ve stejném pořadí, v jakém jsou plošiny v původním seznamu.
 
 def flats(heights):
-    pass
+    result = []
+
+    for i in range(len(heights) - 1):
+        if heights[i] == heights[i + 1]:
+            result.append(heights[i])
+
+    return result
 
 
 # Příklad: Volání ‹flats([2, 2, 4, 5, 4, 4, 3])› vrátí ‹[2, 4]›.

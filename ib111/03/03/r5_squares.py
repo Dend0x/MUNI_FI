@@ -21,7 +21,26 @@ from ib111 import week_03  # noqa
 # definovaná), vraťte místo trojice hodnotu ‹None›.
 
 def least_squares(x, y):
-    pass
+    beta_s = 0
+    beta_x = 0
+    avg_x = sum(x) / float(len(x))
+    avg_y = sum(y) / float(len(y))
+    resudie = []
+
+    for i in range(len(x)):
+        beta_s += (x[i] - avg_x) * (y[i] - avg_y)
+        beta_x += (x[i] - avg_x) ** 2
+
+    if beta_x == 0:
+        return None
+
+    beta = beta_s / beta_x
+    alfa = avg_y - beta * avg_x
+
+    for i in range(len(y)):
+        resudie.append(abs((beta * x[i] + alfa) - y[i]))
+
+    return (alfa, beta, resudie)
 
 
 def main():

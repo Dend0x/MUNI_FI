@@ -17,11 +17,30 @@ from ib111 import week_03  # noqa
 # obdélníky překrývají:
 
 def has_overlap(a, b):
-    pass
+    point1a, point2a = a
+    x1a, y1a = point1a
+    x2a, y2a = point2a
+    point1b, point2b = b
+    x1b, y1b = point1b
+    x2b, y2b = point2b
+    return max(x1a, x2a) >= min (x1b, x2b) and max(y1a, y2a) >= min(y1b, y2b)
 
 
 def filter_overlapping(rectangles):
-    pass
+    result = []
+    help_result = [False for i in range(len(rectangles))]
+
+    for i in range(len(rectangles)):
+        for j in range(i + 1, len(rectangles)):
+            if has_overlap(rectangles[i], rectangles[j]):
+                help_result[i] = True
+                help_result[j] = True
+
+    for index, element in enumerate(help_result):
+        if element:
+            result.append(rectangles[index])
+
+    return result
 
 
 def main():
