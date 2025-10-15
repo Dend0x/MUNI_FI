@@ -36,7 +36,7 @@ def partition(data, idx):
 
 
 def main():
-    #run_test([3, 4, 6, 2, 5], 4)
+    run_test([3, 4, 6, 2, 5], 4)
     run_test([0, 1, 3, 4, 6, 2, 5], 4)
     run_test([0, 1, 3, 4, 6, 2, 5], 2)
     run_test([0, 2, 1, 5, 6, 9], 0)
