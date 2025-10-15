@@ -60,6 +60,7 @@ def count_divisors(x: int) -> int:
 
 
 def test_f_2() -> None:
+<<<<<<< HEAD
     # Zda má číslo x více nebo stejně dělitelů než číslo y
 
     for x in range(1, 50):
@@ -67,6 +68,10 @@ def test_f_2() -> None:
         assert f_2(x, count)
         assert f_2(x, count - 1)
         assert not f_2(x, count + 1)
+=======
+    # Jestli má číslo x více nebo méně dělitelů než je číslo y
+    
+>>>>>>> 6f056a66ccd63cc0b57a8a1c3776eb29e49e7d21
 
 
 def f_3(x: int, y: int) -> bool:
