@@ -7,8 +7,25 @@ from ib111 import week_04  # noqa
 # 3. Formulujte vstupní podmínku funkce mystery_function
 
 
+def mystery_second(nums):
+    j = 0
+
+    for i in range(len(nums)):
+        if nums[i] % 2 == 0:
+            nums[i] //= 2
+
+        for k in range(j, len(nums)):
+            if nums[k] % 2 != 0:
+                nums[i] = nums[k]
+            j += 1
+
+    for k in range(j, len(nums)):
+        nums[k] *= 2
+
+
 def mystery_function(nums):
-    result = [0] * len(nums)
+    # Sudá vydělí 2 lichá vynásobí 2, vydělená sudá dá na začátek, lichá za ně
+    result = [0 for i in range(len(nums))]
     i = 0
     for num in nums:
         if num % 2 == 0:
@@ -33,10 +50,10 @@ def mysterious_shift(arr):
         code_combination = data_point + secret_code
         decoded_element = code_combination - secret_code
         key_interaction = decoded_element * cipher_key
-        final_element = key_interaction / cipher_key
+        final_element = key_interaction / float(cipher_key)
 
         distraction_1 = secret_code * cipher_key
-        distraction_2 = distraction_1 / cipher_key
+        distraction_2 = distraction_1 / float(cipher_key)
         distraction_3 = distraction_2 - secret_code
 
         final_element += distraction_3 - distraction_3
@@ -45,8 +62,12 @@ def mysterious_shift(arr):
             final_element = final_element * 1
 
         result.append(final_element)
-
+    print(result)
     return result
+
+
+def simple_shift(arr):
+    return [arr[i] + i for i in range(len(arr))]
 
 
 def main() -> None:

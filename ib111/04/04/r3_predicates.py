@@ -19,7 +19,6 @@ def f_1(x: int, y: int) -> bool:
         a = b
         b = c
         x -= 1
-        print(a, b)
     return b == y
 
 
@@ -48,7 +47,8 @@ def f_2(x: int, y: int) -> bool:
 
 
 def test_f_2() -> None:
-    pass
+    # Jestli má číslo x více nebo méně dělitelů než je číslo y
+    
 
 
 def f_3(x: int, y: int) -> bool:

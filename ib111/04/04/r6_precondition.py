@@ -23,7 +23,7 @@ def f_1(x_0: int, y: int) -> int:
 
 
 def precondition_1(x_0: int, y: int) -> bool:
-    return False
+    return y != 0 and x_0 % y == 0
 
 
 def f_2(x_0: int, y_0: int) -> int:
@@ -40,7 +40,7 @@ def f_2(x_0: int, y_0: int) -> int:
 
 
 def precondition_2(x_0: int, y_0: int) -> bool:
-    return x_0 <= y_0 and False
+    return x_0 <= y_0 and (x_0 + y_0) % 2 == 0
 
 
 def f_3(x: int, y: int) -> int:
@@ -56,7 +56,7 @@ def f_3(x: int, y: int) -> int:
 
 
 def precondition_3(x: int, y: int) -> bool:
-    return True
+    return x > 0 and y < 0
 
 
 def f_4(x_0: int, y: int) -> tuple[int, int]:
@@ -72,7 +72,7 @@ def f_4(x_0: int, y: int) -> tuple[int, int]:
 
 
 def precondition_4(x_0: int, y: int) -> bool:
-    return False
+    return x_0 > 0 and y > 0
 
 
 def main() -> None:
