@@ -26,8 +26,34 @@ from ib111 import week_04  # noqa
 # kolik trojic jedniček v seznamu je).
 
 
-def gambling_score(dice):
-    pass
+DICE_VALUES = 6
+
+
+def eval(number, value):
+    if value < 3:
+        if number == 1:
+            return value * 100
+        if number == 5:
+            return value * 50
+        return 0
+
+    thrice = 1000 if number == 1 else number * 100
+
+    for i in range(3, value):
+        thrice *= 2
+    return thrice
+
+
+def gambling_score(dice: list[int])-> int:
+    counter = [0 for i in range(DICE_VALUES)]
+    result: int = 0
+
+    for value in dice:
+        counter[value - 1] += 1
+
+    for i, value in enumerate(counter):
+        result += eval(i + 1, value)
+    return result
 
 
 def main() -> None:
