@@ -21,8 +21,19 @@ from ib111 import week_04  # noqa
 # V kanonickém Fibonacciho zápisu čísla ⟦101⟧ jsou čtyři jedničky, protože
 # platí ⟦101 = 89 + 8 + 3 + 1⟧.
 
-def fib_ones(num):
-    pass
+def fib_ones(num: int) -> int:
+    fib_nums: list[int] = [1, 2]
+    result: int = 0
+
+    while num > fib_nums[-1]:
+        fib_nums.append(fib_nums[-1] + fib_nums[-2])
+
+    for i in range(len(fib_nums) - 1, -1, -1):
+        if num >= fib_nums[i]:
+            num -= fib_nums[i]
+            result += 1
+
+    return result
 
 
 def main() -> None:

@@ -12,9 +12,44 @@ from ib111 import week_04  # noqa
 # Napište predikát is_magic_square, který na vstupu dostane dvourozměrné pole
 # celých čísel a ověří, že se jedná o magický čtverec.
 
+def is_in(arr: list[int], value: int) -> bool:
+    if len(arr) == 0:
+        return False
+    for i in range(len(arr)):
+        if arr[i] == value:
+            return True
+    return False
 
 def is_magic_square(square: list[list[int]]) -> bool:
-    pass
+    horizontal = [0 for _ in range(len(square))]
+    vertical = [0 for _ in range(len(square))]
+    main_diag = 0
+    side_diag = 0
+    values: list[int] = []
+
+    for i in range(len(square)):
+        for j in range(len(square)):
+            value = square[i][j]
+            horizontal[i] += value
+            vertical[j] += value
+            if i == len(square) - j - 1:
+                side_diag += value
+            if j == i:
+                main_diag += value
+
+            if is_in(values, square[i][j]):
+                return False
+            values.append(square[i][j])
+
+    if main_diag != side_diag:
+        return False
+    for value in horizontal:
+        if value != main_diag:
+            return False
+    for value in vertical:
+        if value != main_diag:
+            return False
+    return True
 
 
 def main() -> None:
