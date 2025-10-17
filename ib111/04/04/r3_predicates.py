@@ -1,5 +1,5 @@
 from ib111 import week_04  # noqa
-from math import sqrt, floor
+from math import sqrt, floor, isqrt
 
 # Tento příklad bude mírně nekonvenční v tom, že nebudete
 # programovat nové funkce. Vaším úkolem bude naopak poznat, co
@@ -46,9 +46,32 @@ def f_2(x: int, y: int) -> bool:
     return y <= 1
 
 
+def count_divisors(x: int) -> int:
+    max_divider = isqrt(x)
+    count = 0
+
+    for i in range(1, max_divider + 1):
+        if x % i == 0:
+            count += 1
+            if i * i != x:
+                count += 1
+
+    return count
+
+
 def test_f_2() -> None:
+<<<<<<< HEAD
+    # Zda má číslo x více nebo stejně dělitelů než číslo y
+
+    for x in range(1, 50):
+        count = count_divisors(x)
+        assert f_2(x, count)
+        assert f_2(x, count - 1)
+        assert not f_2(x, count + 1)
+=======
     # Jestli má číslo x více nebo méně dělitelů než je číslo y
     
+>>>>>>> 6f056a66ccd63cc0b57a8a1c3776eb29e49e7d21
 
 
 def f_3(x: int, y: int) -> bool:
@@ -65,7 +88,16 @@ def f_3(x: int, y: int) -> bool:
 
 
 def test_f_3():
-    pass
+    # Zda má x více dělitelů než y
+    for x in range(1, 25):
+        for y in range(1, 25):
+            a = count_divisors(x)
+            b = count_divisors(y)
+            mini, maxi = x if a <= b else y, x if a > b else y
+            if a == b:
+                assert not f_3(x, y)
+            else:
+                assert f_3(maxi, mini)
 
 
 def f_4(x: int, y: int) -> bool:
@@ -79,8 +111,40 @@ def f_4(x: int, y: int) -> bool:
     return y == 0
 
 
+def is_prime(number: int):
+    if number == 1:
+        return True
+    if number == 2:
+        return True
+
+    top_divider = isqrt(number)
+    
+    for i in range(2, top_divider + 1):
+        if number % i == 0:
+            return False
+
+    return True
+
+
+def count_primes(z: int):
+    count = 0
+
+    for i in range(1, z):
+        if is_prime(i):
+            count += 1
+
+    return count
+
+
 def test_f_4():
-    pass
+    # Zda se v rozsahu od jedné po x nachází právě y prvočísel
+    for x in range(1, 25):
+        for y in range(1, 25):
+            if y == count_primes(x):
+                assert f_4(x, y)
+            else:
+                assert not f_4(x, y)
+
 
 
 def f_5(x: int) -> bool:
@@ -94,7 +158,16 @@ def f_5(x: int) -> bool:
 
 
 def test_f_5():
-    pass
+    # Jestli sedmičkový zápis je palindrom
+
+    for i in range(1, 7):
+        for j in range(1, 7):
+            for k in range(1, 7):
+                if i == k:
+                    assert f_5(i * 7 ** 2 * 7 + k)
+                else:
+                    print(i, j, k)
+                    assert not f_5(i * 7 ** 2 + j * 7 + k)
 
 
 def f_6(x: int, y: int) -> bool:
