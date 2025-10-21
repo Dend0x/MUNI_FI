@@ -13,7 +13,25 @@ from ib111 import week_05  # noqa
 
 
 def modus(marks: dict[int, str]) -> set[str]:
-    pass
+    result: set[str] = set()
+    hist: dict[str, int] = {}
+
+    for _, mark in marks.items():
+        if mark not in hist:
+            hist[mark] = 1
+        else:
+            hist[mark] += 1
+
+    max_count = 0
+
+    for mark, count in hist.items():
+        if count > max_count:
+            result = {mark}
+            max_count = count
+        elif count == max_count:
+            result.add(mark)
+
+    return result
 
 
 # Dále napište predikát ‹check›, který ověří, že známky jsou
@@ -25,7 +43,23 @@ def modus(marks: dict[int, str]) -> set[str]:
 
 
 def check(marks: dict[int, str]) -> bool:
-    pass
+    zk = {"A", "B", "C", "D", "E", "F", "X", "-"}
+    z = {"Z", "N", "-"}
+    kol = {"P", "N", "-"}
+    can_be = [True, True, True]
+
+    for _, mark in marks.items():
+        if mark not in zk:
+            can_be[0] = False
+        if mark not in z:
+            can_be[1] = False
+        if mark not in kol:
+            can_be[2] = False
+
+        if sum(can_be) == 0:
+            return False
+
+    return True
 
 
 def main() -> None:

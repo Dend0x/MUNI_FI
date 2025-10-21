@@ -26,9 +26,26 @@ from ib111 import week_05  # noqa
 Colour = tuple[int, int, int]
 
 
+def manhattan(color1: Colour, color2: Colour) -> int:
+    r1, g1, b1 = color1
+    r2, g2, b2 = color2
+    return abs(r1 - r2) + abs(g1 - g2) + abs(b1 - b2)
+
+
 def nearest_colour(names: dict[str, Colour],
                    colour: Colour) -> set[str]:
-    pass
+    min_dist = 765
+    result: set[str] = set()
+
+    for name, value in names.items():
+        actual_val = manhattan(value, colour)
+        if actual_val < min_dist:
+            result = {name}
+            min_dist = actual_val
+        elif actual_val == min_dist:
+            result.add(name)
+
+    return result
 
 
 def main() -> None:

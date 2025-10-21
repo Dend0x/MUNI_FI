@@ -12,7 +12,7 @@ def sum_to_exactly(left: list[int], right: list[int], to: int) -> bool:
     left_set = set(left)
 
     for val in right:
-        if (to - val) in left_set:
+        if to - val in left_set:
             return True
     return False
 

@@ -28,8 +28,8 @@ MachineRecord = tuple[EmployeeId, TimeStamp, RecordType]
 
 def seconds_spent_working(
         records: list[MachineRecord]) -> dict[EmployeeId, int]:
-    dict_records: dict[EmployeeId, TimeStamp] = dict()
-    dict_result: dict[EmployeeId, TimeStamp] = dict()
+    dict_records: dict[EmployeeId, TimeStamp] = {}
+    dict_result: dict[EmployeeId, TimeStamp] = {}
 
     for record in records:
         emp_id, ti_st, _ = record
