@@ -184,8 +184,17 @@ lowAlphaOnly = filter (((&&) . isLower <*> isAscii))
 -- ((&&) isLower <*> isAscii) -> Char -> Bool
 -- filter (((&&) isLower <*> isAscii)) -> [Char] -> [Char]
 
---letterVigenere :: String -> String -> String
---letterVigenere xs ks = zipWith (\x y -> c2l ((flip (mod) 26) (((+) (l2c)) (l2c)))) (lowAlphaOnly xs) (lowAlphaOnly ks)
+letterVigenere :: String -> String -> String
+letterVigenere xs ks = zipWith (\x y -> c2l ((l2c x + l2c y) `mod` 26)) (lowAlphaOnly xs) (lowAlphaOnly ks)
 
---test :: Char -> Char -> Int
---test = (+) . l2c
+-- l2c Char -> Int
+-- c2l Int -> Char
+-- (+) -> Num a => a -> a -> a
+-- (mod) Integral a => a -> a -> a
+-- lowAlphaOnly String -> String
+-- zipWith (a -> b -> c) -> [a] -> [b] -> [c]
+-- <*> (a -> b -> c) -> (a -> b) -> a -> c
+-- (.) (b -> c) -> (a -> b) -> a -> c
+
+-- \x -> (f . g) x = f . g
+-- \x -> f . g x = 
