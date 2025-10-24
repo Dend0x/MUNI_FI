@@ -1,0 +1,13 @@
+# S.2. Sada úloh k druhému bloku
+
+V druhém bloku jsou následující domácí úkoly:
+
+ • ‹a_warehouse› – práce se zbožím ve skladu,
+ • ‹b_robot› – simulace pohybu robota,
+ • ‹c_life› – celulární automat ve stylu „Game of Life“,
+ • ‹d_tetris› – hra Tetris.
+
+První úkol vyžaduje pouze základní použití seznamů (z prvního
+bloku), další dva úkoly k tomu přidávají datové struktury z páté
+kapitoly a poslední úkol navíc využívá uživatelsky definované
+datové typy (třídy).

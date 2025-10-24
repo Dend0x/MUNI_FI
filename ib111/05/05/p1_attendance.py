@@ -37,15 +37,17 @@ def employees_with_missing_records(
 
     for record in records:
         emp_id, _, re_ty = record
-        if emp_id in employees and re_ty == LEAVE:
-            employees.remove(emp_id)
-        elif emp_id in employees and re_ty == ENTRY:
-            troubles.add(emp_id)
-        elif emp_id not in employees and re_ty == ENTRY:
-            employees.add(emp_id)
+        if re_ty == ENTRY:
+            if emp_id in employees:
+                troubles.add(emp_id)
+            else:
+                employees.add(emp_id)
         else:
-            troubles.add(emp_id)
-    print(employees)
+            if emp_id in employees:
+                employees.remove(emp_id)
+            else:
+                troubles.add(emp_id)
+
     return troubles
 
 

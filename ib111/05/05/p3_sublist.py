@@ -15,33 +15,30 @@ from ib111 import week_05  # noqa
 # delšího vstupního seznamu.
 
 def largest_common_sublist_sum(left: list[int], right: list[int]) -> int:
-    left_index = len(left) - 1
-    right_index = len(right) - 1
-    res_index = 0
-    in_seq = True
-    pos_result: list[int] = [0]
+    if left == [] or right == []:
+        return 0
+    i = 0
+    result_index = 1
+    subarrays = [0]
 
-    while left_index >= 0 and right_index >= 0:
-        if left[left_index] == right[right_index]:
-            if not in_seq:
-                pos_result.append(left[left_index])
-                in_seq = True
-            else:
-                pos_result[res_index] += left[left_index]
-            left_index -= 1
-            right_index -= 1
-        elif left[left_index] > right[right_index]:
-            if in_seq:
-                res_index += 1
-            in_seq = False
-            left_index -= 1
-        else:
-            if in_seq:
-                res_index += 1
-            in_seq = False
-            right_index -= 1
+    while i < len(left):
+        j = 0
+        while j < len(right):
+            if left[i] == right[j]:
+                subarrays.append(left[i])
+                k = 1
+                while (
+                    i + k < len(left) and
+                    j + k < len(right) and
+                    left[i + k] == right[j + k]
+                ):
+                    subarrays[result_index] += left[i + k]
+                    k += 1
+                result_index += 1
+            j += 1
+        i += 1
 
-    return max(pos_result)
+    return 0 if len(subarrays) == 0 else max(subarrays)
 
 
 def main() -> None:
