@@ -23,8 +23,25 @@ Package = tuple[int, int, int]  # amount, price, expiration date
 
 def remove_expired(warehouse: list[Package],
                    today: int) -> list[Package]:
-    pass
+    if warehouse == []:
+        return []
+    left = 0
+    right = len(warehouse)
 
+    while left < right:
+        middle = (left + right) // 2
+        _, _, expiration = warehouse[middle]
+        if expiration >= today:
+            left = middle + 1
+        else:
+            right = middle
+
+    result = []
+
+    for i in range(len(warehouse) - left):
+        result.append(warehouse.pop())
+
+    return result
 
 # Dále pak implementujte funkci ‹try_sell›, která uskuteční prodej při zadaném
 # maximálním množství ‹max_amount› a zadané maximální průměrné jednotkové ceně
@@ -63,9 +80,65 @@ def remove_expired(warehouse: list[Package],
 #   balíky ‹A›, ‹B›, ‹C› a dvě jednotky zboží z balíku ‹D›.
 # • Konečně pro maximální průměrnou cenu 81 se prodají všechny balíky.
 
+
+def find_max_sell_price(amount_pkg: int, sum_price: int, price_pkg: int,
+                        max_price: int, sum_amount: int) -> int:
+    left = 0
+    right = amount_pkg
+
+    while left < right:
+        middle = (left + right) // 2
+
+        if sum_price + middle * price_pkg <= max_price * (sum_amount + middle):
+            left = middle + 1
+        else:
+            right = middle
+    return left - 1
+
+
 def try_sell(warehouse: list[Package],
              max_amount: int, max_price: int) -> list[Package]:
-    pass
+
+    sum_amount = 0
+    sum_price = 0
+    result = []
+
+    for i in range(len(warehouse) - 1, -1, -1):
+        amount_pkg, price_pkg, _ = warehouse[i]
+        sum_amount += amount_pkg
+        sum_price += price_pkg * amount_pkg
+
+        if sum_price > sum_amount * max_price:
+            prev_sum_price = sum_price - price_pkg * amount_pkg
+            prev_sum_amount = sum_amount - amount_pkg
+
+            left = find_max_sell_price(amount_pkg, prev_sum_price,
+                                       price_pkg, max_price, prev_sum_amount)
+
+            left_amount = max_amount - prev_sum_amount
+            left = min(left, left_amount)
+
+            cur_amount_pkg, cur_price_pkg, ex = warehouse.pop()
+            warehouse.append((cur_amount_pkg - left, cur_price_pkg, ex))
+
+            if left > 0:
+                result.append((left, cur_price_pkg, ex))
+
+            return result
+
+        if sum_amount > max_amount:
+            left_amount = max_amount - sum_amount + amount_pkg
+            cur_amount_pkg, cur_price_pkg, ex = warehouse.pop()
+            warehouse.append((cur_amount_pkg - left_amount, cur_price_pkg, ex))
+
+            if left_amount > 0:
+                result.append((left_amount, cur_price_pkg, ex))
+
+            return result
+
+        result.append(warehouse.pop())
+
+    return result
 
 
 def main() -> None:
@@ -98,6 +171,10 @@ def main() -> None:
     store = pkgs.copy()
     assert try_sell(store, 500, 81) == [pkgA, pkgB, pkgC, pkgD]
     assert store == []
+
+    store = pkgs.copy()
+    assert try_sell(store, 500, 16) == [pkgA, pkgB, pkgC, (2, 158, 20771023)]
+    assert store == [(198, 158, 20771023)]
 
 
 if __name__ == '__main__':

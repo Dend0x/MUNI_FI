@@ -6,11 +6,18 @@ from ib111 import week_05  # noqa
 # obou parametrů.
 
 def set_difference(a: set[int], b: set[int]) -> set[int]:
-    pass
+    c = set()
+
+    for item in a:
+        if item not in b:
+            c.add(item)
+    return c
 
 
 def set_remove(to_reduce: set[int], other: set[int]) -> None:
-    pass
+    for item in list(to_reduce):
+        if item in other:
+            to_reduce.remove(item)
 
 
 # Množinový rozdíl má jednu zajímavou variaci – tzv. symetrický
@@ -21,12 +28,27 @@ def set_remove(to_reduce: set[int], other: set[int]) -> None:
 # které hůře.
 
 def set_symmetric_diff(a: set[int], b: set[int]) -> set[int]:
-    pass
+    c = set_difference(a, b)
+    d = set_difference(b, a)
+
+    for item in d:
+        c.add(item)
+
+    return c
 
 
 def set_symmetric_inplace(to_change: set[int],
                           other: set[int]) -> None:
-    pass
+    aux = to_change.copy()
+    aux2 = other.copy()
+    set_remove(to_change, other)
+    set_remove(other, aux)
+
+    for item in other:
+        to_change.add(item)
+
+    for item in aux2:
+        other.add(item)
 
 
 def main() -> None:

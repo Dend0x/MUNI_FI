@@ -9,15 +9,26 @@ from ib111 import week_05  # noqa
 # které se hodnoty z množiny ‹values› zobrazí.
 
 def image(f: dict[int, int], values: set[int]) -> set[int]:
-    pass
+    result = set()
 
+    for item in values:
+        y = f.get(item)
+        result.add(y)
+
+    return result
 
 # Podobně funkce ‹preimage› spočítá vzor zadané množiny ‹values›
 # (množinu hodnot, které ‹f› zobrazí na některý prvek množiny
 # ‹values›):
 
 def preimage(f: dict[int, int], values: set[int]) -> set[int]:
-    pass
+    result = set()
+
+    for key, item in f.items():
+        if item in values:
+            result.add(key)
+
+    return result
 
 
 # Dále naprogramujte čistou funkci ‹compose›, které vstupem budou
@@ -27,7 +38,11 @@ def preimage(f: dict[int, int], values: set[int]) -> set[int]:
 
 
 def compose(f: dict[int, int], g: dict[int, int]) -> dict[int, int]:
-    pass
+    result = dict()
+
+    for item in g.keys():
+        result[item] = f.get(g.get(item))
+    return result
 
 
 # Konečně naprogramujte čistou funkci ‹kernel›, které vstupem bude
@@ -36,7 +51,23 @@ def compose(f: dict[int, int], g: dict[int, int]) -> dict[int, int]:
 
 
 def kernel(f: dict[int, int]) -> set[tuple[int, int]]:
-    pass
+    result = dict()
+    relation = set()
+
+    for key, val in f.items():
+        if val in result:
+            result[val].add(key)
+        else:
+            result[val] = {key}
+
+    for key in result.values():
+        for x in key:
+            for y in key:
+                relation.add((x, y))
+
+
+    return relation
+
 
 
 def main() -> None:

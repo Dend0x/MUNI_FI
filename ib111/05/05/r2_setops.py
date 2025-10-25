@@ -13,11 +13,19 @@ from ib111 import week_05  # noqa
 # složitost.
 
 def set_union(a: set[int], b: set[int]) -> set[int]:
-    pass
+    c = set()
+
+    for item in a:
+        c.add(item)
+    for item in b:
+        c.add(item)
+
+    return c
 
 
 def set_update(to_extend: set[int], other: set[int]) -> None:
-    pass
+    for item in other:
+        to_extend.add(item)
 
 
 # Druhou standardní operací je průnik. Ten je o něco složitější
@@ -27,11 +35,19 @@ def set_update(to_extend: set[int], other: set[int]) -> None:
 # tak procházet.
 
 def set_intersect(a: set[int], b: set[int]) -> set[int]:
-    pass
+    c = set()
+
+    for item in a:
+        if item in b:
+            c.add(item)
+
+    return c
 
 
 def set_keep(to_reduce: set[int], other: set[int]) -> None:
-    pass
+    for item in list(to_reduce):
+        if item not in other:
+            to_reduce.remove(item)
 
 
 def main() -> None:

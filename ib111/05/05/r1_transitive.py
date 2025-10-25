@@ -10,7 +10,21 @@ from ib111 import week_05  # noqa
 # Napište predikát, který rozhodne, je-li zadaná relace tranzitivní.
 
 def is_transitive(relation: set[tuple[int, int]]) -> bool:
-    pass
+    looking_set = set()
+
+    for item in relation:
+        for item2 in relation:
+            if item != item2:
+                start_f, end = item
+                start, end_f = item2
+                if start == end:
+                    looking_set.add((start_f, end_f))
+    for item in looking_set:
+        if item not in relation:
+            return False
+
+    return True
+
 
 
 def main() -> None:

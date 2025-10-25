@@ -26,18 +26,19 @@ def largest_common_sublist_sum(left: list[int], right: list[int]) -> int:
         while j < len(right):
             if left[i] == right[j]:
                 subarrays.append(left[i])
+                current_subarray = left[i]
                 k = 1
                 while (
                     i + k < len(left) and
                     j + k < len(right) and
                     left[i + k] == right[j + k]
                 ):
-                    subarrays[result_index] += left[i + k]
+                    current_subarray += left[i + k]
+                    subarrays.append(current_subarray)
                     k += 1
                 result_index += 1
             j += 1
         i += 1
-
     return 0 if len(subarrays) == 0 else max(subarrays)
 
 
