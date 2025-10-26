@@ -22,8 +22,34 @@ from ib111 import week_05  # noqa
 # skládá jen z čísel od 0 do 3 včetně, má délku alespoň dvě a že
 # ‹time› je kladné celé číslo.
 
+def is_light(start, i, was_ligthed):
+    if start[i] > 3 and i not in was_ligthed:
+        was_ligthed.add(i)
+        start[i] = 0
+        if i - 1 >= 0:
+            if i - 1 not in was_ligthed:
+                start[i - 1] += 1
+                is_light(start, i - 1, was_ligthed)
+        if i + 1 < len(start):
+            if i + 1 not in was_ligthed:
+                start[i + 1] += 1
+                is_light(start, i + 1, was_ligthed)
+
 def light_bugs(start, time):
-    pass
+    result = [start.copy()]
+
+    for j in range(time - 1):
+        was_lighted = set()
+        aux = result[j].copy()
+        i = 0
+        while i < len(aux):
+            if i not in was_lighted:
+                aux[i] += 1
+            is_light(aux, i, was_lighted)
+            i += 1
+        result.append(aux)
+
+    return result
 
 
 # Příklad: pro vstup ‹([0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0], 7)›

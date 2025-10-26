@@ -44,63 +44,27 @@ from ib111 import week_05  # noqa
 # kroků.
 
 
-def neighbours(aux: list[list[int]], x: int, y: int) -> int:
-    sum_cells = 0
-
-    for i in range(x - 1, x + 2):
-        for j in range(y - 1, y + 2):
-            if i >=0 and j >= 0:
-                sum_cells += aux[x][y]
-
-    return sum_cells
-
-
-def eval_cell(result: list[list[int]], aux: list[list[int]], x: int, y: int) -> None:
-    neigh = neighbours(aux, x, y)
-    if aux[x][y] == 1:
-        if 2 <= neigh <= 3:
-            result[x][y] = 1
-        else:
-            result[x][y] = 0
-    else:
-        if neigh == 3:
-            result[x][y] = 1
-        else:
-            result[x][y] = 0
-
-
-def eval_board(result: list[list[int]]) -> None:
-
-    aux = result.deepcopy()
-
-    for i in range(3):
-        for j in range(3):
-            eval_cell(result, aux, i, j)
-
-
 def life(cells: set[tuple[int, int]],
          n: int) -> set[tuple[int, int]]:
-    alive = set(cells)  # copy, abychom neměnili vstup
+    alive = set(cells)
 
     for _ in range(n):
-        counts = dict()
-        # pro každý živý cell zvýšíme count pro všech 8 sousedů (a/nebo i pro sebe, ale my nechceme)
-        for (x, y) in alive:
-            for dx in (-1, 0, 1):
-                for dy in (-1, 0, 1):
-                    if dx == 0 and dy == 0:
-                        continue
-                    counts[(x + dx, y + dy)] += 1
+        new_state: dict[tuple[int, int], int] = {}
+        for cell in alive:
 
+            for x in [-1,0,1]:
+                for y in [-1, 0, 1]:
+                    if not (x == 0 and y == 0):
+                        cell_x, cell_y = cell
+                        new_state[(cell_x + x, cell_y + y)] = new_state.get((cell_x + x, cell_y + y), 0) + 1
         new_alive = set()
-        # kandidáti jsou všechny pozice, které mají nonzero count, plus existující živé buňky (pokud count=0, stačí ignorovat)
-        # pravidla: buňka žije dál pokud count==3 nebo (count==2 a byla již živá)
-        for pos, cnt in counts.items():
-            if cnt == 3 or (cnt == 2 and pos in alive):
-                new_alive.add(pos)
 
-        # také pozor: pokud nějaká buňka byla živá, ale všichni sousedé jsou 0, nebude v counts; ale podle pravidel taková buňka umírá (ok)
+        for position, neighbours in new_state.items():
+            if neighbours == 3 or (neighbours == 2 and position in alive):
+                new_alive.add(position)
         alive = new_alive
+
+    return alive
 
 
 def main() -> None:
