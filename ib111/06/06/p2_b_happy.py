@@ -29,8 +29,27 @@ from ib111 import week_06  # noqa
 # Napište predikát, který o číslu ‹number› rozhodne, je-li
 # ‹base›-šťastné.
 
+
+def convert(number: int, base: int) -> int:
+    result = 0
+
+    while number > 0:
+        result += (number % base) ** 2
+        number //= base
+
+    return result
+
+
 def is_b_happy(number: int, base: int) -> bool:
-    pass
+    numbers: set[int] = set()
+
+    while number not in numbers:
+        if number == 1:
+            return True
+        numbers.add(number)
+        number = convert(number, base)
+
+    return False
 
 
 def main() -> None:

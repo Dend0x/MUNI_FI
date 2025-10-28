@@ -12,7 +12,11 @@ from ib111 import week_06  # noqa
 # v parametru symetrickou relaci, ‹False› jinak.
 
 def is_symmetric(relation: set[tuple[int, int]]) -> bool:
-    pass
+    for x, y in relation:
+        if (y,x) not in relation:
+            return False
+
+    return True
 
 
 def main() -> None:
