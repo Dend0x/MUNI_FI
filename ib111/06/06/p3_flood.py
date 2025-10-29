@@ -22,7 +22,24 @@ Area = list[list[int]]
 
 
 def flood_fill(area: Area, start: Position, colour: int) -> None:
-    pass
+    x, y = start
+    original = area[x][y]
+    area[x][y] = colour
+    stack = [(x, y)]
+
+    move = [(-1, 0), (0, -1), (1, 0), (0, 1)]
+
+    while stack != []:
+        x1, y1 = stack.pop()
+        for item in move:
+            x_off, y_off = item
+            x_pre = x1 + x_off
+            y_pre = y1 + y_off
+            if (0 <= x_pre < len(area)
+                    and 0 <= y_pre < len(area[0])
+                    and original == area[x_pre][y_pre]):
+                area[x_pre][y_pre] = colour
+                stack.append((x_pre, y_pre))
 
 
 def main() -> None:

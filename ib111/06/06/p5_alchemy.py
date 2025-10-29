@@ -18,7 +18,21 @@ from ib111 import week_06  # noqa
 
 def is_creatable(owned_substances: set[str],
                  rules: dict[str, set[str]], wanted: str) -> bool:
-    pass
+    stack = [wanted]
+    seen = {wanted}
+
+    while stack != []:
+        potion = stack.pop()
+        if potion in owned_substances:
+            continue
+        if potion not in rules:
+            return False
+        for item in rules[potion]:
+            if item not in seen:
+                stack.append(item)
+                seen.add(item)
+
+    return stack == []
 
 
 def main() -> None:

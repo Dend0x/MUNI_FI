@@ -18,7 +18,29 @@ from ib111 import week_06  # noqa
 
 def histogram(data: list[int], max_amplitude: int,
               min_amplitude: int, bucket: int) -> dict[int, int]:
-    pass
+    done_data: list[int] = []
+    i = 0
+
+    while i < len(data):
+        j = 0
+        sum_data = 0
+        while j < bucket:
+            if i >= len(data):
+                break
+            if data[i] <= max_amplitude and data[i] >= min_amplitude:
+                sum_data += data[i]
+                j += 1
+            i += 1
+        if j != 0:
+            done_data.append(round(sum_data / float(j)))
+
+    hist: dict[int, int] = {}
+    for item in done_data:
+        if item in hist:
+            hist[item] += 1
+        else:
+            hist[item] = 1
+    return hist
 
 
 def main() -> None:
