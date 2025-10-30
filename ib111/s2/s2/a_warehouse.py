@@ -83,21 +83,28 @@ def remove_expired(warehouse: list[Package],
 
 def find_max_sell_price(amount_pkg: int, sum_price: int, price_pkg: int,
                         max_price: int, sum_amount: int) -> int:
-    left = 0
-    right = amount_pkg + 1
+    price = max_price - price_pkg
+    amount_price_c = sum_price - max_price * sum_amount
 
-    while left < right:
-        middle = (left + right) // 2
+    if price == 0:
+        return amount_pkg if amount_price_c <= 0 else 0
 
-        if sum_price + middle * price_pkg <= max_price * (sum_amount + middle):
-            left = middle + 1
-        else:
-            right = middle
-    return left - 1
+    if price > 0:
+        if amount_price_c <= 0:
+            return amount_pkg
+        minimum = (amount_price_c + price - 1) // price
+        return amount_pkg if minimum <= amount_pkg else 0
+
+    maximum = amount_price_c // price
+    if maximum < 0:
+        return 0
+    return min(amount_pkg, maximum)
 
 
 def try_sell(warehouse: list[Package],
              max_amount: int, max_price: int) -> list[Package]:
+
+    # Tahle uloha me vnitrne boli
 
     result: list[Package] = []
     prices = set()
@@ -120,12 +127,42 @@ def try_sell(warehouse: list[Package],
             if i - 1 >= 0:
                 prices.add(i - 1)
 
-    for i in range(len(amount) - 1, -1, -1):
-        if amount[i] in prices:
-            best_kauf = amount[i]
-            break
+    best_left = 0
+    best_total_sold = 0
 
-    if best_kauf == -1:
+    for i in range(len(amount) - 1, -1, -1):
+        edge = amount[i]
+        inner_total_amount = 0
+        inner_total_price = 0
+
+        for j in range(len(warehouse) - 1, edge, -1):
+            pkg_amount, pkg_price, _ = warehouse[j]
+            inner_total_amount += pkg_amount
+            inner_total_price += pkg_amount * pkg_price
+
+        total_sold = 0
+        left_to_do = 0
+
+        if inner_total_amount >= max_amount:
+            total_sold = max_amount
+        else:
+            pkg_amount, pkg_price, _ = warehouse[edge]
+            left_to_do = find_max_sell_price(pkg_amount, inner_total_price, pkg_price, max_price, inner_total_amount)
+            left_to_do = min(left_to_do, max_amount - inner_total_amount)
+            total_sold = inner_total_amount + left_to_do
+
+        pkg_amount, pkg_price, _ = warehouse[edge]
+
+        if total_sold > 0:
+            good_price = inner_total_price + left_to_do * pkg_price
+            good_amount = inner_total_amount + left_to_do
+            if good_price <= max_price * good_amount:
+                if total_sold > best_total_sold:
+                    best_total_sold = total_sold
+                    best_kauf = edge
+                    best_left = left_to_do
+
+    if best_kauf == -1 or best_total_sold == 0:
         return result
 
     for i in range(len(warehouse) - 1, best_kauf, -1):
@@ -134,18 +171,17 @@ def try_sell(warehouse: list[Package],
         total_price += pkg_amount * pkg_price
         result.append((pkg_amount, pkg_price, ex))
 
-    best_pkg_amount, best_pkg_price, ex = warehouse[best_kauf]
+    _, best_pkg_price, ex = warehouse[best_kauf]
 
-    left = find_max_sell_price(best_pkg_amount, total_price, best_pkg_price,
-                               max_price, total_amount)
-    left_amount = max_amount - total_amount
-    left = min(left, left_amount)
-    if left > 0:
-        result.append((left, best_pkg_price, ex))
+    
+    if best_left > 0:
+        result.append((best_left, best_pkg_price, ex))
         to_pop_amount, to_pop_price, to_pop_ex = warehouse.pop()
-        to_pop_amount -= left
+        to_pop_amount -= best_left
         if to_pop_amount > 0:
             warehouse.append((to_pop_amount, to_pop_price, to_pop_ex))
+    print(warehouse)
+    print(result)
     return result
 
 
@@ -184,6 +220,6 @@ def main() -> None:
     assert try_sell(store, 500, 16) == [pkgA, pkgB, pkgC, (2, 158, 20771023)]
     assert store == [(198, 158, 20771023)]
 
-
+    try_sell([(2,1,20000101), (1,4,20000101)], 3, 2)
 if __name__ == '__main__':
     main()

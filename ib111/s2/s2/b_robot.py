@@ -27,9 +27,23 @@ Plan = dict[Position, Tile]
 # nějakým směrem opustit, pak v tomto směru o jednu pozici vedle leží další
 # dílek, a navíc je z tohoto dílku možné se zase vrátit.
 
-def is_correct(plan: Plan) -> bool:
-    pass
 
+def is_correct(plan: Plan) -> bool:
+    ways_possible = {NORTH : (0, -1), EAST : (1, 0), SOUTH : (0, 1), WEST : (-1, 0)}
+
+    for piece in plan.items():
+        pos, tile = piece
+        x, y = pos
+        for way in tile:
+            x_p, y_p = ways_possible[way]
+            x_wanted = x + x_p
+            y_wanted = y + y_p
+            if (x_wanted, y_wanted) not in plan:
+                return False
+            if (way + 2) % 4 not in plan[(x_wanted, y_wanted)]:
+                return False
+
+    return True
 
 # Dále implementujte čistou funkci ‹run›, která bude simulovat pohyb robota
 # po plánu a vrátí jeho poslední pozici. Předpokládejte přitom, že plán je
@@ -47,8 +61,47 @@ def is_correct(plan: Plan) -> bool:
 #   znamená otočení doprava.
 # • Pokud robot přijde na dílek, kde už někdy v minulosti byl, zastaví.
 
+
+def run_rec(plan: Plan, pos: Position, visited: set[Position], went_from: Heading, preffered_way: Heading, ways_possible: dict[Heading, Position]) -> Position:
+    if pos in visited:
+        return pos
+    visited.add(pos)
+    new_way = -1
+    for i in range(preffered_way, preffered_way + 4):
+        i %= 4
+        if went_from == i:
+            continue
+        if i in plan[pos]:
+            new_way = i
+            break
+
+    if new_way == -1:
+        return pos
+
+    x, y = pos
+    x_p, y_p = ways_possible[new_way]
+    x_wanted = x + x_p
+    y_wanted = y + y_p
+    return run_rec(plan, (x_wanted, y_wanted), visited, (new_way + 2) % 4, new_way, ways_possible)
+
+
 def run(plan: Plan, start: Position) -> Position:
-    pass
+    visited: set[Position] = set()
+    ways_possible = {NORTH : (0, -1), EAST : (1, 0), SOUTH : (0, 1), WEST : (-1, 0)}
+
+    tile = plan[start]
+    visited.add(start)
+
+    if len(tile) == 0:
+        return start
+
+    way = min(tile)
+    x, y = start
+    x_p, y_p = ways_possible[way]
+    x_wanted = x + x_p
+    y_wanted = y + y_p
+
+    return run_rec(plan, (x_wanted, y_wanted), visited, (way + 2) % 4, way, ways_possible)
 
 
 def main() -> None:
