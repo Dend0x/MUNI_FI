@@ -84,7 +84,7 @@ def remove_expired(warehouse: list[Package],
 def find_max_sell_price(amount_pkg: int, sum_price: int, price_pkg: int,
                         max_price: int, sum_amount: int) -> int:
     left = 0
-    right = amount_pkg
+    right = amount_pkg + 1
 
     while left < right:
         middle = (left + right) // 2
@@ -99,45 +99,53 @@ def find_max_sell_price(amount_pkg: int, sum_price: int, price_pkg: int,
 def try_sell(warehouse: list[Package],
              max_amount: int, max_price: int) -> list[Package]:
 
-    sum_amount = 0
-    sum_price = 0
-    result = []
+    result: list[Package] = []
+    prices = set()
+    amount = []
+    best_kauf = -1
+    total_amount = 0
+    total_price = 0
+
+    avg_price = 0
+    actual_amount = 0
 
     for i in range(len(warehouse) - 1, -1, -1):
-        amount_pkg, price_pkg, _ = warehouse[i]
-        sum_amount += amount_pkg
-        sum_price += price_pkg * amount_pkg
+        if actual_amount <= max_amount:
+            amount.append(i)
+        pkg_amount, pkg_price, _ = warehouse[i]
+        avg_price += pkg_amount * pkg_price
+        actual_amount += pkg_amount
+        if avg_price <= max_price * actual_amount:
+            prices.add(i)
+            if i - 1 >= 0:
+                prices.add(i - 1)
 
-        if sum_price > sum_amount * max_price:
-            prev_sum_price = sum_price - price_pkg * amount_pkg
-            prev_sum_amount = sum_amount - amount_pkg
+    for i in range(len(amount) - 1, -1, -1):
+        if amount[i] in prices:
+            best_kauf = amount[i]
+            break
 
-            left = find_max_sell_price(amount_pkg, prev_sum_price,
-                                       price_pkg, max_price, prev_sum_amount)
+    if best_kauf == -1:
+        return result
 
-            left_amount = max_amount - prev_sum_amount
-            left = min(left, left_amount)
+    for i in range(len(warehouse) - 1, best_kauf, -1):
+        pkg_amount, pkg_price, ex = warehouse.pop()
+        total_amount += pkg_amount
+        total_price += pkg_amount * pkg_price
+        result.append((pkg_amount, pkg_price, ex))
 
-            cur_amount_pkg, cur_price_pkg, ex = warehouse.pop()
-            warehouse.append((cur_amount_pkg - left, cur_price_pkg, ex))
+    best_pkg_amount, best_pkg_price, ex = warehouse[best_kauf]
 
-            if left > 0:
-                result.append((left, cur_price_pkg, ex))
-
-            return result
-
-        if sum_amount > max_amount:
-            left_amount = max_amount - sum_amount + amount_pkg
-            cur_amount_pkg, cur_price_pkg, ex = warehouse.pop()
-            warehouse.append((cur_amount_pkg - left_amount, cur_price_pkg, ex))
-
-            if left_amount > 0:
-                result.append((left_amount, cur_price_pkg, ex))
-
-            return result
-
-        result.append(warehouse.pop())
-
+    left = find_max_sell_price(best_pkg_amount, total_price, best_pkg_price,
+                               max_price, total_amount)
+    left_amount = max_amount - total_amount
+    left = min(left, left_amount)
+    if left > 0:
+        result.append((left, best_pkg_price, ex))
+        to_pop_amount, to_pop_price, to_pop_ex = warehouse.pop()
+        to_pop_amount -= left
+        if to_pop_amount > 0:
+            warehouse.append((to_pop_amount, to_pop_price, to_pop_ex))
     return result
 
 
