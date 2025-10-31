@@ -29,7 +29,8 @@ Plan = dict[Position, Tile]
 
 
 def is_correct(plan: Plan) -> bool:
-    ways_possible = {NORTH : (0, -1), EAST : (1, 0), SOUTH : (0, 1), WEST : (-1, 0)}
+    ways_possible = {NORTH: (0, -1), EAST: (1, 0),
+                     SOUTH: (0, 1), WEST: (-1, 0)}
 
     for piece in plan.items():
         pos, tile = piece
@@ -38,9 +39,10 @@ def is_correct(plan: Plan) -> bool:
             x_p, y_p = ways_possible[way]
             x_wanted = x + x_p
             y_wanted = y + y_p
-            if (x_wanted, y_wanted) not in plan:
-                return False
-            if (way + 2) % 4 not in plan[(x_wanted, y_wanted)]:
+            if (
+                (x_wanted, y_wanted) not in plan or
+                (way + 2) % 4 not in plan[(x_wanted, y_wanted)]
+            ):
                 return False
 
     return True
@@ -62,7 +64,9 @@ def is_correct(plan: Plan) -> bool:
 # • Pokud robot přijde na dílek, kde už někdy v minulosti byl, zastaví.
 
 
-def run_rec(plan: Plan, pos: Position, visited: set[Position], went_from: Heading, preffered_way: Heading, ways_possible: dict[Heading, Position]) -> Position:
+def run_rec(plan: Plan, pos: Position, visited: set[Position],
+            went_from: Heading, preffered_way: Heading,
+            ways_possible: dict[Heading, Position]) -> Position:
     if pos in visited:
         return pos
     visited.add(pos)
@@ -82,12 +86,14 @@ def run_rec(plan: Plan, pos: Position, visited: set[Position], went_from: Headin
     x_p, y_p = ways_possible[new_way]
     x_wanted = x + x_p
     y_wanted = y + y_p
-    return run_rec(plan, (x_wanted, y_wanted), visited, (new_way + 2) % 4, new_way, ways_possible)
+    return run_rec(plan, (x_wanted, y_wanted), visited, (new_way + 2) % 4,
+                   new_way, ways_possible)
 
 
 def run(plan: Plan, start: Position) -> Position:
     visited: set[Position] = set()
-    ways_possible = {NORTH : (0, -1), EAST : (1, 0), SOUTH : (0, 1), WEST : (-1, 0)}
+    ways_possible = {NORTH: (0, -1), EAST: (1, 0),
+                     SOUTH: (0, 1), WEST: (-1, 0)}
 
     tile = plan[start]
     visited.add(start)
@@ -101,7 +107,8 @@ def run(plan: Plan, start: Position) -> Position:
     x_wanted = x + x_p
     y_wanted = y + y_p
 
-    return run_rec(plan, (x_wanted, y_wanted), visited, (way + 2) % 4, way, ways_possible)
+    return run_rec(plan, (x_wanted, y_wanted), visited, (way + 2) % 4,
+                   way, ways_possible)
 
 
 def main() -> None:

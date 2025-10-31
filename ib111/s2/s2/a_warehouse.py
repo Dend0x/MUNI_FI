@@ -147,7 +147,9 @@ def try_sell(warehouse: list[Package],
             total_sold = max_amount
         else:
             pkg_amount, pkg_price, _ = warehouse[edge]
-            left_to_do = find_max_sell_price(pkg_amount, inner_total_price, pkg_price, max_price, inner_total_amount)
+            left_to_do = find_max_sell_price(pkg_amount,
+                                             inner_total_price, pkg_price,
+                                             max_price, inner_total_amount)
             left_to_do = min(left_to_do, max_amount - inner_total_amount)
             total_sold = inner_total_amount + left_to_do
 
@@ -156,11 +158,13 @@ def try_sell(warehouse: list[Package],
         if total_sold > 0:
             good_price = inner_total_price + left_to_do * pkg_price
             good_amount = inner_total_amount + left_to_do
-            if good_price <= max_price * good_amount:
-                if total_sold > best_total_sold:
-                    best_total_sold = total_sold
-                    best_kauf = edge
-                    best_left = left_to_do
+            if (
+                good_price <= max_price * good_amount
+                and total_sold > best_total_sold
+            ):
+                best_total_sold = total_sold
+                best_kauf = edge
+                best_left = left_to_do
 
     if best_kauf == -1 or best_total_sold == 0:
         return result
@@ -173,15 +177,12 @@ def try_sell(warehouse: list[Package],
 
     _, best_pkg_price, ex = warehouse[best_kauf]
 
-    
     if best_left > 0:
         result.append((best_left, best_pkg_price, ex))
         to_pop_amount, to_pop_price, to_pop_ex = warehouse.pop()
         to_pop_amount -= best_left
         if to_pop_amount > 0:
             warehouse.append((to_pop_amount, to_pop_price, to_pop_ex))
-    print(warehouse)
-    print(result)
     return result
 
 
@@ -220,6 +221,6 @@ def main() -> None:
     assert try_sell(store, 500, 16) == [pkgA, pkgB, pkgC, (2, 158, 20771023)]
     assert store == [(198, 158, 20771023)]
 
-    try_sell([(2,1,20000101), (1,4,20000101)], 3, 2)
+
 if __name__ == '__main__':
     main()

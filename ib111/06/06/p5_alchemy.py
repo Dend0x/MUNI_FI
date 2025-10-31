@@ -21,6 +21,7 @@ def is_creatable(owned_substances: set[str],
     stack = [wanted]
     seen = {wanted}
 
+
     while stack != []:
         potion = stack.pop()
         if potion in owned_substances:
@@ -66,7 +67,7 @@ def main() -> None:
     assert rules == {"c": {"a", "b"}, "d": {"a", "c"},
                      "e": {"d", "b"},
                      "f": {"e", "a", "h"}}
-
+    print(is_creatable(set(), {'a': {'a'}}, 'a'))
 
 if __name__ == '__main__':
     main()

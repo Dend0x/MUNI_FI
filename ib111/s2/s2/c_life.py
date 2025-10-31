@@ -47,7 +47,76 @@ State = dict[Position, int]
 
 def evolve(initial: State, poison: set[Position],
            generations: int) -> State:
-    pass
+    state = dict(initial)
+
+    for _ in range(generations):
+        current = dict(state)
+        blue_map_neigh: dict[Position, int] = {}
+        all_map_neigh: dict[Position, int] = {}
+
+        for pos, val in current.items():
+            if 1 <= val <= 2:
+                x_pos, y_pos = pos
+                for x in [-1, 0, 1]:
+                    for y in [-1, 0, 1]:
+                        if not (x == 0 and y == 0):
+                            pos_xy = (x_pos + x, y_pos + y)
+                            all_map_neigh[pos_xy] = all_map_neigh.get(
+                                pos_xy, 0) + 1
+                            if val == 1:
+                                blue_map_neigh[pos_xy] = blue_map_neigh.get(
+                                    pos_xy, 0) + 1
+
+        poison_zone: set[Position] = set()
+        for x_pos, y_pos in poison:
+            for x in [-1, 0, 1]:
+                for y in [-1, 0, 1]:
+                    poison_zone.add((x_pos + x, y_pos + y))
+
+        new_cells = set()
+        new_pot_cells = set(all_map_neigh.keys()) - set(current.keys())
+        for pos in new_pot_cells:
+            if all_map_neigh.get(pos, 0) == 3 and pos not in poison_zone:
+                col = 1 if blue_map_neigh.get(pos, 0) >= 2 else 2
+                new_cells.add((pos, col))
+
+        next_state: State = {}
+        dead_cells = set()
+        freshly_alive_cells = set()
+
+        for pos, val in current.items():
+            if 1 <= val <= 2:
+                if pos in poison_zone:
+                    dead_cells.add((pos, 3))
+                    continue
+                neigh = all_map_neigh.get(pos, 0)
+                if 3 <= neigh <= 5:
+                    next_state[pos] = val
+                else:
+                    dead_cells.add((pos, 3))
+
+        for pos, val in current.items():
+            if 3 <= val <= 5:
+                next_state[pos] = val + 1
+            elif val == 6:
+                freshly_alive_cells.add(pos)
+
+        for cell, col in new_cells:
+            next_state[cell] = col
+
+        for cell, col in dead_cells:
+            next_state[cell] = col
+
+        for item in freshly_alive_cells:
+            next_state.pop(item, None)
+
+        for pos in poison_zone:
+            if pos in current and 1 <= current[pos] <= 2:
+                next_state[pos] = 3
+
+        state = next_state
+
+    return state
 
 
 # Pro vizualizaci je vám k dispozici soubor ‹game_life.py›, který vložte do
