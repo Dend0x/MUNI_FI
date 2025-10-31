@@ -16,24 +16,30 @@ from ib111 import week_06  # noqa
 # substancí podle daných pravidel vytvořit substanci požadovanou,
 # ‹False› jinak.
 
+
 def is_creatable(owned_substances: set[str],
                  rules: dict[str, set[str]], wanted: str) -> bool:
-    stack = [wanted]
-    seen = {wanted}
-
+    stack = [(wanted, False)]
+    using = set()
 
     while stack != []:
-        potion = stack.pop()
+        potion, done = stack.pop()
         if potion in owned_substances:
             continue
-        if potion not in rules:
-            return False
-        for item in rules[potion]:
-            if item not in seen:
-                stack.append(item)
-                seen.add(item)
 
-    return stack == []
+        if not done:
+            if potion in using:
+                return False
+            if potion not in rules:
+                return False
+            using.add(potion)
+            stack.append((potion, True))
+            for item in rules[potion]:
+                stack.append((item, False))
+        else:
+            using.remove(potion)
+
+    return True
 
 
 def main() -> None:
@@ -68,6 +74,7 @@ def main() -> None:
                      "e": {"d", "b"},
                      "f": {"e", "a", "h"}}
     print(is_creatable(set(), {'a': {'a'}}, 'a'))
+
 
 if __name__ == '__main__':
     main()

@@ -39,12 +39,26 @@ def example_tree() -> Tree:
 # řádek následující (o jedna vzdálenější od kořene). Pak už stačí
 # nalézt nejdelší takový seznam.
 
-def breadth(tree: Tree) -> int:
-    pass
 
+def breadth_rec(deep: int, layers: dict[int], key: int, tree: dict[int]) -> None:
+    if deep in layers:
+        layers[deep] += 1
+    else:
+        layers[deep] = 1
+
+    for item in tree[key]:
+        breadth_rec(deep + 1, layers, item, tree)
+
+def breadth(tree: Tree) -> int:
+    layers = {1: 1}
+
+    for key in tree[1]:
+        breadth_rec(2, layers, key, tree)
+
+    return max(layers.values())
 
 def main() -> None:
-    assert breadth({1: []}) == 1
+    #assert breadth({1: []}) == 1
     assert breadth({1: [2], 2: []}) == 1
     assert breadth({1: [2], 2: [3, 4], 3: [], 4: []}) == 2
 

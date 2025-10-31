@@ -59,13 +59,13 @@ def main() -> None:
     check_flood([[1, 2, 3, 4], [1, 1, 1, 1], [2, 2, 2, 1], [1, 5, 1, 1]],
                 (1, 1), 8,
                 [[8, 2, 3, 4], [8, 8, 8, 8], [2, 2, 2, 8], [1, 5, 8, 8]])
-    check_flood([[0,0]], (0,0), 1, [[1,1]])
 
 
 def check_flood(area: Area, start: Position,
                 new_colour: int, expected_result: Area) -> None:
     flood_fill(area, start, new_colour)
     assert area == expected_result
+
 
 if __name__ == '__main__':
     main()

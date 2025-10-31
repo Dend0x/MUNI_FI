@@ -22,9 +22,30 @@ from ib111 import week_06  # noqa
 # «Poznámka:» Všimněte si, že na počáteční pozici ani natočení žáby odpověď
 # vůbec nezáleží.
 
-def simulate_frogbot(instructions: list[tuple[str, int]]) -> int:
-    pass
+NORTH = 0
+EAST = 1
+SOUTH = 2
+WEST = 3
 
+
+def simulate_frogbot(instructions: list[tuple[str, int]]) -> int:
+    directions = {NORTH: (0, -1), EAST: (1, 0), SOUTH: (0, 1), WEST: (-1, 0)}
+    pos = (0,0)
+    positions = {pos}
+    way = NORTH
+
+    for name, n in instructions:
+        x, y = pos
+        if name == "jump":
+            x_pre, y_pre = directions[way]
+            x += x_pre * n
+            y += y_pre * n
+            pos = (x, y)
+            positions.add(pos)
+        elif name == "rotate":
+            way = (way + n) % 4
+
+    return len(positions)
 
 def main() -> None:
     assert simulate_frogbot([("jump", 100),

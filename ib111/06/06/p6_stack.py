@@ -89,5 +89,6 @@ def main() -> None:
     )
     assert valid_stack_ops([1, 2, 3], [1])
 
+
 if __name__ == '__main__':
     main()

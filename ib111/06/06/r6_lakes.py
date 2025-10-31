@@ -21,7 +21,27 @@ from ib111 import week_06  # noqa
 #     3   1   2   3   2
 
 def lakes(land: list[int]) -> int:
-    pass
+    left = 0
+    right = len(land) - 1
+    left_max = right_max = 0
+    water = 0
+
+    while left <= right:
+        if left_max <= right_max:
+            if land[left] < left_max:
+                water += left_max - land[left]
+            else:
+                left_max = land[left]
+            left += 1
+        else:
+            if land[right] < right_max:
+                water += right_max - land[right]
+            else:
+                right_max = land[right]
+            right -= 1
+
+    return water
+
 
 
 def main() -> None:

@@ -28,10 +28,43 @@ from ib111 import week_06  # noqa
 # Zejména tedy ‹undo 1› nemůže stát na začátku souboru (ale ‹undo 0›
 # ano).
 
+NORTH = 0
+EAST = 1
+SOUTH = 2
+WEST = 3
+
 def simulate_robot(instructions: list[tuple[str, int]]) \
         -> tuple[int, int]:
-    pass
+    directions = {NORTH: (0, -1), EAST: (1, 0), SOUTH: (0, 1), WEST: (-1, 0)}
 
+    way = NORTH
+    pos = (0, 0)
+    stack = []
+    for ins in instructions:
+        name, n = ins
+
+        if name == "undo":
+            for _ in range(n):
+                stack.pop()
+        else:
+            stack.append((name, n))
+
+    for name, n in stack:
+        x, y = pos
+        if name == "forward":
+            x_pre, y_pre = directions[way]
+            x += x_pre * n
+            y += y_pre * n
+            pos = (x, y)
+        elif name == "backward":
+            x_pre, y_pre = directions[(way + 2) % 4]
+            x += x_pre * n
+            y += y_pre * n
+            pos = (x, y)
+        elif name == "rotate":
+            way = (way + n) % 4
+
+    return pos
 
 def main() -> None:
     assert simulate_robot([("forward", 100),

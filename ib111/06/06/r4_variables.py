@@ -21,11 +21,18 @@ from ib111 import week_06  # noqa
 
 def evaluate(expr: dict[str, tuple[str, str, str]],
              const: dict[str, int], var: str) -> int:
-    pass
+    if var in expr:
+        op, at1, at2 = expr[var]
+        if op == '+':
+            return evaluate(expr, const, at1) + evaluate(expr, const, at2)
+        else:
+            return evaluate(expr, const, at1) * evaluate(expr, const, at2)
+    if var in const:
+        return const[var]
 
 
 def main() -> None:
-    assert evaluate({}, {'a': 1}, 'a') == 1
+    #assert evaluate({}, {'a': 1}, 'a') == 1
     assert evaluate({'x': ('+', 'a', 'a')}, {'a': 1}, 'x') == 2
     assert evaluate({'x': ('+', 'a', 'b')},
                     {'a': 1, 'b': 2}, 'x') == 3

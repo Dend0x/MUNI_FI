@@ -23,7 +23,17 @@ from ib111 import week_06  # noqa
 # číslo jedna.
 
 def fixpoint(starting_set: set[int]) -> int:
-    pass
+    new_set = set()
+
+    for item in starting_set:
+        new_set.add(item)
+        new_set.add(item // 2)
+        new_set.add(item // 7)
+
+    if new_set == starting_set:
+        return 0
+    else:
+        return 1 + fixpoint(new_set)
 
 
 def main() -> None:
