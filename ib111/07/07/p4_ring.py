@@ -21,20 +21,42 @@ class RingBuffer:
     # předaná parametrem ‹storage›.
 
     def __init__(self, size: int, storage: 'SimpleList') -> None:
-        pass
+        self.size = size
+        for i in range(size):
+            storage.append(None)
+        self.storage = storage
+        self.start = 0
+        self.end = 0
+        self.count = 0
 
     # Metoda ‹push› se pokusí přidat prvek na konec fronty. Je-li
     # fronta plná, metoda vrátí ‹False› a nic neudělá. V opačném
     # případě prvek vloží na konec fronty a vrátí ‹True›.
 
     def push(self, value: int) -> bool:
-        pass
+        if self.count == self.size:
+            return False
+
+        self.storage.set(self.end, value)
+        self.end = (self.end + 1) % self.size
+        self.count = self.count + 1
+        
+        return True
+
 
     # Metoda ‹pop› odstraní prvek ze začátku fronty a vrátí jej.
     # Je-li fronta prázdná, metoda nic neudělá a vrátí ‹None›.
 
     def pop(self) -> int | None:
-        pass
+        if self.count == 0:
+            return None
+
+        value = self.storage.get(self.start)
+        self.storage.set(self.start, None)
+        self.start = (self.start + 1) % self.size
+        self.count = self.count - 1
+
+        return value
 
 
 def main() -> None:

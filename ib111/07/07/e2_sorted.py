@@ -30,7 +30,19 @@ class SortedList:
     # nejvíce jednou.
 
     def insert(self, value: int) -> None:
-        pass
+        new = Node(value)
+        current = self.head
+
+        if current == None:
+            self.head = new
+            return
+
+        while current.next is not None and value > current.next.value:
+            current = current.next
+
+        new.next = current.next
+        current = new
+
 
     # Následující metoda vrátí největší prvek seznamu, jehož hodnoty
     # spadají do oboustranně uzavřeného intervalu [‹value›, ‹value› + ‹dist›].
@@ -38,7 +50,14 @@ class SortedList:
     # V případech, kdy se tomu lze vyhnout, neprocházejte seznam zbytečně celý.
 
     def get_greatest_in(self, value: int, dist: int) -> int | None:
-        pass
+        current = self.head
+
+        while current is not None:
+            if value <= current.value <= value + dist:
+                if current.next.value is None or current.next.value > value + dist:
+                    return current.value
+
+        return None
 
 
 def main() -> None:

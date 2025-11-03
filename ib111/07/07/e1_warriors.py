@@ -21,25 +21,35 @@ class Horde:
     # Vytvoří hordu se zadanými klany.
 
     def __init__(self, clans: dict[str, list[Warrior]]) -> None:
-        pass
+        self.clans_cur = clans
 
     # Metoda vrátí aktuální stav hordy, t.j. slovník všech klanů.
 
     def clans(self) -> dict[str, list[Warrior]]:
-        pass
+        return self.clans_cur
 
     # Metoda přidá válečníka do klanu. Neexistuje-li klan daného
     # jména, metoda jej vytvoří.
 
     def add_warrior(self, clan: str, warrior: Warrior) -> None:
-        pass
+        if clan in self.clans_cur:
+            self.clans_cur[clan].append(warrior)
+        else:
+            self.clans_cur[clan] = [warrior]
 
     # Metoda (a zároveň predikát) zkontroluje, má-li každý klan
     # dostatečnou sílu, která je rovna součtu sil všech jeho válečníků.
     # Měl by vám stačit nanejvýš jeden průchod seznamy válečníků.
 
     def validate_clan_strength(self, required: int) -> bool:
-        pass
+        for _, warriors in self.clans_cur.items():
+            result = 0
+            for warrior in warriors:
+                result += warrior.strength
+            if result < required:
+                return False
+
+        return True
 
 
 def main() -> None:
