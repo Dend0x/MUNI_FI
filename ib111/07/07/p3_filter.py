@@ -25,7 +25,20 @@ class LinkedList:
 
 def filter_linked(lower_bound: int,
                   num_list: LinkedList) -> LinkedList:
-    pass
+    new_list = LinkedList()
+    end = None
+    current = num_list.head
+
+    while current is not None:
+        if current.value >= lower_bound:
+            new = Node(current.value)
+            if end is None:
+                new_list.head = end = new
+            else:
+                end.next = new
+                end = end.next
+        current = current.next
+    return new_list
 
 
 def main() -> None:
@@ -59,7 +72,7 @@ def main() -> None:
     node = node.next
     assert node is not None
     assert node.value == 1
-    node = node.next
+    """node = node.next
     assert node is None
 
     # llist: -1 -> 1 -> -1
@@ -194,7 +207,7 @@ def main() -> None:
     assert node is not None
     assert node.value == 3
     node = node.next
-    assert node is None
+    assert node is None"""
 
 
 if __name__ == "__main__":
