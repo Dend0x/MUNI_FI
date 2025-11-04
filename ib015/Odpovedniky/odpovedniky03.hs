@@ -9,5 +9,4 @@ f (x:xs) (y:ys) = if x > y
     else f xs ys
 
 repeatUntil :: (a -> a) -> (a -> a -> Bool) -> a -> a
-
 repeatUntil f p start = if p start (f start) then f start else repeatUntil f p (f start)
