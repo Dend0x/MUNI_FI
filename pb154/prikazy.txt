@@ -21,3 +21,10 @@ SELECT kod, COUNT(cislo) FROM predmet JOIN skupina USING kod > 100 GROUP BY kod 
 SELECT kod, COUNT(cislo) FROM predmet JOIN skupina USING kod > 100 GROUP BY kod HAVING SUM(kapacita);
 SELECT znacka, COUNT(znacka), MAX(rok_vyroby), MIN(rok_vyroby) FROM auto GROUP BY znacka;
 SELECT SPZ FROM auto JOIN zapujceni USING(SPZ) WHERE znacka = 'Audi' GROUP BY SPZ HAVING COUNT(*) > 2;
+SELECT cislo FROM skupina WHERE popis IS NULL;
+SELECT kredity, Count(*) FROM predmet GROUP BY kredity;
+SELECT ukonceni, COUNT(*) FROM zapis WHERE kod = 'PB154' GROUP BY ukonceni;
+SELECT kod FROM predmet WHERE kod NOT IN (SELECT kod FROM zapis);
+SELECT * FROM predmet WHERE kod IN ('MA102', 'PB154', 'PV004');
+SELECT * FROM predmet WHERE kredity IN (SELECT MAX(kredity) FROM predmet);
+SELECT jmeno FROM student WHERE uco IN (SELECT uco FROM zapis GROUP BY uco HAVING COUNT(*) >= 2);

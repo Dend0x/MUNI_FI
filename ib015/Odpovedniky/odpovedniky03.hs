@@ -11,6 +11,7 @@ f (x:xs) (y:ys) = if x > y
     else f xs ys
 
 repeatUntil :: (a -> a) -> (a -> a -> Bool) -> a -> a
+<<<<<<< HEAD
 repeatUntil f p start = if p start (f start) then f start else repeatUntil f p (f start)
 
 books :: [(String, String, Int)]
@@ -40,3 +41,6 @@ selectSuitableSeries :: [(String, String, Int)] -> [String]
 selectSuitableSeries xs = nub (map (fstThree . head) (filter (\x -> length x <= 4 && all ((<=2010) . thdThree) x) (groupBy (\x y -> fstThree x == fstThree y) (sortOn fstThree xs))))
                         where fstThree (x, _, _) = x
                               thdThree (_, _, x) = x
+=======
+repeatUntil f p start = if p start (f start) then f start else repeatUntil f p (f start)
+>>>>>>> 5f0a1e2da693f269ed28149bc2eb41365dca9b76
