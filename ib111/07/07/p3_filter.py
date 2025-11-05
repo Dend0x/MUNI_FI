@@ -72,7 +72,7 @@ def main() -> None:
     node = node.next
     assert node is not None
     assert node.value == 1
-    """node = node.next
+    node = node.next
     assert node is None
 
     # llist: -1 -> 1 -> -1
@@ -207,7 +207,7 @@ def main() -> None:
     assert node is not None
     assert node.value == 3
     node = node.next
-    assert node is None"""
+    assert node is None
 
 
 if __name__ == "__main__":

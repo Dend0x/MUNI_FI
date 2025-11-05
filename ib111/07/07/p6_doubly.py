@@ -28,25 +28,68 @@ class DoubleLinkedList:
     # Metoda ‹append› přidá novou hodnotu na konec seznamu.
 
     def append(self, value: int) -> None:
-        pass
+        new: Node | None = Node(value)
+        new.prev = self.tail
+        self.tail = new
+
+        if self.head is None:
+            self.head = new
+            return
+
+        if self.tail is not None:
+            self.tail.prev.next = self.tail
 
     # Metoda ‹prepend› naopak vloží novou hodnotu na začátek. Na
     # rozdíl od zabudovaného typu ‹list› je toto v principu levná
     # operace.
 
     def prepend(self, value: int) -> None:
-        pass
+        if self.head is None:
+            self.append(value)
+            return
+
+        new = Node(value)
+        new.next = self.head
+
+        if self.head is not None:
+            self.head.prev = new
+        self.head = new
 
     # Metoda ‹remove› odstraní ze seznamu libovolný uzel.
 
     def remove(self, node: Node) -> None:
-        pass
+
+        if node.prev is None:
+            self.head = node.next
+            if self.head is None:
+                self.tail = None
+                return
+            if self.head is not None:
+                self.head.prev = None
+            return
+        if node.next is None:
+            self.tail = self.tail.prev
+            self.tail.next = None
+            return
+
+        node_next = node.next
+        node_prev = node.prev
+        if node_next is not None and node_prev is not None:
+            node_next.prev = node_prev
+            node_prev.next = node_next
 
     # Konečně metoda ‹search› najde první uzel s danou hodnotu.
     # Když takový uzel neexistuje, vrátí ‹None›.
 
     def search(self, value: int) -> Node | None:
-        pass
+        current = self.head
+
+        while current is not None:
+            if current.value == value:
+                return current
+            current = current.next
+
+        return None
 
 
 def main() -> None:
@@ -67,7 +110,6 @@ def test_remove() -> None:
         d_list = DoubleLinkedList()
         for elem in elems:
             d_list.append(elem)
-
         remove(d_list, chosen)
 
         for elem in elems:

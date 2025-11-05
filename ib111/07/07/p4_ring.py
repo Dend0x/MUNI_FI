@@ -22,9 +22,9 @@ class RingBuffer:
 
     def __init__(self, size: int, storage: 'SimpleList') -> None:
         self.size = size
-        for i in range(size):
-            storage.append(None)
-        self.storage = storage
+        for _ in range(size):
+            storage.append(-999999)
+        self.storage: SimpleList = storage
         self.start = 0
         self.end = 0
         self.count = 0
@@ -39,10 +39,9 @@ class RingBuffer:
 
         self.storage.set(self.end, value)
         self.end = (self.end + 1) % self.size
-        self.count = self.count + 1
-        
-        return True
+        self.count += 1
 
+        return True
 
     # Metoda ‹pop› odstraní prvek ze začátku fronty a vrátí jej.
     # Je-li fronta prázdná, metoda nic neudělá a vrátí ‹None›.
@@ -52,9 +51,9 @@ class RingBuffer:
             return None
 
         value = self.storage.get(self.start)
-        self.storage.set(self.start, None)
+        self.storage.set(self.start, -999999)
         self.start = (self.start + 1) % self.size
-        self.count = self.count - 1
+        self.count -= 1
 
         return value
 

@@ -37,19 +37,48 @@ class Node:
 
 class HashTable:
     def __init__(self, m: int) -> None:
-        pass
+        self.table: list[Node | None] = [None for _ in range(m)]
+        self.hash = m
 
     def insert(self, key: int) -> None:
-        pass
+        node: Node | None = self.table[key % self.hash]
+
+        if node is None:
+            self.table[key % self.hash] = Node(key)
+            return
+
+        while node.next is not None:
+            node = node.next
+
+        node.next = Node(key)
 
     def contains(self, key: int) -> bool:
-        pass
+        node: Node | None = self.table[key % self.hash]
+
+        while node is not None:
+            if node.key == key:
+                return True
+            node = node.next
+
+        return False
 
     def remove(self, key: int) -> None:
-        pass
+        node: Node | None = self.table[key % self.hash]
+
+        if node is None:
+            return
+        if node.key == key:
+            self.table[key % self.hash] = node.next
+            return
+
+        while node.next is not None:
+            if node.next.key == key:
+                node.next = node.next.next
+                return
+            node = node.next
 
     def bucket(self, key: int) -> Node | None:
-        pass
+        return self.table[key % self.hash]
 
 
 def main() -> None:
@@ -75,7 +104,6 @@ def main() -> None:
     while node is not None:
         seen.add(node.key)
         node = node.next
-
     assert seen == {4, 18, 25, 39, 333}
 
     for i in keys:
