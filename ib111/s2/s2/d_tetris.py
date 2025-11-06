@@ -258,15 +258,17 @@ class Tetris:
             if rows_to_del == {}:
                 break
 
+            new_score = 0
             for row, to_del in rows_to_del.items():
                 if to_del:
                     for col in range(self.cols):
                         self.board[row][col] = False
-                    self.score += self.cols ** 2
+                    new_score += 1
 
                     for row_d in range(row - 1, -1, -1):
                         for col in range(self.cols):
                             self.board[row_d + 1][col] = self.board[row_d][col]
+            self.score += new_score ** 2
 
     # Metoda ‹down› posune padající blok o jednu pozici směrem dolů.
     # Pokud takový posun není možný, kostky z padajícího bloku se napevno

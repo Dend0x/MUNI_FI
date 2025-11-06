@@ -309,11 +309,78 @@ treeMayZip Empty (Node v l r) = (Node (Nothing, Just v) (treeMayZip Empty l) (tr
 treeMayZip (Node v l r) Empty = (Node (Just v, Nothing) (treeMayZip l Empty) (treeMayZip r Empty))
 treeMayZip (Node v l r) (Node v2 l2 r2) = (Node (Just v, Just v2) (treeMayZip l l2) (treeMayZip r r2))
 
-isOk :: (Ord a) => Bintree a -> a -> Integer -> Bool
-isOk Empty _ _ = True
-isOk (Node v2 _ _) v 0 = v >= v2
-isOk (Node v2 _ _) v 1 = v <= v2
+inorder :: BinTree a -> [a]
+inorder Empty = []
+inorder (Node v l r) = inorder l ++ [v] ++ inorder r
+
+ascending :: (Ord a) => [a] -> Bool
+ascending [] = True
+ascending [x] = True
+ascending (x:y:xs) = if x > y then False else ascending (y:xs)
 
 isTreeBST :: (Ord a) => BinTree a -> Bool
-isTreeBST Empty = True
-isTreeBST (Node v l r) = if 
+isTreeBST = ascending . inorder
+
+searchBST :: (Ord a) => a -> BinTree a -> Bool
+searchBST _ Empty = False
+searchBST find (Node v l r) =
+    if v == find then True else
+        if v < find then
+            searchBST find r
+        else
+            searchBST find l
+
+data RoseTree a = RoseNode a [RoseTree a]
+    deriving (Show, Read)
+
+roseTreeSize :: RoseTree a -> Int
+roseTreeSize (RoseNode _ xs) = 1 + sum (map roseTreeSize xs)
+
+roseTreeSum :: Num a => RoseTree a -> a
+roseTreeSum (RoseNode v xs) = v + sum (map roseTreeSum xs)
+
+roseTreeMap :: (a -> b) -> RoseTree a -> RoseTree b
+roseTreeMap f (RoseNode v xs) = (RoseNode (f v) (map (roseTreeMap f) xs))
+
+data LogicExpr = Pos | Neg
+                | And LogicExpr LogicExpr
+                | Or LogicExpr LogicExpr
+                | Implies LogicExpr LogicExpr
+                | Equiv LogicExpr LogicExpr
+
+evalExpr :: LogicExpr -> Bool
+evalExpr Pos = True
+evalExpr Neg = False
+evalExpr (And ex1 ex2) = evalExpr ex1 && evalExpr ex2
+evalExpr (Or ex1 ex2) = evalExpr ex1 || evalExpr ex2
+evalExpr (Implies ex1 ex2) = if l1 == True && l2 == False then False else True
+    where l1 = evalExpr ex1
+          l2 = evalExpr ex2
+evalExpr (Equiv ex1 ex2) = evalExpr ex1 == evalExpr ex2
+
+data IntSet = SetNode Bool IntSet IntSet -- Node isEnd zero one
+            | SetLeaf
+            deriving Show
+
+data Bit = O | I
+    deriving Show
+
+fromStringToBit :: Int -> [Bit]
+fromStringToBit 0 = []
+fromStringToBit n = if (mod n 2) == 0 then (O) : fromStringToBit (div n 2) else (I) : fromStringToBit (div n 2)
+
+fromBitToString :: [Bit] -> Int
+fromBitToString [] = 0
+fromBitToString (O:xs) = 2 * fromBitToString xs
+fromBitToString (I:xs) = 1 + 2 * fromBitToString xs
+
+insert :: IntSet -> Int -> IntSet
+insert set n = insertrec set (fromStringToBit n)
+
+insertrec :: IntSet -> [Bit] -> IntSet
+insertrec SetLeaf [] = SetNode True SetLeaf SetLeaf
+insertrec (SetNode _ l r) [] = SetNode True l r
+insertrec SetLeaf (O:bits) = SetNode False (insertrec SetLeaf bits) SetLeaf
+insertrec SetLeaf (I:bits) = SetNode True SetLeaf (insertrec SetLeaf bits)
+insertrec (SetNode end l r) (O:bits) = SetNode end (insertrec l bits) r
+insertrec (SetNode end l r) (I:bits) = SetNode end l (insertrec r bits)
