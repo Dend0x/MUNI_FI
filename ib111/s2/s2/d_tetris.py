@@ -58,18 +58,24 @@ class Tetris:
     # Není žádný padající blok a skóre je nastaveno na 0.
 
     def __init__(self, cols: int, rows: int):
-        pass
+        self.board = [[False for _ in range(cols)] for _ in range(rows)]
+        self.score = 0
+        self.is_block_falling = False
+        self.rows = rows
+        self.cols = cols
+        self.current_block: list[Position] = []
+        self.middle = (0, 0)
 
     # Čistá metoda ‹get_score› vrátí aktuální skóre.
 
     def get_score(self) -> int:
-        pass
+        return self.score
 
     # Metoda-predikát ‹has_block› vrátí ‹True› právě tehdy, existuje-li
     # padající blok.
 
     def has_block(self) -> bool:
-        pass
+        return self.is_block_falling
 
     # Metoda ‹add_block› přidá do hry padající blok na zadaných souřadnicích.
     # Pokud přidání bloku není možné (překrýval by se s již položenými
@@ -81,32 +87,186 @@ class Tetris:
 
     def add_block(self, block: list[Position],
                   col: int, row: int) -> bool:
-        pass
+        if self.is_block_falling:
+            return False
+
+        for c, r in block:
+            if (
+                col + c < 0
+                or col + c >= self.cols
+                or row + r < 0
+                or row + r >= self.rows
+            ):
+                return False
+            if self.board[row + r][col + c]:
+                return False
+
+        self.middle = (col, row)
+        self.is_block_falling = True
+        for c, r in block:
+            self.board[row + r][col + c] = True
+            self.current_block.append((col + c, row + r))
+
+        return True
 
     # Metoda ‹left› posune padající blok o jednu pozici doleva, je-li to možné.
     # Tato metoda, stejně jako všechny následující metody pohybu, bude volána
     # jen tehdy, existuje-li padající blok.
 
     def left(self) -> None:
-        pass
+        if not self.is_block_falling:
+            return
+
+        for c, r in self.current_block:
+            if c <= 0:
+                return
+
+        new_pos: list[Position] = []
+
+        while len(self.current_block) > 0:
+            new_pos.append(self.current_block.pop())
+
+        c_m, r_m = self.middle
+        c_m -= 1
+        self.middle = (c_m, r_m)
+        pieces = set()
+        for c, r in new_pos:
+            pieces.add((c - 1, r))
+
+        for c, r in new_pos:
+            if (c, r) not in pieces:
+                self.board[r][c] = False
+            self.board[r][c - 1] = True
+            self.current_block.append((c - 1, r))
 
     # Metoda ‹right› posune padající blok o jednu pozici doprava,
     # je-li to možné.
 
     def right(self) -> None:
-        pass
+        if not self.is_block_falling:
+            return
+
+        for c, r in self.current_block:
+            if c + 1 >= self.cols:
+                return
+
+        new_pos: list[Position] = []
+
+        while len(self.current_block) > 0:
+            new_pos.append(self.current_block.pop())
+
+        c_m, r_m = self.middle
+        c_m += 1
+        self.middle = (c_m, r_m)
+        pieces = set()
+        for c, r in new_pos:
+            pieces.add((c + 1, r))
+
+        for c, r in new_pos:
+            if (c, r) not in pieces:
+                self.board[r][c] = False
+            self.board[r][c + 1] = True
+            self.current_block.append((c + 1, r))
 
     # Metoda ‹rotate_cw› otočí padající blok po směru hodinových ručiček o 90
     # stupňů, je-li to možné.
 
     def rotate_cw(self) -> None:
-        pass
+        if not self.is_block_falling:
+            return
+
+        new_pos: list[Position] = []
+
+        while len(self.current_block) > 0:
+            new_pos.append(self.current_block.pop())
+        c_m, r_m = self.middle
+        pieces = set()
+        for c, r in new_pos:
+            col_n = c_m - r + r_m
+            row_n = r_m + c - c_m
+
+            if (
+                col_n < 0
+                or col_n >= self.cols
+                or row_n < 0
+                or row_n >= self.rows
+            ):
+                for item in new_pos:
+                    self.current_block.append(item)
+                return
+            pieces.add((col_n, row_n))
+
+        for c, r in new_pos:
+            if (c, r) not in pieces:
+                self.board[r][c] = False
+            col_n = c_m - r + r_m
+            row_n = r_m + c - c_m
+            self.board[row_n][col_n] = True
+            self.current_block.append((col_n, row_n))
 
     # Metoda ‹rotate_ccw› otočí padající blok proti směru hodinových ručiček
     # o 90 stupňů, je-li to možné.
 
     def rotate_ccw(self) -> None:
-        pass
+        if not self.is_block_falling:
+            return
+
+        new_pos: list[Position] = []
+
+        while len(self.current_block) > 0:
+            new_pos.append(self.current_block.pop())
+        c_m, r_m = self.middle
+        pieces = set()
+        for c, r in new_pos:
+            col_n = c_m + r - r_m
+            row_n = r_m - c + c_m
+
+            if (
+                col_n < 0
+                or col_n >= self.cols
+                or row_n < 0
+                or row_n >= self.rows
+            ):
+                for item in new_pos:
+                    self.current_block.append(item)
+                return
+            pieces.add((col_n, row_n))
+
+        for c, r in new_pos:
+            if (c, r) not in pieces:
+                self.board[r][c] = False
+            col_n = c_m + r - r_m
+            row_n = r_m - c + c_m
+            self.board[row_n][col_n] = True
+            self.current_block.append((col_n, row_n))
+
+    def erase_rows(self) -> None:
+        self.is_block_falling = False
+        self.current_block = []
+
+        while True:
+            rows_to_del = {}
+
+            for row in range(self.rows):
+                full = True
+                for col in range(self.cols):
+                    if not self.board[row][col]:
+                        full = False
+                        break
+                if full:
+                    rows_to_del[row] = True
+            if rows_to_del == {}:
+                break
+
+            for row, to_del in rows_to_del.items():
+                if to_del:
+                    for col in range(self.cols):
+                        self.board[row][col] = False
+                    self.score += self.cols ** 2
+
+                    for row_d in range(row - 1, -1, -1):
+                        for col in range(self.cols):
+                            self.board[row_d + 1][col] = self.board[row_d][col]
 
     # Metoda ‹down› posune padající blok o jednu pozici směrem dolů.
     # Pokud takový posun není možný, kostky z padajícího bloku se napevno
@@ -114,7 +274,38 @@ class Tetris:
     # a skóre se zvýší o druhou mocninu počtu vymazaných řádků.
 
     def down(self) -> None:
-        pass
+        if not self.is_block_falling:
+            return
+
+        for c, r in self.current_block:
+            if r + 1 >= self.rows:
+                self.erase_rows()
+                return
+            if (
+                (c, r + 1) not in set(self.current_block)
+                and self.board[r + 1][c]
+            ):
+                self.erase_rows()
+                return
+
+        c_m, r_m = self.middle
+        r_m += 1
+        self.middle = (c_m, r_m)
+
+        pieces = set()
+        new_pos: list[Position] = []
+
+        while len(self.current_block) > 0:
+            new_pos.append(self.current_block.pop())
+
+        for c, r in new_pos:
+            pieces.add((c, r + 1))
+
+        for c, r in new_pos:
+            if (c, r) not in pieces:
+                self.board[r][c] = False
+            self.board[r + 1][c] = True
+            self.current_block.append((c, r + 1))
 
     # Metoda ‹drop› shodí padající blok směrem dolů (o tolik pozic, o kolik je
     # to možné). Kostky z padajícího bloku se pak napevno umístí do herní
@@ -122,7 +313,8 @@ class Tetris:
     # o druhou mocninu počtu vymazaných řádků.
 
     def drop(self) -> None:
-        pass
+        while self.is_block_falling:
+            self.down()
 
     # Čistá metoda ‹tiles› vrátí seznam všech pozic, na nichž má být vykreslena
     # kostka – tedy jednak všechny položené kostky v herní oblasti, jednak
@@ -131,7 +323,14 @@ class Tetris:
     # tak grafické rozhraní pro vykreslení hry.
 
     def tiles(self) -> list[Position]:
-        pass
+        positions: list[Position] = []
+
+        for r in range(self.rows):
+            for c in range(self.cols):
+                if self.board[r][c]:
+                    positions.append((c, r))
+
+        return positions
 
 
 def main() -> None:
@@ -185,7 +384,6 @@ def main() -> None:
     assert tetris.has_block()
     assert set(tetris.tiles()) == {(4, 1), (4, 2), (5, 2), (5, 3)}
     assert len(tetris.tiles()) == 4
-
     tetris.drop()
     assert not tetris.has_block()
     assert set(tetris.tiles()) == {(4, 19), (4, 20), (5, 20), (5, 21)}

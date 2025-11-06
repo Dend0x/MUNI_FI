@@ -29,14 +29,15 @@ class DoubleLinkedList:
 
     def append(self, value: int) -> None:
         new: Node | None = Node(value)
-        new.prev = self.tail
+        if new is not None:
+            new.prev = self.tail
         self.tail = new
 
         if self.head is None:
             self.head = new
             return
 
-        if self.tail is not None:
+        if self.tail is not None and self.tail.prev is not None:
             self.tail.prev.next = self.tail
 
     # Metoda ‹prepend› naopak vloží novou hodnotu na začátek. Na
@@ -68,8 +69,10 @@ class DoubleLinkedList:
                 self.head.prev = None
             return
         if node.next is None:
-            self.tail = self.tail.prev
-            self.tail.next = None
+            if self.tail is not None:
+                self.tail = self.tail.prev
+            if self.tail is not None:
+                self.tail.next = None
             return
 
         node_next = node.next
