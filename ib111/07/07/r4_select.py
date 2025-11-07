@@ -22,33 +22,29 @@ class LinkedList:
 def select(indices: list[int], linked: LinkedList) -> LinkedList:
     current = linked.head
     i = 0
-    j = 0
+
+    if linked.head is None:
+        return LinkedList()
 
     if indices == []:
         return LinkedList()
 
-    if current is None:
-        return LinkedList()
-
-    while current.next is not None:
-        print(i, indices[j])
-        if indices[j] == i:
-            j += 1
-            i += 1
-            current = current.next
-        elif indices[j] > i:
-            i += 1
-            current.next = current.next.next
-        else:
-            j += 1
-            current.next = current.next.next
-
-    while current is not None:
-        print(current.value)
+    while i != indices[0]:
         current = current.next
+        i += 1
 
-    return linked
+    linked_new = LinkedList()
+    linked_new.head = Node(current.value)
+    current_new = linked_new.head
 
+    for i in range(1, len(indices)):
+        for j in range(indices[i]  - indices[i - 1] - 1):
+            current = current.next
+        current = current.next
+        current_new.next = Node(current.value)
+        current_new = current_new.next
+
+    return linked_new
 
 
 def main() -> None:

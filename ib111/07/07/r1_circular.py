@@ -45,19 +45,57 @@ class Node:
 class CircularList:
 
     def __init__(self) -> None:
-        self.head = None
+        self.head: Node = None
+        self.tail: Node = None
 
     def insert(self, value: int) -> None:
-        pass
+        new = Node(value)
+
+        if self.head is None:
+            self.head = new
+            self.tail = new
+            self.tail.next = self.head
+            return
+
+        new.next = self.head
+        self.head = new
+        self.tail.next = self.head
 
     def last(self) -> Node | None:
-        pass
+        return self.tail
 
     def split_by_value(self, value: int) -> 'CircularList':
-        pass
+        current = self.head
+
+        while current.value != value:
+            current = current.next
+
+        new_linked = CircularList()
+        new_linked.head = current.next
+        new_linked.tail = self.tail
+        new_linked.tail.next = new_linked.head
+        self.tail = current
+        self.tail.next = self.head
+
+        return new_linked
 
     def split_by_node(self, node: Node) -> 'CircularList':
-        pass
+        if node is self.tail:
+            return CircularList()
+        
+        current = self.head
+
+        while current is not node:
+            current = current.next
+
+        new_linked = CircularList()
+        new_linked.head = current.next
+        new_linked.tail = self.tail
+        new_linked.tail.next = new_linked.head
+        self.tail = current
+        self.tail.next = self.head
+
+        return new_linked
 
 
 def main() -> None:
@@ -106,7 +144,6 @@ def test_split_by_node() -> None:
     assert c_list.head.value == 1
     assert c_list.head.next is c_list.head
     assert c_list.last() is c_list.head
-
     assert new.head is None
     assert new.last() is None
 

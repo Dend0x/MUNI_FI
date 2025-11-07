@@ -25,37 +25,66 @@ from ib111 import week_07, except_data_structures  # noqa
 # V tomto příkladu je zakázáno použití Pythonovských datových struktur
 # seznam, množina, slovník.
 
+class Node:
+    def __init__(self, num: int) -> None:
+        self.value = num
+        self.next = None
+
 class Zipper:
     def __init__(self, num: int) -> None:
-        pass
+        self.left: Node = None
+        self.right: Node = None
+        self.actual = Node(num)
 
     # Vrátí aktuální hodnotu kurzoru.
 
     def cursor(self) -> int:
-        pass
+        return self.actual.value
 
     # Vloží prvek nalevo od kurzoru.
 
     def insert_left(self, num: int) -> None:
-        pass
+        new = Node(num)
+        new.next = self.left
+        self.left = new
 
     # Smaže prvek nalevo od kurzoru, existuje-li takový, a vrátí
     # jeho hodnotu. Jinak vrátí ‹None›.
 
     def delete_left(self) -> int | None:
-        pass
+        if self.left is None:
+            return
+        val = self.left.value
+        self.left = self.left.next
+        return val
 
     # Posune kurzor o jednu pozici doleva. Není-li se kam posunout,
     # metoda neudělá nic.
 
     def shift_left(self) -> None:
-        pass
+        if self.left is None:
+            return
+
+        new_right = Node(self.actual.value)
+        new_right.next = self.right
+        self.right = new_right
+
+        self.actual = self.left
+        self.left = self.actual.next
 
     # Posune kurzor o jednu pozici doprava. Není-li se kam posunout,
     # metoda opět neudělá nic.
 
     def shift_right(self) -> None:
-        pass
+        if self.right is None:
+            return
+
+        new_left = Node(self.actual.value)
+        new_left.next = self.left
+        self.left = new_left
+
+        self.actual = self.right
+        self.right = self.actual.next
 
 
 def main() -> None:

@@ -25,32 +25,77 @@ class Polynomial:
     # zvolit libovolnou.
 
     def __init__(self, coefs: list[int]) -> None:
-        pass
+        self.coefs = coefs
 
     # Vrátí koeficienty polynomu jako seznam, opět v pořadí ⟦aₙ,
     # aₙ₋₁, …, a₁, a₀⟧. Výsledný seznam nesmí obsahovat vedoucí nuly
     # (tzn. pro nenulový polynom platí ⟦aₙ ≠ 0⟧).
 
     def get_coefs(self) -> list[int]:
-        pass
+
+        result = []
+        i = 0
+
+        if self.coefs == []:
+            return [0]
+
+        while self.coefs[i] == 0:
+            i += 1
+            if i >= len(self.coefs):
+                return [0]
+
+        for j in range(i, len(self.coefs)):
+            result.append(self.coefs[j])
+
+        return result
 
     # Čistá funkce, které výsledkem je součet vstupních polynomů
     # ‹self + other›.
 
     def add(self, other: 'Polynomial') -> 'Polynomial':
-        pass
+        i = 1
+        result = [0 for _ in range(max(len(self.coefs), len(other.coefs)))]
+        while i <= len(self.coefs) and i <= len(other.coefs):
+            result[-i] = self.coefs[-i] + other.coefs[-i]
+            i += 1
+
+        while i <= len(self.coefs):
+            result[-i] = self.coefs[-i]
+            i += 1
+        while i <= len(other.coefs):
+            result[-i] = other.coefs[-i]
+            i += 1
+        return Polynomial(result)
 
     # Čistá funkce, které výsledkem je rozdíl vstupních polynomů
     # ‹self - other›.
 
     def subtract(self, other: 'Polynomial') -> 'Polynomial':
-        pass
+        i = 1
+        result = [0 for _ in range(max(len(self.coefs), len(other.coefs)))]
+        while i <= len(self.coefs) and i <= len(other.coefs):
+            result[-i] = self.coefs[-i] - other.coefs[-i]
+            i += 1
+
+        while i <= len(self.coefs):
+            result[-i] = self.coefs[-i]
+            i += 1
+        while i <= len(other.coefs):
+            result[-i] = -other.coefs[-i]
+            i += 1
+
+        return Polynomial(result)
 
     # Čistá funkce, které výsledkem je součin vstupních polynomů
     # ‹self * other›.
 
     def multiply(self, other: 'Polynomial') -> 'Polynomial':
-        pass
+        i = 1
+        result = [0 for _ in range(len(self.coefs) + len(other.coefs) - 1)]
+        for i in range(1, len(self.coefs) + 1):
+            for j in range(1, len(other.coefs) + 1):
+                result[-(i + j - 1)] += self.coefs[-i] * other.coefs[-j]
+        return Polynomial(result)
 
 
 def main() -> None:
