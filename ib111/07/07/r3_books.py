@@ -8,6 +8,7 @@ class Book:
     def __init__(self, name: str, author: str) -> None:
         self.name = name
         self.author = author
+        self.next = None
 
 
 # Dále naprogramujte třídu ‹Bookshelf›, která reprezentuje knihovnu,
@@ -16,24 +17,31 @@ class Book:
 class Bookshelf:
 
     def __init__(self, books: list[Book]) -> None:
-        pass
+        self.shelf = books
 
     def add_book(self, book: Book) -> None:
-        pass
+        self.shelf.append(book)
 
     # Metoda ‹books› vrátí seznam knih v pořadí, v jakém byly do
     # knihovny přidány.
 
     def books(self) -> list[Book]:
-        pass
+        return self.shelf
 
     # Metoda ‹group_by_author› vrátí slovník, který přiřadí každému
     # autorovi seznam knih, které napsal. K implementaci této metody
     # Vám stačí jeden průchod seznamem knih.
 
     def group_by_author(self) -> dict[str, list[Book]]:
-        pass
+        by_books: dict[str, list[Book]] = {}
 
+        for book in self.shelf:
+            if book.author in by_books:
+                by_books[book.author].append(book)
+            else:
+                by_books[book.author] = [book]
+
+        return by_books
 
 def main() -> None:
     lotr1 = Book('Fellowship', 'Tolkien')

@@ -20,7 +20,35 @@ class LinkedList:
 # ‹indices› a ‹linked›.
 
 def select(indices: list[int], linked: LinkedList) -> LinkedList:
-    pass
+    current = linked.head
+    i = 0
+    j = 0
+
+    if indices == []:
+        return LinkedList()
+
+    if current is None:
+        return LinkedList()
+
+    while current.next is not None:
+        print(i, indices[j])
+        if indices[j] == i:
+            j += 1
+            i += 1
+            current = current.next
+        elif indices[j] > i:
+            i += 1
+            current.next = current.next.next
+        else:
+            j += 1
+            current.next = current.next.next
+
+    while current is not None:
+        print(current.value)
+        current = current.next
+
+    return linked
+
 
 
 def main() -> None:

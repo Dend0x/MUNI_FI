@@ -43,7 +43,24 @@ class LinkedList:
 
 
 def shuffle(permutation: list[int], linked: LinkedList) -> None:
-    pass
+    current = linked.head
+    sorted_linked: list[Node | None] = [None for _ in range(len(permutation))]
+    i = 0
+
+    while current is not None:
+        sorted_linked[permutation[i]] = current
+        current = current.next
+        i += 1
+
+    linked.head = None
+
+    for j in range(len(sorted_linked) - 1, -1, -1):
+        node = sorted_linked[j]
+        if node is not None:
+            node.next = linked.head
+            linked.head = sorted_linked[j]
+
+    current = linked.head
 
 
 def main() -> None:
