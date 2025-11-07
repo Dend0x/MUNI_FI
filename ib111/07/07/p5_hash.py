@@ -47,10 +47,9 @@ class HashTable:
             self.table[key % self.hash] = Node(key)
             return
 
-        while node.next is not None:
-            node = node.next
-
-        node.next = Node(key)
+        node = Node(key)
+        node.next = self.table[key % self.hash]
+        self.table[key % self.hash] = node
 
     def contains(self, key: int) -> bool:
         node: Node | None = self.table[key % self.hash]
