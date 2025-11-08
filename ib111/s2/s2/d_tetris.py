@@ -117,8 +117,11 @@ class Tetris:
         if not self.is_block_falling:
             return
 
+        current = set(self.current_block)
         for c, r in self.current_block:
             if c <= 0:
+                return
+            if self.board[r][c - 1] and (c - 1, r) not in current:
                 return
 
         new_pos: list[Position] = []
@@ -146,8 +149,11 @@ class Tetris:
         if not self.is_block_falling:
             return
 
+        current = set(self.current_block)
         for c, r in self.current_block:
             if c + 1 >= self.cols:
+                return
+            if self.board[r][c + 1] and (c + 1, r) not in current:
                 return
 
         new_pos: list[Position] = []
@@ -180,6 +186,8 @@ class Tetris:
         while len(self.current_block) > 0:
             new_pos.append(self.current_block.pop())
         c_m, r_m = self.middle
+
+        current = set(new_pos)
         pieces = set()
         for c, r in new_pos:
             col_n = c_m - r + r_m
@@ -194,6 +202,11 @@ class Tetris:
                 for item in new_pos:
                     self.current_block.append(item)
                 return
+
+            if self.board[row_n][col_n] and (col_n, row_n) not in current:
+                self.current_block = list(new_pos)
+                return
+
             pieces.add((col_n, row_n))
 
         for c, r in new_pos:
@@ -217,6 +230,8 @@ class Tetris:
             new_pos.append(self.current_block.pop())
         c_m, r_m = self.middle
         pieces = set()
+
+        current = set(new_pos)
         for c, r in new_pos:
             col_n = c_m + r - r_m
             row_n = r_m - c + c_m
@@ -230,6 +245,11 @@ class Tetris:
                 for item in new_pos:
                     self.current_block.append(item)
                 return
+
+            if self.board[row_n][col_n] and (col_n, row_n) not in current:
+                self.current_block = list(new_pos)
+                return
+
             pieces.add((col_n, row_n))
 
         for c, r in new_pos:
