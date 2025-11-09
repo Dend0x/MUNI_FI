@@ -8,9 +8,22 @@ from ib111 import week_08  # noqa
 # Délku seznamu získáte voláním ‹records.size()›.
 # Dobré řešení úlohy je logaritmické časové složitosti.
 
-def count_in_sorted(records: 'CountingList', value: int) -> int:
+def find_value(records: 'CountingList', value: int) -> int:
     left = 0
-    right = records.size() - 1
+    right = records.size()
+
+    while left < right:
+        middle = (left + right) // 2
+        if records.get(middle) < value:
+            left = middle + 1
+        else:
+            right = middle
+
+    return left
+
+
+def count_in_sorted(records: 'CountingList', value: int) -> int:
+    return find_value(records, value + 1) - find_value(records, value)
 
 
 def main() -> None:

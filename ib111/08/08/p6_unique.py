@@ -9,8 +9,31 @@ from ib111 import week_08  # noqa
 # vzestupně seřazený. Funkci je možné napsat efektivněji než s lineární
 # složitostí.
 
+
+def find_value(values: 'CountingList', value: int) -> int:
+    left = 0
+    right = values.size()
+
+    while left < right:
+        middle = (left + right) // 2
+        if values.get(middle) < value:
+            left = middle + 1
+        else:
+            right = middle
+
+    return left
+
+
 def unique(values: 'CountingList') -> list[int]:
-    pass
+    result = []
+    i = 0
+
+    while i < values.size():
+        value = values.get(i)
+        result.append(value)
+        i = find_value(values, value + 1)
+
+    return result
 
 
 def main() -> None:

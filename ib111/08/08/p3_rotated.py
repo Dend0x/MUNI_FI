@@ -37,6 +37,7 @@ def is_cyclically_sorted(records: list[int]) -> bool:
 
     return False
 
+
 def main() -> None:
     assert is_cyclically_sorted([])
     assert is_cyclically_sorted([0])

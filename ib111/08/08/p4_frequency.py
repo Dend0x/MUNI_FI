@@ -8,7 +8,25 @@ from ib111 import week_08  # noqa
 # právě jednou.
 
 def frequency_sort(values: list[int]) -> list[int]:
-    pass
+    count: dict[int, int] = {}
+    reversed = []
+    result = []
+
+    for value in values:
+        if value in count:
+            count[value] += 1
+        else:
+            count[value] = 1
+
+    for key, value in count.items():
+        reversed.append((-value, key))
+
+    sorted_result = sorted(reversed)
+
+    for _, value in sorted_result:
+        result.append(value)
+
+    return result
 
 
 def main() -> None:

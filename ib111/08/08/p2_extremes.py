@@ -16,29 +16,24 @@ def local_extremes(values: list[int]) -> tuple[Minima, Maxima]:
     minimums = []
 
     for i in range(len(values)):
-        if i - 1 < 0 and i + 1 >= len(values):
-            maximums.append(i)
-            minimums.append(i)
-            break
+        is_min = True
+        is_max = True
 
-        if i - 1 < 0:
-            if values[i] < values[i + 1]:
-                minimums.append(i)
+        if i - 1 >= 0:
+            if values[i - 1] < values[i]:
+                is_min = False
             else:
-                maximums.append(i)
-            continue
+                is_max = False
 
-        if i + 1 >= len(values):
-            if values[i] < values[i - 1]:
-                minimums.append(i)
+        if i + 1 < len(values):
+            if values[i + 1] < values[i]:
+                is_min = False
             else:
-                maximums.append(i)
-            continue
+                is_max = False
 
-        if values[i - 1] > values[i] and values[i + 1] > values[i]:
+        if is_min:
             minimums.append(i)
-
-        if values[i - 1] < values[i] and values[i + 1] < values[i]:
+        if is_max:
             maximums.append(i)
 
     return minimums, maximums
