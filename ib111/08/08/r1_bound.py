@@ -6,8 +6,19 @@ from ib111 import week_08  # noqa
 # hodnoty ‹target›. Pokud se hodnota v seznamu nenachází, vrátí
 # ‹None›. V této úloze je lineární řešení neefektivní.
 
+
 def left_bound(values: list[int], target: int) -> int | None:
-    pass
+    left = 0
+    right = len(values)
+
+    while left < right:
+        middle = (left + right) // 2
+        if values[middle] < target:
+            left = middle + 1
+        else:
+            right = middle
+
+    return None if left == len(values) else left
 
 
 def main() -> None:
