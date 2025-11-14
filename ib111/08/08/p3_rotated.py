@@ -29,11 +29,11 @@ def is_cyclically_sorted(records: list[int]) -> bool:
     if i >= n - 1:
         return True
 
-    while i < n - 1 and current <= records[i + 1]:
+    while i < n - 1 and current <= records[i + 1] and current <= start:
         current = records[i + 1]
         i += 1
         if i >= n - 1:
-            return True
+            return current <= start
 
     return False
 
