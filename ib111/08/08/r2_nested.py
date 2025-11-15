@@ -9,7 +9,23 @@ from ib111 import week_08  # noqa
 # budou tyto vnořené seznamy obsahovat jiná čísla.
 
 def sort_nested(lists: list[list[int]]) -> list[list[int]]:
-    pass
+    result = []
+    final: list[list[int]] = []
+
+    for list in lists:
+        for elem in list:
+            result.append(elem)
+    result.sort()
+    k = 0
+
+    for i in range(len(lists)):
+        final.append([])
+        for j in range(len(lists[i])):
+            final[i].append(result[k])
+            k += 1
+
+    return final
+
 
 
 def main() -> None:
