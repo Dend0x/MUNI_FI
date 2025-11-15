@@ -39,16 +39,18 @@ def merge(left: LinkedList, right: LinkedList) -> LinkedList:
             new_list.head = working_with
             current_new = new_list.head
         else:
-            current_new.next = working_with
-            current_new = current_new.next
+            if current_new is not None:
+                current_new.next = working_with
+                current_new = current_new.next
 
     while current_left is not None:
         if new_list.head is None:
             new_list.head = current_left
             current_new = new_list.head
         else:
-            current_new.next = current_left
-            current_new = current_new.next
+            if current_new is not None:
+                current_new.next = current_left
+                current_new = current_new.next
         current_left = current_left.next
 
     while current_right is not None:
@@ -56,8 +58,9 @@ def merge(left: LinkedList, right: LinkedList) -> LinkedList:
             new_list.head = current_right
             current_new = new_list.head
         else:
-            current_new.next = current_right
-            current_new = current_new.next
+            if current_new is not None:
+                current_new.next = current_right
+                current_new = current_new.next
         current_right = current_right.next
 
     return new_list

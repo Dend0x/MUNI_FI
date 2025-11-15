@@ -124,10 +124,7 @@ class Tetris:
             if self.board[r][c - 1] and (c - 1, r) not in current:
                 return
 
-        new_pos: list[Position] = []
-
-        while len(self.current_block) > 0:
-            new_pos.append(self.current_block.pop())
+        new_pos: list[Position] = list(self.current_block)
 
         c_m, r_m = self.middle
         c_m -= 1
@@ -140,7 +137,11 @@ class Tetris:
             if (c, r) not in pieces:
                 self.board[r][c] = False
             self.board[r][c - 1] = True
-            self.current_block.append((c - 1, r))
+
+        new_current: list[Position] = []
+        for c, r in new_pos:
+            new_current.append((c - 1, r))
+        self.current_block = new_current
 
     # Metoda ‹right› posune padající blok o jednu pozici doprava,
     # je-li to možné.
@@ -156,10 +157,7 @@ class Tetris:
             if self.board[r][c + 1] and (c + 1, r) not in current:
                 return
 
-        new_pos: list[Position] = []
-
-        while len(self.current_block) > 0:
-            new_pos.append(self.current_block.pop())
+        new_pos: list[Position] = list(self.current_block)
 
         c_m, r_m = self.middle
         c_m += 1
@@ -172,7 +170,11 @@ class Tetris:
             if (c, r) not in pieces:
                 self.board[r][c] = False
             self.board[r][c + 1] = True
-            self.current_block.append((c + 1, r))
+
+        new_current: list[Position] = []
+        for c, r in new_pos:
+            new_current.append((c + 1, r))
+        self.current_block = new_current
 
     # Metoda ‹rotate_cw› otočí padající blok po směru hodinových ručiček o 90
     # stupňů, je-li to možné.
@@ -181,10 +183,7 @@ class Tetris:
         if not self.is_block_falling:
             return
 
-        new_pos: list[Position] = []
-
-        while len(self.current_block) > 0:
-            new_pos.append(self.current_block.pop())
+        new_pos: list[Position] = list(self.current_block)
         c_m, r_m = self.middle
 
         current = set(new_pos)
@@ -199,12 +198,9 @@ class Tetris:
                 or row_n < 0
                 or row_n >= self.rows
             ):
-                for item in new_pos:
-                    self.current_block.append(item)
                 return
 
             if self.board[row_n][col_n] and (col_n, row_n) not in current:
-                self.current_block = list(new_pos)
                 return
 
             pieces.add((col_n, row_n))
@@ -215,7 +211,13 @@ class Tetris:
             col_n = c_m - r + r_m
             row_n = r_m + c - c_m
             self.board[row_n][col_n] = True
-            self.current_block.append((col_n, row_n))
+
+        new_current: list[Position] = []
+        for c, r in new_pos:
+            col_n = c_m - r + r_m
+            row_n = r_m + c - c_m
+            new_current.append((col_n, row_n))
+        self.current_block = new_current
 
     # Metoda ‹rotate_ccw› otočí padající blok proti směru hodinových ručiček
     # o 90 stupňů, je-li to možné.
@@ -224,10 +226,7 @@ class Tetris:
         if not self.is_block_falling:
             return
 
-        new_pos: list[Position] = []
-
-        while len(self.current_block) > 0:
-            new_pos.append(self.current_block.pop())
+        new_pos: list[Position] = list(self.current_block)
         c_m, r_m = self.middle
         pieces = set()
 
@@ -242,12 +241,9 @@ class Tetris:
                 or row_n < 0
                 or row_n >= self.rows
             ):
-                for item in new_pos:
-                    self.current_block.append(item)
                 return
 
             if self.board[row_n][col_n] and (col_n, row_n) not in current:
-                self.current_block = list(new_pos)
                 return
 
             pieces.add((col_n, row_n))
@@ -258,7 +254,13 @@ class Tetris:
             col_n = c_m + r - r_m
             row_n = r_m - c + c_m
             self.board[row_n][col_n] = True
-            self.current_block.append((col_n, row_n))
+
+        new_current: list[Position] = []
+        for c, r in new_pos:
+            col_n = c_m + r - r_m
+            row_n = r_m - c + c_m
+            new_current.append((col_n, row_n))
+        self.current_block = new_current
 
     def erase_rows(self) -> None:
         self.is_block_falling = False
@@ -288,6 +290,8 @@ class Tetris:
                     for row_d in range(row - 1, -1, -1):
                         for col in range(self.cols):
                             self.board[row_d + 1][col] = self.board[row_d][col]
+                    for col in range(self.cols):
+                        self.board[0][col] = False
             self.score += new_score ** 2
 
     # Metoda ‹down› posune padající blok o jednu pozici směrem dolů.
@@ -299,12 +303,13 @@ class Tetris:
         if not self.is_block_falling:
             return
 
-        for c, r in self.current_block:
+        cur = list(self.current_block)
+        for c, r in cur:
             if r + 1 >= self.rows:
                 self.erase_rows()
                 return
             if (
-                (c, r + 1) not in set(self.current_block)
+                (c, r + 1) not in set(cur)
                 and self.board[r + 1][c]
             ):
                 self.erase_rows()
@@ -315,19 +320,19 @@ class Tetris:
         self.middle = (c_m, r_m)
 
         pieces = set()
-        new_pos: list[Position] = []
 
-        while len(self.current_block) > 0:
-            new_pos.append(self.current_block.pop())
-
-        for c, r in new_pos:
+        for c, r in cur:
             pieces.add((c, r + 1))
 
-        for c, r in new_pos:
+        for c, r in cur:
             if (c, r) not in pieces:
                 self.board[r][c] = False
             self.board[r + 1][c] = True
-            self.current_block.append((c, r + 1))
+
+        new_current: list[Position] = []
+        for c, r in cur:
+            new_current.append((c, r + 1))
+        self.current_block = new_current
 
     # Metoda ‹drop› shodí padající blok směrem dolů (o tolik pozic, o kolik je
     # to možné). Kostky z padajícího bloku se pak napevno umístí do herní

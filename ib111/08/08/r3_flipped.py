@@ -6,8 +6,37 @@ from ib111 import week_08  # noqa
 # různých čísel, aby se stal vzestupně seřazeným.
 # Existuje řešení, jehož časová složitost je lineární.
 
+
+def is_sorted(items: list[int]) -> bool:
+    for i in range(len(items) - 1):
+        if items[i] > items[i + 1]:
+            return False
+
+    return True
+
+
 def is_almost_sorted(items: list[int]) -> bool:
-    pass
+    bad_index = -1
+    result = items.copy()
+
+    for i in range(len(result) - 1):
+        if result[i] > result[i + 1]:
+            bad_index = i
+            break
+
+    if bad_index == -1:
+        return False
+
+    for i in range(len(result)):
+        left = None if i - 1 < 0 else result[i - 1]
+        right = None if i + 1 >= len(result) else result[i + 1]
+        if (left is None or result[i - 1] <= result[bad_index]) and (right is None or result[bad_index] < result[i + 1]):
+            temp = result[i]
+            result[i] = result[bad_index]
+            result[bad_index] = temp
+            break
+    return is_sorted(result)
+
 
 
 def main() -> None:
