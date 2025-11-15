@@ -28,7 +28,6 @@ def is_cyclically_sorted(records: list[int]) -> bool:
 
     if i >= n - 1:
         return True
-
     while i < n - 1 and current <= records[i + 1]:
         current = records[i + 1]
         i += 1
@@ -55,6 +54,7 @@ def main() -> None:
         seq = [i for i in range(n)]
         assert is_cyclically_sorted(seq + [0])
         assert not is_cyclically_sorted(seq + [1, 0])
+    print(is_cyclically_sorted([0, -1, 1]))
 
 
 if __name__ == "__main__":
