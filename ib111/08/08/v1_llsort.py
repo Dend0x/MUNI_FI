@@ -28,7 +28,33 @@ class LinkedList:
 
 
 def sort_linked_list(llist: LinkedList) -> None:
-    pass
+    prev_current = None
+    current = llist.head
+
+    while current is not None:
+        help = current
+        smallest = help
+        pointer = None
+        while help.next is not None:
+            if help.next.value < smallest.value:
+                smallest = help.next
+                pointer = help
+            help = help.next
+        if pointer is None:
+            prev_current = current
+            current = current.next
+        else:
+            pointer.next = smallest.next
+
+            if prev_current is None:
+                smallest.next = llist.head
+                llist.head = smallest
+                prev_current = smallest
+            else:
+                prev_current.next = smallest
+                smallest.next = current
+                prev_current = smallest
+            current = prev_current.next
 
 
 def main() -> None:

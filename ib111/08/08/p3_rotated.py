@@ -28,12 +28,7 @@ def is_cyclically_sorted(records: list[int]) -> bool:
 
     if i >= n - 1:
         return True
-<<<<<<< HEAD
-    while i < n - 1 and current <= records[i + 1]:
-=======
-
     while i < n - 1 and current <= records[i + 1] and current <= start:
->>>>>>> 2cb7db88795573be376e9475b189dfa97d1cbc5a
         current = records[i + 1]
         i += 1
         if i >= n - 1:

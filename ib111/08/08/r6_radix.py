@@ -87,8 +87,51 @@ from d1_countsort import all_lists, is_permutation, is_sorted
 #  │ 111 │ 121 │ 132 │ 133 │ │ 223 │ │ 311 │ 313 │ 332 │ 333 │
 #  └─────┴─────┴─────┴─────┘ └─────┘ └─────┴─────┴─────┴─────┘
 
+
+def sort_by_digit(to_sort: list[int], i: int) -> list[int]:
+    if to_sort == []:
+        return []
+    result = [0 for _ in to_sort]
+    values = [i for i in range(0, 10)]
+    counts = [0 for _ in values]
+
+    for record in to_sort:
+        counts[(record // 10 ** i) % 10] += 1
+
+    indices = [0]
+
+    for index in range(1, len(counts)):
+        indices.append(indices[index - 1] + counts[index - 1])
+
+    for record in to_sort:
+        result[indices[(record // 10 ** i) % 10]] = record
+        indices[(record // 10 ** i) % 10] += 1
+    return result
+
+
+def digits_count(n: int) -> int:
+    if n == 0:
+        return 1
+    cnt = 0
+    while n > 0:
+        n //= 10
+        cnt += 1
+    return cnt
+
+
 def radixsort(to_sort: list[int]) -> list[int]:
-    pass
+    if to_sort == []:
+        return []
+
+    max_abs = 0
+    for x in to_sort:
+        ax = x if x >= 0 else -x
+        if ax > max_abs:
+            max_abs = ax
+    digits = digits_count(max_abs)
+    for i in range(digits):
+        to_sort = sort_by_digit(to_sort, i)
+    return to_sort
 
 
 def main() -> None:

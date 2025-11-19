@@ -33,7 +33,30 @@ class LinkedList:
 # zřetězený seznam tvaru ‹2 → 2 → 7›.
 
 def remove_duplicates(llist: LinkedList) -> LinkedList:
-    pass
+    new_list = LinkedList()
+    current = llist.head
+    to_write = None
+    current_val = None
+    prev_current = None
+
+    while current is not None:
+        if current.value != current_val:
+            current_val = current.value
+            prev = current
+            current = current.next
+        else:
+            next_node = current.next
+            prev.next = next_node
+            if new_list.head is None:
+                new_list.head = current
+                to_write = current
+            else:
+                to_write.next = current
+                to_write = current
+            to_write.next = None
+            current = next_node
+
+    return new_list
 
 
 def main() -> None:

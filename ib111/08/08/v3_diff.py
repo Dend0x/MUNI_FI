@@ -34,8 +34,31 @@ class LinkedList:
 # pak procedura upraví první seznam do tvaru ‹3 → 7 → 10› (a druhý seznam
 # nechá v původní podobě).
 
+def in_list(val: int, right: LinkedList) -> bool:
+    current = right.head
+
+    while current is not None:
+        if current.value == val:
+            return True
+        current = current.next
+
+    return False
+
 def list_diff(left: LinkedList, right: LinkedList) -> None:
-    pass
+    current = left.head
+    prev_current: Node = None
+
+    while current is not None:
+        if in_list(current.value, right):
+            if prev_current is None:
+                left.head = current.next
+                current = left.head
+            else:
+                current = current.next
+                prev_current.next = current
+        else:
+            prev_current = current
+            current = current.next
 
 
 def main() -> None:

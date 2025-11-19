@@ -41,8 +41,48 @@ from d1_countsort import all_lists, is_permutation, is_sorted
 # seznamu. Proč tato procedura funguje se dozvíte například v článku
 # „Heapsort“ v anglické wikipedii.
 
+def max_index(records: list[int], i_1: int, i_2: int, i_3: int) -> int:
+    if records[i_1] > records[i_2]:
+        if records[i_1] > records[i_3]:
+            return i_1
+        else:
+            return i_3
+    else:
+        if records[i_2] > records[i_3]:
+            return i_2
+        else:
+            return i_3
+
+
+def sift_down(records: list[int], i: int, n: int) -> None:
+    
+    while True:
+        l_i = 2 * i + 1
+        if l_i >= n:
+            return
+        swap = i
+        if records[swap] < records[l_i]:
+            swap = l_i
+        r_i = 2 * i + 2
+        if r_i < n and records[swap] < records[r_i]:
+            swap = r_i
+        if swap == i:
+            return
+        records[i], records[swap] = records[swap], records[i]
+        i = swap
+
+
 def heapsort(records: list[int]) -> None:
-    pass
+    for i in range(len(records)//2, -1, -1):
+        sift_down(records, i, len(records))
+
+    n = len(records)
+    while n > 1:
+        records[0], records[n - 1] = records[n - 1], records[0]
+        n -= 1
+        sift_down(records, 0, n)
+        print(records)
+    
 
 
 def test_parameters() -> list[tuple[int, int, int]]:
@@ -65,4 +105,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    i = [5,1,8,9,4]
+    heapsort(i)
+    print(i)
