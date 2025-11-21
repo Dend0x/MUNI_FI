@@ -26,8 +26,20 @@ def leaf() -> Tree:
 # uzel navštivte pouze jednou – naivní řešení, kdy opakovaně
 # počítáte výšky průchodem podstromů není příliš uspokojivé).
 
-def is_avl(tree) -> bool:
-    pass
+def is_avl_rec(tree: Tree | None) -> tuple[int, bool]:
+    if tree is None:
+        return 0, True
+
+    left_sum, is_good_left = is_avl_rec(tree.left)
+    right_sum, is_good_right = is_avl_rec(tree.right)
+    return max(left_sum, right_sum) + 1, is_good_left and is_good_right and abs(left_sum - right_sum) <= 1
+
+
+def is_avl(tree: Tree | None) -> bool:
+    if tree is None:
+        return True
+    _, good = is_avl_rec(tree)
+    return good
 
 
 def main() -> None:

@@ -17,8 +17,23 @@ def leaf() -> Tree:
 # průměrnou délku větve (cesty od kořene k listu).
 # K řešení úlohy je postačující projít strom jen jednou.
 
-def average_branch_len(tree) -> float:
-    pass
+def average_branch_len_rec(tree: Tree | None) -> tuple[int, int]:
+    if tree is None:
+        return 0,0
+
+    if tree.left is None and tree.right is None:
+        return 1,1
+
+    left_n, left_sum = average_branch_len_rec(tree.left)
+    right_n, right_sum = average_branch_len_rec(tree.right)
+
+    return left_n + right_n, left_n + right_n + left_sum + right_sum
+
+def average_branch_len(tree: Tree | None) -> float:
+    if tree is None:
+        return 0
+    n, sum_all = average_branch_len_rec(tree)
+    return float(sum_all) / n
 
 
 def main() -> None:

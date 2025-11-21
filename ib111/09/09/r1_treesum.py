@@ -21,8 +21,11 @@ def leaf(value: int) -> Tree:
 # Napište čistou funkci, která na vstupu dostane instanci výše
 # popsaného stromu a vrátí součet všech hodnot ve všech jeho uzlech.
 
-def sum_tree(tree) -> int:
-    pass
+def sum_tree(tree: Tree | None) -> int:
+    if tree is None:
+        return 0
+
+    return tree.value + sum_tree(tree.first) + sum_tree(tree.second) + sum_tree(tree.third)
 
 
 def main() -> None:

@@ -65,8 +65,16 @@ class BDD:
 # nikoliv. V listech jsou uloženy řetězce ‹"0"› (výsledek je
 # ‹False›) nebo ‹"1"› (výsledek je ‹True›).
 
-def evaluate_bdd(bdd, true_vars: set[str]) -> bool:
-    pass
+def evaluate_bdd(bdd: BDD, true_vars: set[str]) -> bool:
+    if bdd.val == "1":
+        return True
+    if bdd.val == "0":
+        return False
+
+    if bdd.val in true_vars:
+        return evaluate_bdd(bdd.right, true_vars)
+    else:
+        return evaluate_bdd(bdd.left, true_vars)
 
 
 def main() -> None:

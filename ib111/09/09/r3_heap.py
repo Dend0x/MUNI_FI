@@ -25,8 +25,12 @@ def leaf(key: int) -> Tree:
 # Predikát ‹is_heap› rozhodne, splňuje-li vstupní strom tuto druhou
 # vlastnost.
 
-def is_heap(tree) -> bool:
-    pass
+def is_heap(tree: Tree | None) -> bool:
+    if tree is None:
+        return True
+    left = tree.key - 1 if tree.left is None else tree.left.key
+    right = tree.key - 1 if tree.right is None else tree.right.key
+    return tree.key >= left and tree.key >= right and is_heap(tree.left) and is_heap(tree.right)
 
 
 def main() -> None:
