@@ -179,5 +179,85 @@ subtractlist :: Num a => [a] -> a
 subtractlist = foldl1 (-)
 
 -- b foldr - (a -> b -> b) -> b -> [a] -> b
--- (.) - (b -> c) -> (a -> b) -> (a -> c)
--- id - a -> a
+-- (.) - (e -> f) -> (d -> e) -> (d -> f)
+-- id - c -> c
+
+-- (a -> b -> b) = (e -> f) -> (d -> e) -> (d -> f)
+-- b = c -> c
+
+-- a = (e -> f)
+-- b = (d -> e)
+-- b = (d -> f)
+-- b = (c -> c)
+
+-- d = e = c = f
+-- a = c -> c
+-- b = c -> c
+
+-- foldr (.) id = [a] -> b = [c -> c] -> (c -> c)
+
+append' :: [a] -> [a] -> [a]
+append' = flip (foldr (:))
+
+reverse' :: [a] -> [a]
+reverse' = foldl (flip (:)) []
+
+concatFold :: [[a]] -> [a]
+concatFold = foldr (++) []
+
+listifyFold :: [a] -> [[a]]
+listifyFold = foldr (\x y -> [x] : y) []
+
+nullFold :: [a] -> Bool
+nullFold = foldr (\x y -> False) True
+
+composeFold :: [a -> a] -> a -> a
+composeFold = foldr (.) id
+
+idFold :: [a] -> [a]
+idFold = foldr (\ x y -> x : y) []
+
+mapFold :: (a -> b) -> [a] -> [b]
+mapFold f = foldr (\x y -> f x : y) []
+
+headFold :: [a] -> a
+headFold = foldl1 const
+
+lastFold :: [a] -> a
+lastFold = foldr1 (\x y -> y)
+
+maxminFold :: Ord a => [a] -> (a, a)
+maxminFold (x:xs)= foldr (\x (y, z) -> (max x y, min x z)) (x,x) xs
+
+suffixFold :: [a] -> [[a]]
+suffixFold = foldr (\x (y:ys) -> (x : y) : y : ys) [[]]
+
+filterFold :: (a -> Bool) -> [a] -> [a]
+filterFold f = foldr (\x y -> if f x then x : y else y) []
+
+oddEvenFold :: [a] -> ([a], [a])
+oddEvenFold = foldr (\x (y, z) -> (x : z, y)) ([], [])
+
+takeWhileFold :: (a -> Bool) -> [a] -> [a]
+takeWhileFold f = foldr (\x y -> if f x then x : y else []) []
+
+data BinTree1 a = Leaf1 [a] | Node1 (BinTree1 a) (BinTree1 a)
+    deriving Show
+
+double :: BinTree1 a -> BinTree1 a
+double (Leaf1 xs) = (Leaf1 (xs++xs))
+double (Node1 l r) = (Node1 (double l) (double r))
+
+subListMax :: (Ord a) => [[a]] -> [a]
+subListMax xs = head (dropWhile (\x -> (/=) (maxi x) (maxi (map maxi xs))) xs)
+            where maxi = foldr1 (max)
+
+data ITree a = ILeaf | INode a (ITree a) (ITree a)
+kmIT :: a -> (b -> a -> a -> a) -> (ITree b) -> a
+kmIT lf nf (ILeaf) = lf
+kmIT lf nf (INode v x y) = nf v (kmIT lf nf x) (kmIT lf nf y)
+
+sumITree :: Num a => ITree a -> a
+sumITree = kmIT 0 (\x y z -> x + y + z)
+
+mops = [ x | x <- [1,3..], y <- [1..mod x 12]]

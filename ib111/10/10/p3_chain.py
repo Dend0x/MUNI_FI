@@ -14,7 +14,8 @@ def first_digit_num(num: int) -> int:
     return num
 
 
-def elven_chain_rec(current_length: int, length: int, numbers: set[int], seen: set[int], current_list: list[int]) -> bool:
+def elven_chain_rec(current_length: int, length: int, numbers: set[int],
+                    seen: set[int], current_list: list[int]) -> bool:
     if current_length > length:
         return False
 
@@ -31,12 +32,13 @@ def elven_chain_rec(current_length: int, length: int, numbers: set[int], seen: s
                 continue
         seen.add(num)
         current_list.append(num)
-        if elven_chain_rec(current_length + 1, length, numbers, seen.copy(), current_list):
+        if elven_chain_rec(current_length + 1, length,
+                           numbers, seen.copy(), current_list):
             return True
         seen.remove(num)
         current_list.pop()
     return False
-        
+
 
 def elven_chain(numbers: set[int], length: int) -> bool:
     if length == 0:

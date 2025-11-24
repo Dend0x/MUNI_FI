@@ -23,7 +23,9 @@ from ib111 import week_10  # noqa
 NumSet = list[int]
 Partitions = list[list[list[int]]]
 
-def partitions_rec(nums: NumSet, index: int, result: Partitions, current: list[list[int]]):
+
+def partitions_rec(nums: NumSet, index: int,
+                   result: Partitions, current: list[list[int]]) -> None:
     if index == len(nums):
         copy: list[list[int]] = []
         for i in current:
@@ -38,7 +40,6 @@ def partitions_rec(nums: NumSet, index: int, result: Partitions, current: list[l
     current.append([nums[index]])
     partitions_rec(nums, index + 1, result, current)
     current.pop()
-
 
 
 def partitions(nums: NumSet) -> Partitions:

@@ -23,41 +23,41 @@ def first_last_hex(numbers: set[int]) -> list[tuple[int, int]]:
     return result
 
 
-def hex_circle_rec(seen_indices: set[int], nums: list[int], f_and_l: list[tuple[int, int]], current: list[tuple[int, int]]) -> int:
+def hex_circle_rec(seen_indices: set[int], nums: list[int],
+                   f_and_l: list[tuple[int, int]],
+                   current: list[tuple[int, int]]) -> int:
     if len(seen_indices) == len(nums):
+        if current == []:
+            return 0
         if current != []:
-            f, _ = current[0]
-            _, l = current[-1]
-            if f == l:
+            first, _ = current[0]
+            _, last = current[-1]
+            if first == last:
                 return len(current)
             return 0
-        else:    
-            return 0
-    max = 0
+    maxi = 0
     for i in range(len(nums)):
         if i in seen_indices:
             continue
         if current != []:
-            _, l = current[-1]
-            f, _ = f_and_l[i]
-            if f != l:
+            _, last = current[-1]
+            first, _ = f_and_l[i]
+            if first != last:
                 continue
         seen_indices.add(i)
         current.append(f_and_l[i])
 
-        _, l = current[0]
-        f, _ = f_and_l[-1]
-        if f == l:
-            if len(current) > max:
-                max = len(current)
+        _, last = current[0]
+        first, _ = f_and_l[-1]
+        if first == last:
+            maxi = max(maxi, len(current))
 
         length = hex_circle_rec(seen_indices, nums, f_and_l, current)
-        if length > max:
-            max = length
+        maxi = max(maxi, length)
         current.pop()
         seen_indices.remove(i)
 
-    return max
+    return maxi
 
 
 def hex_circle(numbers: set[int]) -> int:
@@ -66,9 +66,8 @@ def hex_circle(numbers: set[int]) -> int:
     nums: list[int] = list(numbers)
     result: list[tuple[int, int]] = first_last_hex(numbers)
 
-    max = hex_circle_rec(set(), nums, result, [])
-    return max
-
+    maxi = hex_circle_rec(set(), nums, result, [])
+    return maxi
 
 
 def main() -> None:

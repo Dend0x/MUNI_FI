@@ -6,18 +6,21 @@ from ib111 import week_10  # noqa
 # jejich počet cifer není větší než ‹max_length› (rozmyslete si, že
 # bez tohoto omezení by byla hledaná množina nekonečná).
 
-def digits_rec(current_sum: int, digit_sum: int, num: int, length: int, max_length: int, result: set[int]) -> None:
+def digits_rec(current_sum: int, digit_sum: int, num: int, length: int,
+               max_length: int, result: set[int]) -> None:
     if length > max_length:
         return
 
-    if current_sum == digit_sum and length <= max_length:
+    if current_sum == digit_sum and 1 <= length <= max_length:
         result.add(num)
 
     if current_sum > digit_sum:
         return
 
     for i in range(10):
-        digits_rec(current_sum + i, digit_sum, num * 10 + i, length + 1, max_length, result)
+        digits_rec(current_sum + i, digit_sum, num * 10 + i,
+                   length + 1, max_length, result)
+
 
 def digits(digit_sum: int, max_length: int) -> set[int]:
     result: set[int] = set()

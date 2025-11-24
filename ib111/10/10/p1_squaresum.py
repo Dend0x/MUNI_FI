@@ -7,14 +7,12 @@ from math import isqrt
 # ⟦aᵢ⟧ jsou po dvou různá kladná čísla. Jinými slovy, lze ‹num›
 # zapsat jako součet ‹count› druhých mocnin různých kladných čísel?
 
-def is_sum_of_squares_rec(low: int, sum_num: int, num: int, count: int) -> bool:
+def is_sum_of_squares_rec(low: int, sum_num: int,
+                          num: int, count: int) -> bool:
     if num == sum_num:
         return count == 0
 
-    if count == 0:
-        return False
-
-    if sum_num > num:
+    if count == 0 or sum_num > num:
         return False
 
     for i in range(low, isqrt(num - sum_num) + 1):
@@ -22,6 +20,7 @@ def is_sum_of_squares_rec(low: int, sum_num: int, num: int, count: int) -> bool:
             return True
 
     return False
+
 
 def is_sum_of_squares(num: int, count: int) -> bool:
     return is_sum_of_squares_rec(1, 0, num, count)

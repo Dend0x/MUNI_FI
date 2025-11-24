@@ -87,7 +87,7 @@ class Minesweeper:
     def to_destroy(self, x: int, y: int) -> None:
         if self.status[y][x] == EXPLODED:
             return
-        bomb_power: int = self.mines.get((x,y),0)
+        bomb_power: int = self.mines.get((x, y), 0)
         self.status[y][x] = EXPLODED
 
         for i in range(-bomb_power, bomb_power + 1):
@@ -113,8 +113,8 @@ class Minesweeper:
             return
         sum_bomb = 0
 
-        for i in [-1,0,1]:
-            for j in [-1,0,1]:
+        for i in [-1, 0, 1]:
+            for j in [-1, 0, 1]:
                 if (
                     x + i >= self.width or
                     x + i < 0 or
@@ -129,8 +129,8 @@ class Minesweeper:
         self.score += 1
 
         if sum_bomb == 0:
-            for i in [-1,0,1]:
-                for j in [-1,0,1]:
+            for i in [-1, 0, 1]:
+                for j in [-1, 0, 1]:
                     if (
                         x + i >= self.width or
                         x + i < 0 or
@@ -142,17 +142,15 @@ class Minesweeper:
                         continue
                     self.to_uncover(x + i, y + j)
 
-
     def uncover(self, x: int, y: int) -> None:
         if self.status[y][x] == DESTROYED or self.status[y][x] == EXPLODED:
             return
 
-        if (x,y) in self.mines:
+        if (x, y) in self.mines:
             self.to_destroy(x, y)
             return
 
         self.to_uncover(x, y)
-        
 
 
 def main() -> None:

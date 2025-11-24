@@ -12,18 +12,19 @@ from ib111 import week_10  # noqa
 # pouze jednou a také je vytvoří rovnou ve správném pořadí.
 
 
-def permutations_rec(word: list[int], count: int, seen: set[int], current: list[int], result: list[list[int]]) -> None:
+def permutations_rec(word: list[int], count: int, seen: set[int],
+                     current: list[int], result: list[list[int]]) -> None:
     if count == len(word):
         result.append(current.copy())
         return
 
     last: int | None = None
 
-    for j in range(len(word)):
+    for j, part in enumerate(word):
         if j in seen:
             continue
 
-        value = word[j]
+        value = part
 
         if value == last:
             continue
@@ -36,7 +37,6 @@ def permutations_rec(word: list[int], count: int, seen: set[int], current: list[
         current.pop()
         seen.remove(j)
         last = value
-
 
 
 def permutations(word: list[int]) -> list[list[int]]:
