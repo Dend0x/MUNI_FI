@@ -1,0 +1,9 @@
+SELECT název FROM předmět WHERE kredity >= 3;
+SELECT název FROM předmět, zápis WHERE předmět.kód = zápis.kód AND zápis.ukončení = 'z';
+SELECT * FROM předmět WHERE kód LIKE 'PV%';
+SELECT * FROM předmět WHERE LOWER(název) LIKE '%angličtina%';
+SELECT jméno, příjmení FROM student ORDER BY příjmení, jméno;
+SELECT kód FROM skupina;
+SELECT DISTINCT kód FROM skupina;
+SELECT DISTINCT kód FROM předmět WHERE název = 'UNIX';
+SELECT * FROM předmět, skupina;
