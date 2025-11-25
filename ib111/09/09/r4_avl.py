@@ -36,8 +36,6 @@ def is_avl_rec(tree: Tree | None) -> tuple[int, bool]:
 
 
 def is_avl(tree: Tree | None) -> bool:
-    if tree is None:
-        return True
     _, good = is_avl_rec(tree)
     return good
 
