@@ -24,9 +24,47 @@ Plan = dict[Position, Tile]
 # Doporučení: Použijte princip backtrackingu. Budete muset nějak zařídit, aby
 # robot neběhal v kruzích (pak by vaše funkce nemusela skončit).
 
+
+def navigate_rec(plan: Plan, current: Position, goal: Position,
+                 from_direction: Heading, result_path: list[Position],
+                 vectors: dict[Heading, tuple[int, int]],
+                 seen: set[Position]) -> bool:
+    if current == goal:
+        result_path.append(current)
+        return True
+
+    if current in seen:
+        return False
+
+    seen.add(current)
+
+    for tile_heading in plan[current]:
+        if tile_heading == from_direction:
+            continue
+        x_vec, y_vec = vectors[tile_heading]
+        x_cur, y_cur = current
+        result_path.append(current)
+        if navigate_rec(plan, (x_vec + x_cur, y_vec + y_cur), goal,
+                        (tile_heading + 2) % 4, result_path,
+                        vectors, seen):
+            return True
+        result_path.pop()
+
+    seen.remove(current)
+
+    return False
+
+
 def navigate(plan: Plan, start: Position, goal: Position) \
         -> list[Position] | None:
-    pass
+    vectors: dict[Heading, tuple[int, int]] = {NORTH: (0, -1),
+                                               EAST: (1, 0),
+                                               SOUTH: (0, 1),
+                                               WEST: (-1, 0)}
+    result_path: list[Position] = []
+    if navigate_rec(plan, start, goal, 5, result_path, vectors, set()):
+        return result_path
+    return None
 
 
 def main() -> None:

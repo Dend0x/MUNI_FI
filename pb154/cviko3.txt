@@ -1,0 +1,6 @@
+SELECT název, cena_bez_DPH * 1.21 AS cena_s_DPH FROM produkt;
+SELECT * FROM předmět NATURAL INNER JOIN skupina;
+SELECT číslo, kapacita, název FROM předmět INNER JOIN skupina USING (kód);
+SELECT kód, číslo FROM předmět LEFT OUTER JOIN skupina USING (kód);
+SELECT jméno, název FROM student NATURAL LEFT OUTER JOIN (zápis NATURAL INNER JOIN předmět) ORDER BY jméno, název;
+SELECT kód FROM předmět NATURAL LEFT OUTER JOIN zápis WHERE učo IS NULL;

@@ -31,9 +31,79 @@ from ib111 import week_10  # noqa
 # číslicím, které jsou u jednotlivých sčítanců co nejvíce vpravo, a rekurzi
 # včas ukončit, když už je jasné, že výsledku není možno dosáhnout.
 
+
+def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
+              result: dict[str, int], current_index: int,
+              overflow: int, used: set[int],
+              firsts: set[str]) -> bool:
+    current_vars: list[str] = []
+    for word in lhs:
+        if current_index >= len(word):
+            continue
+        current_vars.append(word[len(word) - current_index - 1])
+
+    if len(current_vars) == 0 and current_index >= len(rhs) and overflow == 0:
+        return True
+
+    sum_vars = overflow
+
+    for var in current_vars:
+        if var in result:
+            sum_vars += result[var]
+            continue
+        for i in range(base):
+            if i == 0 and var in firsts:
+                continue
+            if i not in used:
+                used.add(i)
+                sum_vars += i
+                result[var] = i
+                if solve_rec(lhs, rhs, base, result,
+                             current_index, overflow, used, firsts):
+                    return True
+                used.remove(i)
+                result.pop(var)
+                sum_vars -= i
+
+    if current_index >= len(rhs):
+        return False
+
+    result_letter = rhs[len(rhs) - current_index - 1]
+
+    if result_letter in result:
+        if sum_vars % base != result[result_letter]:
+            return False
+        else:
+            return solve_rec(lhs, rhs, base, result,
+                             current_index + 1, sum_vars // base,
+                             used, firsts)
+
+    for j in range(base):
+        if j in used or (j == 0 and result_letter in firsts):
+            continue
+        if sum_vars % base == j:
+            result[result_letter] = j
+            used.add(j)
+            if solve_rec(lhs, rhs, base, result,
+                         current_index + 1, sum_vars // base,
+                         used, firsts):
+                return True
+            used.remove(j)
+            result.pop(result_letter)
+
+    return False
+
+
 def solve(lhs: list[list[str]], rhs: list[str], base: int) \
         -> dict[str, int] | None:
-    pass
+    result: dict[str, int] = {}
+    firsts: set[str] = {rhs[0]}
+
+    for word in lhs:
+        firsts.add(word[0])
+
+    found = solve_rec(lhs, rhs, base, result, 0, 0, set(), firsts)
+    return result if found else None
 
 
 def main() -> None:
