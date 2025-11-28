@@ -240,24 +240,3 @@ oddEvenFold = foldr (\x (y, z) -> (x : z, y)) ([], [])
 
 takeWhileFold :: (a -> Bool) -> [a] -> [a]
 takeWhileFold f = foldr (\x y -> if f x then x : y else []) []
-
-data BinTree1 a = Leaf1 [a] | Node1 (BinTree1 a) (BinTree1 a)
-    deriving Show
-
-double :: BinTree1 a -> BinTree1 a
-double (Leaf1 xs) = (Leaf1 (xs++xs))
-double (Node1 l r) = (Node1 (double l) (double r))
-
-subListMax :: (Ord a) => [[a]] -> [a]
-subListMax xs = head (dropWhile (\x -> (/=) (maxi x) (maxi (map maxi xs))) xs)
-            where maxi = foldr1 (max)
-
-data ITree a = ILeaf | INode a (ITree a) (ITree a)
-kmIT :: a -> (b -> a -> a -> a) -> (ITree b) -> a
-kmIT lf nf (ILeaf) = lf
-kmIT lf nf (INode v x y) = nf v (kmIT lf nf x) (kmIT lf nf y)
-
-sumITree :: Num a => ITree a -> a
-sumITree = kmIT 0 (\x y z -> x + y + z)
-
-mops = [ x | x <- [1,3..], y <- [1..mod x 12]]
