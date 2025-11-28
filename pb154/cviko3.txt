@@ -4,3 +4,5 @@ SELECT číslo, kapacita, název FROM předmět INNER JOIN skupina USING (kód);
 SELECT kód, číslo FROM předmět LEFT OUTER JOIN skupina USING (kód);
 SELECT jméno, název FROM student NATURAL LEFT OUTER JOIN (zápis NATURAL INNER JOIN předmět) ORDER BY jméno, název;
 SELECT kód FROM předmět NATURAL LEFT OUTER JOIN zápis WHERE učo IS NULL;
+SELECT jméno, příjmení FROM zákazník INNER JOIN zapůjčení ON zákazník.ID = zapůjčení.ID_zákazníka WHERE SPZ = 'BZO 1234' ORDER BY datum_od;
+SELECT SPZ, z1.místo_vrácení, z2.místo_zapůjčení FROM zapůjčení AS z1, zapůjčení AS z2 WHERE z1.SPZ = z2.SPZ AND z1.datum_do = current_date AND z2.datum_od = current_date + 1 AND z1.místo_vrácení <> z2.místo_vrácení;
