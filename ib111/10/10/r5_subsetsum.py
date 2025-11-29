@@ -9,8 +9,32 @@ from ib111 import week_10  # noqa
 # a jak byste se tomu mohli vyhnout.
 
 
+def subset_sum_rec(nums: set[int], total: int, current: list[int], current_sum: int, current_length: int, used: set[int]) -> list[int]:
+    if current_length > len(nums) or current_sum > total:
+        return []
+
+    if current_sum == total:
+        return current
+
+    for i in nums:
+        if i in used:
+            continue
+        used.add(i)
+        current.append(i)
+        current_sum += i
+        act_res = subset_sum_rec(nums, total, current, current_sum, current_length + 1, used)
+        if act_res != []:
+            return act_res
+        current_sum -= i
+        current.pop()
+        used.remove(i)
+
+    return []
+
+
 def subset_sum(nums: set[int], total: int) -> set[int] | None:
-    pass
+    result: list[int] = subset_sum_rec(nums, total, [], 0, 0, set())
+    return set(result) if result else None
 
 
 def main() -> None:

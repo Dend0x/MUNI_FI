@@ -157,7 +157,7 @@ length' [] = 0
 length' (x:xs) = 1 + length' xs
 
 map' :: (a -> b) -> [a] -> [b]
-map' f [] = []
+map' _ [] = []
 map' f (x:xs) = f x : map' f xs
 
 sumFold :: Num a => [a] -> a
@@ -173,70 +173,159 @@ lengthFold :: [a] -> Int
 lengthFold = foldr (\x y -> y + 1) 0
 
 maximumFold :: Ord a => [a] -> a
-maximumFold = foldr1 (\x y -> max x y)
+maximumFold (x:xs) = foldl (max) x xs
 
 subtractlist :: Num a => [a] -> a
 subtractlist = foldl1 (-)
 
--- b foldr - (a -> b -> b) -> b -> [a] -> b
--- (.) - (e -> f) -> (d -> e) -> (d -> f)
--- id - c -> c
+-- foldr :: (a -> b -> b) -> b -> [a] -> b
+-- (.) :: (d -> c) -> (e -> d) -> (e -> c)
+-- id :: f -> f
 
--- (a -> b -> b) = (e -> f) -> (d -> e) -> (d -> f)
--- b = c -> c
+-- (d -> c) -> (e -> d) -> (e -> c) = (a -> b -> b)
+-- f -> f = b
 
--- a = (e -> f)
--- b = (d -> e)
--- b = (d -> f)
--- b = (c -> c)
-
--- d = e = c = f
--- a = c -> c
--- b = c -> c
-
--- foldr (.) id = [a] -> b = [c -> c] -> (c -> c)
+-- e = f = d = c
+-- :: [f -> f] -> f -> f
 
 append' :: [a] -> [a] -> [a]
-append' = flip (foldr (:))
+append' = flip (foldr (\x y -> x : y))
 
 reverse' :: [a] -> [a]
-reverse' = foldl (flip (:)) []
+reverse' = foldl (\x y -> y : x) []
 
 concatFold :: [[a]] -> [a]
-concatFold = foldr (++) []
+concatFold = foldr (\x y -> x ++ y) []
 
 listifyFold :: [a] -> [[a]]
 listifyFold = foldr (\x y -> [x] : y) []
 
 nullFold :: [a] -> Bool
-nullFold = foldr (\x y -> False) True
+nullFold = foldr (\x y -> y && False) True
 
 composeFold :: [a -> a] -> a -> a
-composeFold = foldr (.) id
+composeFold = flip (foldr (\x y -> x y))
 
 idFold :: [a] -> [a]
-idFold = foldr (\ x y -> x : y) []
+idFold = foldr (:) []
 
 mapFold :: (a -> b) -> [a] -> [b]
 mapFold f = foldr (\x y -> f x : y) []
 
 headFold :: [a] -> a
-headFold = foldl1 const
+headFold = foldr1 const
 
 lastFold :: [a] -> a
-lastFold = foldr1 (\x y -> y)
+lastFold = foldl1 (\x y -> y)
 
 maxminFold :: Ord a => [a] -> (a, a)
-maxminFold (x:xs)= foldr (\x (y, z) -> (max x y, min x z)) (x,x) xs
+maxminFold (x:xs) = foldr (\x y -> (max x (fst y), min x (snd y))) (x, x) xs
 
 suffixFold :: [a] -> [[a]]
-suffixFold = foldr (\x (y:ys) -> (x : y) : y : ys) [[]]
+suffixFold = foldr (\x y -> (x : head y) : y) [[]]
 
 filterFold :: (a -> Bool) -> [a] -> [a]
 filterFold f = foldr (\x y -> if f x then x : y else y) []
 
 oddEvenFold :: [a] -> ([a], [a])
-oddEvenFold = foldr (\x (y, z) -> (x : z, y)) ([], [])
+oddEvenFold = foldr (\ x y -> (x : snd y, fst y)) ([], [])
 
 takeWhileFold :: (a -> Bool) -> [a] -> [a]
 takeWhileFold f = foldr (\x y -> if f x then x : y else []) []
+
+dropWhileFold :: (a -> Bool) -> [a] -> [a]
+dropWhileFold f = foldl (\x y -> if f y && length x == 0 then [] else x ++ [y]) []
+
+foldl' :: (a -> b -> a) -> a -> [b] -> a
+foldl' f = foldr (\x y -> f y x)
+
+insert :: Ord a => a -> [a] -> [a]
+insert x [] = [x]
+insert x (y:ys) = if x <= y then x : y : ys else y : insert x (ys)
+
+insertSort :: Ord a => [a] -> [a]
+insertSort = foldl (\x y -> insert y x) []
+
+tree01 :: BinTree Int
+tree01 = Node 2 (Node 3 (Node 5 Empty Empty) Empty)
+                (Node 4 (Node 1 Empty Empty) (Node 1 Empty Empty))
+
+tree02 :: BinTree String
+tree02 = Node "C" (Node "A" Empty (Node "B" Empty Empty))
+                  (Node "E" (Node "D" Empty Empty) Empty)
+
+tree03 :: BinTree (Int,Int)
+tree03 = Node (3,3) (Node (2,1) Empty Empty) (Node (1,1) Empty Empty)
+
+tree04 :: BinTree a
+tree04 = Empty
+
+tree05 :: BinTree Bool
+tree05 = Node False (Node False Empty (Node True Empty Empty))
+                    (Node False Empty Empty)
+
+tree06 :: BinTree (Int, Int -> Bool)
+tree06 = Node (0,even)
+              (Node (1,odd) (Node (2,(== 1)) Empty Empty) Empty)
+              (Node (3,(< 5)) Empty
+                              (Node (4,((== 0) . mod 12)) Empty Empty))
+
+treeFold :: (a -> b -> b -> b) -> b -> BinTree a -> b
+treeFold _ e Empty = e
+treeFold f e (Node v l r) = f v (treeFold f e l) (treeFold f e r)
+
+treeSize :: BinTree a -> Int
+treeSize = treeFold (\x y z -> 1 + y + z) 0
+
+treeHeight :: BinTree a -> Int
+treeHeight = treeFold (\x y z -> 1 + max y z) 0
+
+treeList :: BinTree a -> [a]
+treeList = treeFold (\x y z -> y ++ [x] ++ z) []
+
+treeConcat :: BinTree [a] -> [a]
+treeConcat = treeFold (\x y z -> y ++ x ++ z) []
+
+treeMax :: (Ord a, Bounded a) => BinTree a -> a
+treeMax (Node v l r) = treeFold (\x y z -> if x > y && x > z then x else max y z) v (Node v l r)
+
+treeFlip :: BinTree a -> BinTree a
+treeFlip = treeFold (\x y z -> (Node x z y)) Empty
+
+treeId :: BinTree a -> BinTree a
+treeId = treeFold (\x y z -> (Node x y z)) Empty
+
+rightMostBranch :: BinTree a -> [a]
+rightMostBranch = treeFold (\x y z -> x : z) []
+
+treeRoot :: BinTree a -> a
+treeRoot = treeFold (\x y z -> x) undefined
+
+treeNull :: BinTree a -> Bool
+treeNull = treeFold (\x y z -> False) True
+
+leavesCount :: BinTree a -> Int
+leavesCount = treeFold (\x y z -> if y == 0 && z == 0 then 1 else y + z) 0
+
+leavesList :: BinTree a -> [a]
+leavesList = treeFold (\x y z -> if length y == 0 && length z == 0 then [x] else y ++ z) []
+
+treeMap :: (a -> b) -> BinTree a -> BinTree b
+treeMap f = treeFold (\x y z -> (Node (f x) y z)) Empty
+
+treeAny :: (a -> Bool) -> BinTree a -> Bool
+treeAny f = treeFold (\x y z -> if f x then True else y || z) False
+
+treePair :: Eq a => BinTree (a,a) -> Bool
+treePair = treeFold (\x y z -> if fst x /= snd x then False else y && z) True
+
+subtreeSums :: Num a => BinTree a -> BinTree a
+subtreeSums = treeFold (\x y z -> (Node (x + root y + root z) y z)) Empty
+    where root (Node x _ _) = x
+          root Empty = 0
+
+data RoseTree a = RoseNode a [RoseTree a]
+        deriving Show
+
+roseTreeFold :: (a -> [b] -> b) -> RoseTree a -> b
+roseTreeFold f (RoseNode x xs) = f x (map (roseTreeFold f) xs)

@@ -25,7 +25,20 @@ Formula = list[Clause]
 
 
 def satisfiable(phi: Formula) -> bool:
-    pass
+    for clause in phi:
+        vars_found: dict[str, bool]= {}
+        clean = True
+        for val, is_ok in clause:
+
+            if val not in vars_found:
+                vars_found[val] = is_ok
+            else:
+                if vars_found[val] != is_ok:
+                    clean = False
+                    break
+        if clean:
+            return True
+    return False
 
 
 def main() -> None:

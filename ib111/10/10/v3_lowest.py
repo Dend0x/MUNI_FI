@@ -14,8 +14,37 @@ from ib111 import week_10  # noqa
 # Nejnižší poslední číslo je 45; volání
 # ‹lowest_increasing_sequence_end("23245")› tedy vrátí ‹45›.
 
+
+def lowest_rec(digits: list[int], prev: int | None, pos: int) -> int | None:
+    if pos == len(digits):
+        return prev
+
+    value = 0
+    mini: int | None = None
+    for i in range(pos, len(digits)):
+        if i > pos and digits[pos] == 0:
+            break
+
+        value = value * 10 + digits[i]
+
+        if prev is not None and value <= prev:
+            continue
+        
+        if i + 1 >= len(digits):
+            cur = value
+        else:
+            cur = lowest_rec(digits, value, i + 1)
+        if cur is not None:
+            if mini is None or cur < mini:
+                mini = cur
+
+    return mini
+
+
+
 def lowest_increasing_sequence_end(digits: list[int]) -> int:
-    pass
+    print(lowest_rec(digits, None, 0))
+    return lowest_rec(digits, None, 0)
 
 
 def main() -> None:
