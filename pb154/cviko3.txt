@@ -6,3 +6,29 @@ SELECT jméno, název FROM student NATURAL LEFT OUTER JOIN (zápis NATURAL INNER
 SELECT kód FROM předmět NATURAL LEFT OUTER JOIN zápis WHERE učo IS NULL;
 SELECT jméno, příjmení FROM zákazník INNER JOIN zapůjčení ON zákazník.ID = zapůjčení.ID_zákazníka WHERE SPZ = 'BZO 1234' ORDER BY datum_od;
 SELECT SPZ, z1.místo_vrácení, z2.místo_zapůjčení FROM zapůjčení AS z1, zapůjčení AS z2 WHERE z1.SPZ = z2.SPZ AND z1.datum_do = current_date AND z2.datum_od = current_date + 1 AND z1.místo_vrácení <> z2.místo_vrácení;
+// Tady nějaký chybí, ale dělal jsem je doma
+SELECT kód, COUNT(číslo) FROM skupina GROUP BY kód HAVING SUM(kapacita) > 100;
+SELECT kód FROM předmět LEFT OUTER JOIN skupina USING (kód) GROUP BY kód HAVING COUNT(číslo) < 3;
+SELECT značka, COUNT(značka), MIN(rok_výroby), MAX(rok_výroby) FROM auto GROUP BY značka;
+SELECT SPZ FROM auto NATURAL INNER JOIN zapůjčení WHERE značka = 'AUDI' GROUP BY SPZ HAVING COUNT(*) >= 2;
+SELECT číslo FROM skupina WHERE kód = 'PB154' AND popis IS NULL;
+SELECT kredity, COUNT(kód) FROM předmět GROUP BY kredity;
+SELECT ukončení, COUNT(*) FROM zápis WHERE kód = 'PB154' GROUP BY ukončení;
+SELECT kód FROM předmět WHERE kód NOT IN (SELECT kód FROM zápis);
+SELECT * FROM předmět WHERE kód IN ('MA102', 'PB154', 'PV004');
+SELECT název FROM předmět WHERE kredity IN (SELECT MAX(kredity) FROM předmět);
+SELECT jméno FROM student WHERE učo IN (SELECT učo FROM zápis GROUP BY učo HAVING COUNT(*) >= 2);
+SELECT kód FROM předmět EXCEPT SELECT kód FROM zápis;
+SELECT učo FROM zápis WHERE kód = 'PB154' INTERSECT SELECT učo FROM zápis WHERE kód = 'MA102';
+INSERT INTO předmět VALUES ('IB009', 'Paralelní výpočty', 5);
+UPDATE předmět SET kredity = kredity + 1 WHERE kód LIKE 'PB%';
+DELETE FROM předmět WHERE kód NOT IN (SELECT kód FROM zápis) AND kód NOT IN (SELECT kód FROM skupina);
+SELECT SPZ FROM auto NATURAL LEFT OUTER JOIN zapůjčení WHERE ID_půjčky IS NULL;
+SELECT SPZ FROM auto WHERE SPZ NOT IN (SELECT SPZ FROM zapůjčení);
+SELECT SPZ FROM auto NATURAL LEFT OUTER JOIN zapůjčení GROUP BY SPZ HAVING COUNT(ID_půjčky) = 0;
+SELECT SPZ FROM auto EXCEPT SELECT SPZ FROM zapůjčení;
+DELETE FROM auto WHERE rok_výroby < 2022 OR SPZ IN (SELECT SPZ FROM zapůjčení GROUP BY SPZ HAVING COUNT(ID_půjčky) > 20);
+SELECT (current_date - zapůjčení.datum_do) * kategorie.cena_za_den FROM auto, zapůjčení, kategorie WHERE auto.ID_kategorie = kategorie.ID AND auto.SPZ = zapůjčení.SPZ AND zapůjčení.ID_půjčky = 52;
+SELECT MAX(počet) FROM (SELECT značka, COUNT(ID_půjčky) AS kolik FROM auto NATURAL INNER JOIN zapůjčení WHERE datum_do - datum_od > 30 GROUP BY značka) AS X
+SELECT EXTRACT(month FROM datum_od) AS měsíc, COUNT(ID_půjčky) FROM zapůjení GROUP BY EXTRACT(month FROM datum_od) ORDER BY měsíc;
+SELECT SPZ, rok_výroby, SUM((datum_do - datum_od + 1) * cena_za_den) AS celková_částka FROM auto INNER JOIN kategorie ON auto.ID_kategorie = kategorie.ID NATURAL INNER JOIN zapůjčení GROUP BY SPZ ORDER BY celková částka LIMIT 1;

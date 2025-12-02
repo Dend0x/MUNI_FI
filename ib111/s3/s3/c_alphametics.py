@@ -55,10 +55,7 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
         for letter in rhs:
             all_letters.add(letter)
 
-        if all_letters <= set(result.keys()):
-            return True
-        else:
-            return False
+        return all_letters <= set(result.keys())
 
     sum_vars = overflow
 
@@ -144,8 +141,6 @@ def main() -> None:
             x = base // 3
             y = 2 * x + 1
             assert result == {'X': x, 'Y': y}
-
-    print(solve([['A', 'B'], ['B', 'C']], ['D', 'E'], 5))
 
 
 if __name__ == '__main__':
