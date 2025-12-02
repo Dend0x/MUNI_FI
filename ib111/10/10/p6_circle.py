@@ -29,12 +29,11 @@ def hex_circle_rec(seen_indices: set[int], nums: list[int],
     if len(seen_indices) == len(nums):
         if current == []:
             return 0
-        if current != []:
-            first, _ = current[0]
-            _, last = current[-1]
-            if first == last:
-                return len(current)
-            return 0
+        first, _ = current[0]
+        _, last = current[-1]
+        if first == last:
+            return len(current)
+        return 0
     maxi = 0
     for i in range(len(nums)):
         if i in seen_indices:
@@ -47,8 +46,8 @@ def hex_circle_rec(seen_indices: set[int], nums: list[int],
         seen_indices.add(i)
         current.append(f_and_l[i])
 
-        _, last = current[0]
-        first, _ = f_and_l[-1]
+        first, _ = current[0]
+        _, last = current[-1]
         if first == last:
             maxi = max(maxi, len(current))
 
