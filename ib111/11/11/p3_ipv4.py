@@ -12,14 +12,17 @@ from ib111 import week_11  # noqa
 # (včetně) oddělenými tečkou (pro jednoduchost v této úloze
 # připouštíme pouze kanonický tvar IPv4 adres).
 
-def convert(to_convert: str) -> int:
+def convert(to_convert: str) -> tuple[int, bool]:
+    digits: dict[str, int] = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
     num = 0
 
-    for i in range(len(to_convert) - 1, -1, -1):
-        digit = ord(to_convert[i]) - ord("0")
+    for i in range(len(to_convert)):
+        if to_convert[i] not in digits:
+            return 0, False
+        digit = digits[to_convert[i]]
         num = num * 10 + digit
 
-    return num
+    return num, True
 
 
 def ipv4_validate(address: str) -> bool:
@@ -30,7 +33,10 @@ def ipv4_validate(address: str) -> bool:
     for part in parts:
         if not part.isdecimal():
             return False
-        if part < "0" or part > "255":
+        number, ok = convert(part)
+        if not ok:
+            return False
+        if number > 255:
             return False
 
     return True
@@ -43,8 +49,15 @@ def ipv4_validate(address: str) -> bool:
 # 3 221 225 984⟧. Můžete počítat s tím, že vstupem bude vždy validní
 # IPv4 adresa ve výše popsaném kanonickém tvaru.
 
-def ipv4_value(address):
-    pass
+def ipv4_value(address: str):
+    parts: list[str] = address.split('.')
+    value = 0
+
+    for index, part in enumerate(parts):
+        part_value, _ = convert(part)
+        value += part_value * 256 ** (3 - index)
+
+    return value
 
 
 def main() -> None:

@@ -17,28 +17,20 @@ class Tree:
 # uzlu začíná. Ve vstupním řetězci bude vždy alespoň jeden pár
 # závorek.
 
+def build_tree_rec(brackets: str, index: int) -> tuple[Tree, int]:
+    tree: Tree = Tree()
+    index += 1
 
-def build_tree_rec(brackets: list[str]) -> Tree:
-    val = brackets.pop()
-    if val == '(':
-        tree: Tree = Tree()
-        while val == '(':
-            subtree = build_tree_rec(brackets)
-            tree.children.append(subtree)
-            val = brackets.pop()
-    return tree
-
-
-def reverse(lis: list[str]) -> None:
-    for i in range(len(lis) // 2):
-        lis[i], lis[len(lis) - i - 1] = lis[len(lis) - i - 1], lis[i]
+    while index < len(brackets) and brackets[index] == '(':
+        subtree, index = build_tree_rec(brackets, index)
+        tree.children.append(subtree)
+    index += 1
+    return tree, index
 
 
 def build_tree(brackets: str) -> Tree:
-    help: Tree = Tree()
-    brackets: list[str] = reverse(brackets)
-    tree, _ = build_tree_rec(help, brackets)
-    return tree.children[0]
+    tree, _ = build_tree_rec(brackets, 0)
+    return tree
 
 
 def main() -> None:
@@ -46,7 +38,6 @@ def main() -> None:
     assert len(t2.children) == 0
 
     t3 = build_tree("(()(()())(()))")
-    print(len(t3.children))
     assert len(t3.children) == 3
     assert len(t3.children[0].children) == 0
     assert len(t3.children[1].children) == 2

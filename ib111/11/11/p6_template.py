@@ -9,28 +9,29 @@ from ib111 import week_11  # noqa
 # místě se ve výsledném řetězci může nacházet libovolný z těchto
 # znaků. Například vzor ‹a[bc]d› reprezentuje řetězce ‹abd› a ‹acd›.
 
-def resolve_template(template: str) -> set[str]:
-    result: list[list[str]] = []
-    i = 0
 
-    while i < len(template):
-        if template[i] != '[':
-            for word in result:
-                word.append(template[i])
-            i += 1
-            continue
-        i += 1
-        possible_chars: list[str] = []
-        while template[i] != ']':
-            possible_chars.append(template[i])
-            i += 1
-        length = len(result)
-        for j in range(len(possible_chars) - 1):
-            for k in range(length):
-                result.append(result[k])
-        
-            
-        
+def resolve_template_rec(template: str, index: int, result: set[str], current: str) -> None:
+    if index >= len(template):
+      if current != "":
+        result.add(current)
+      return
+
+    if template[index] == '[':
+        end = index + 1
+        while template[end] != ']':
+            end += 1
+        help_i = index + 1
+        while help_i < end:
+            resolve_template_rec(template, end + 1, result, current + template[help_i])
+            help_i += 1
+        return
+    resolve_template_rec(template, index + 1, result, current + template[index])
+
+
+def resolve_template(template: str) -> set[str]:
+    result: set[str] = set()
+    resolve_template_rec(template, 0, result, "")
+    return result
 
 
 def main() -> None:

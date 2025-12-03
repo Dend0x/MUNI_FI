@@ -54,35 +54,26 @@ class Itemize:
 # řádek.
 
 
-def parse_lists_help(lines: list[str]) -> list[Itemize]:
-    result: list[Itemize] = []
-    current = -1
-    old = 0
-    for row in lines:
-        if row.lstrip() == row:
-            itemize: Itemize = Itemize(row)
-            result.append(itemize)
-            current += 1
-        else:
-            if len(row) - len(row.lstrip()) == 0:
-                item: Item = Item(row.lstrip().replace('- ', ''))
-                result[current].items.append(item)
-            else:
-                diff = abs(len(row) - len(row.lstrip()))
-                act = result[current].items
-                for i in range(diff - 1):
-                    act = act[0].sublists
-                item: Item = Item(row.lstrip().replace('- ', ''))
-                act.append(item)
+def parse_lists_help(rows: list[str]):
+    r = 0
 
-    return result
+    while r < len(rows):
+        if rows[r] == '\n':
+            r += 1
+            continue
+        itemize: Itemize = Itemize(rows[r])
+        print(itemize.name)
+        r += 1
+        stack: list[Item] = []
+
+        while r < len(rows):
+            pass
 
 
 def parse_lists(filename: str) -> list[Itemize]:
     with open(filename, "rt") as file:
-        lines: list[str] = file.readlines()
-        return parse_lists_help(lines)
-
+        rows = file.readlines()
+        parse_lists_help(rows)
 
 
 def main() -> None:
