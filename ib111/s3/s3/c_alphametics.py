@@ -4,9 +4,9 @@ from ib111 import week_10  # noqa
 # «Slovní aritmetika¹» (někdy též cryptarithm nebo algebrogram) je matematický
 # hlavolam zadaný jako rovnice se slovy, např. „SEND + MORE = MONEY“.
 # Cílem je přiřadit každému písmenu unikátní² číslici tak, aby po jejich
-# nahrazení rovnost platila. Přitom zápis žádného z čísel nesmí začínat nulou.
-# V tomto konkrétním případě (a v desítkové soustavě) je jediné možné
-# řešení, a to S → 9, E → 5, N → 6, D → 7, M → 1, O → 0, R → 8, Y → 2.
+# nahrazení rovnost platila. Přitom zápis žádného z čísel nesmí začínat nulou.
+# V tomto konkrétním případě (a v desítkové soustavě) je jediné možné
+# řešení, a to S → 9, E → 5, N → 6, D → 7, M → 1, O → 0, R → 8, Y → 2.
 # Po tomto nahrazení číslicemi skutečně platí ⟦9567 + 1085 = 10652⟧.
 #
 # ¹ ‹https://en.wikipedia.org/wiki/Verbal_arithmetic›
@@ -14,7 +14,7 @@ from ib111 import week_10  # noqa
 #   číslici.
 #
 # Cílem této úlohy je napsat čistou funkci, která podobné hlavolamy řeší,
-# a to v zadané poziční soustavě (základem bude vždy celé číslo mezi 2 a 26
+# a to v zadané poziční soustavě (základem bude vždy celé číslo mezi 2 a 26
 # včetně). Omezíme se přitom pouze na sčítání, jiné aritmetické operace
 # neuvažujeme. Rovnice na vstupu je zadána dvěma parametry. Levá strana rovnice
 # ‹lhs› je seznam (alespoň dvou) slov, přičemž každé slovo je dáno jako seznam
@@ -23,19 +23,24 @@ from ib111 import week_10  # noqa
 #
 # Funkce vrátí slovník, který každému písmenu hlavolamu přiřazuje unikátní
 # hodnotu číslice. Pokud existuje více řešení, funkce vrátí libovolné
-# z nich. Pokud neexistuje žádné řešení, funkce vrátí ‹None›.
+# z nich. Pokud neexistuje žádné řešení, funkce vrátí ‹None›.
 #
 # Nápověda: Použijte techniku backtrackingu. Vzpomeňte si na svá
 # základoškolská léta – zejména na sčítání pod sebou, které začíná vždy
-# zprava. I zde se k řešení hodí postupně zkoušet přiřazovat hodnoty
-# číslicím, které jsou u jednotlivých sčítanců co nejvíce vpravo, a rekurzi
+# zprava. I zde se k řešení hodí postupně zkoušet přiřazovat hodnoty
+# číslicím, které jsou u jednotlivých sčítanců co nejvíce vpravo, a rekurzi
 # včas ukončit, když už je jasné, že výsledku není možno dosáhnout.
 
 
 def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
               result: dict[str, int], current_index: int,
               overflow: int, used: set[int],
-              firsts: set[str]) -> bool:
+              firsts: set[str], handled: set[int] | None) -> bool:
+    if handled is None:
+        handled = set()
+    else:
+        handled = set(handled)
+
     current_vars: list[str] = []
     for word in lhs:
         if current_index >= len(word):
@@ -43,14 +48,26 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
         current_vars.append(word[len(word) - current_index - 1])
 
     if len(current_vars) == 0 and current_index >= len(rhs) and overflow == 0:
-        return True
+        all_letters = set()
+        for word in lhs:
+            for letter in word:
+                all_letters.add(letter)
+        for letter in rhs:
+            all_letters.add(letter)
+
+        return all_letters <= set(result.keys())
 
     sum_vars = overflow
 
-    for var in current_vars:
+    for idx, var in enumerate(current_vars):
+        if idx in handled:
+            continue
+
         if var in result:
             sum_vars += result[var]
+            handled.add(idx)
             continue
+
         for i in range(base):
             if i == 0 and var in firsts:
                 continue
@@ -58,9 +75,11 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
                 used.add(i)
                 sum_vars += i
                 result[var] = i
+                handled.add(idx)
                 if solve_rec(lhs, rhs, base, result,
-                             current_index, overflow, used, firsts):
+                             current_index, sum_vars, used, firsts, handled):
                     return True
+                handled.remove(idx)
                 used.remove(i)
                 result.pop(var)
                 sum_vars -= i
@@ -76,7 +95,7 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
         else:
             return solve_rec(lhs, rhs, base, result,
                              current_index + 1, sum_vars // base,
-                             used, firsts)
+                             used, firsts, None)
 
     for j in range(base):
         if j in used or (j == 0 and result_letter in firsts):
@@ -86,7 +105,7 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
             used.add(j)
             if solve_rec(lhs, rhs, base, result,
                          current_index + 1, sum_vars // base,
-                         used, firsts):
+                         used, firsts, None):
                 return True
             used.remove(j)
             result.pop(result_letter)
@@ -102,7 +121,7 @@ def solve(lhs: list[list[str]], rhs: list[str], base: int) \
     for word in lhs:
         firsts.add(word[0])
 
-    found = solve_rec(lhs, rhs, base, result, 0, 0, set(), firsts)
+    found = solve_rec(lhs, rhs, base, result, 0, 0, set(), firsts, None)
     return result if found else None
 
 

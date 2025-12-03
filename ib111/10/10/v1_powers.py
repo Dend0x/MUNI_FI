@@ -1,4 +1,5 @@
 from ib111 import week_10  # noqa
+from math import isqrt
 
 
 # Napište čistou funkci ‹sum_different_powers›, která pro zadané kladné celé
@@ -16,8 +17,30 @@ from ib111 import week_10  # noqa
 # Volání ‹{fun}(1002, 4)› vrátí ‹False›, protože 1002 se nedá zapsat jako
 # součet druhé, třetí a čtvrté mocniny různých kladných celých čísel.
 
+
+def sum_different_powers_rec(num: int, k: int, current_sum: int, used: set[int]) -> bool:
+    if current_sum == num and k == 1:
+        return True
+
+    if current_sum > num:
+        return False
+
+    if k < 2:
+        return False
+
+    for i in range(1, isqrt(num - current_sum) + 1):
+        if i in used:
+            continue
+        used.add(i)
+        if sum_different_powers_rec(num, k - 1, current_sum + i ** k, used):
+            return True
+        used.remove(i)
+
+    return False
+
+
 def sum_different_powers(num: int, k: int) -> bool:
-    pass
+    return sum_different_powers_rec(num, k, 0, set())
 
 
 def main() -> None:

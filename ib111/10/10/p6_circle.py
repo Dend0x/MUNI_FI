@@ -46,8 +46,6 @@ def hex_circle_rec(seen_indices: set[int], nums: list[int],
         seen_indices.add(i)
         current.append(f_and_l[i])
 
-        first, _ = current[0]
-        _, last = current[-1]
         if first == last:
             maxi = max(maxi, len(current))
 

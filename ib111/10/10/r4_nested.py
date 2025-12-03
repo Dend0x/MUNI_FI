@@ -11,8 +11,32 @@ NestedList = list['int | NestedList']
 # [8], [0, 5]]› se použitím této procedury změní na ‹[[0, 1, 4], [],
 # [5], [7, 8]]›.
 
+
+def numbers_used(list_of_lists: int | NestedList, numbers: list[int | None]) -> None:
+    if list_of_lists == []:
+        numbers.append(None)
+        return
+    if isinstance(list_of_lists, int):
+        numbers.append(list_of_lists)
+        return
+    for n in list_of_lists:
+        numbers_used(n, numbers)
+
+def sort_nested_rec(list_of_lists: NestedList, numbers: list[int], i: list[int]) -> None:
+    for index, n in enumerate(list_of_lists):
+        if isinstance(n, int):
+            num = numbers[i[0]]
+            if num is not None:
+                list_of_lists[index] = num
+            i[0] += 1
+        else:
+            sort_nested_rec(n, numbers, i)
+
 def sort_nested(list_of_lists: NestedList) -> None:
-    pass
+    numbers: list[int | None] = []
+    numbers_used(list_of_lists, numbers)
+    ints_sorted: list[int] = sorted([x for x in numbers if isinstance(x, int)])
+    sort_nested_rec(list_of_lists, ints_sorted, [0])
 
 
 def main() -> None:

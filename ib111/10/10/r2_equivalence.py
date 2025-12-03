@@ -24,11 +24,41 @@ Pair = tuple[int, int]
 
 
 def partition2pairs(partition: list[set[int]]) -> set[Pair]:
-    pass
+    result: set[Pair] = set()
+    for subset in partition:
+        for element in subset:
+            for element2 in subset:
+                result.add((element, element2))
+
+    return result
+
+
+
 
 
 def pairs2partition(pairs: set[Pair]) -> list[set[int]]:
-    pass
+    result: list[set[int]] = []
+    used: set[int] = set()
+
+    for pair in pairs:
+        f, _ = pair
+        if f in used:
+            continue
+        subset = set()
+        for pair2 in pairs:
+            f2, l2 = pair2
+            if f == f2:
+                subset.add(l2)
+            if l2 == f:
+                subset.add(f2)
+        if subset == set():
+            continue
+
+        for member in subset:
+            used.add(member)
+
+        result.append(subset)
+    return result
 
 
 def main() -> None:
