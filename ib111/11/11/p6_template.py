@@ -12,9 +12,8 @@ from ib111 import week_11  # noqa
 
 def resolve_template_rec(template: str, index: int, result: set[str], current: str) -> None:
     if index >= len(template):
-      if current != "":
         result.add(current)
-      return
+        return
 
     if template[index] == '[':
         end = index + 1

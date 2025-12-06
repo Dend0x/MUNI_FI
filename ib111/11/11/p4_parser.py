@@ -66,8 +66,11 @@ def parse_lists_help(rows: list[str]):
         r += 1
         stack: list[Item] = []
 
-        while r < len(rows):
-            pass
+        while r < len(rows) and rows[r] != '\n':
+            last_used = []
+            spaces = rows[r].index('-')
+            
+
 
 
 def parse_lists(filename: str) -> list[Itemize]:

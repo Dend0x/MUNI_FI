@@ -35,17 +35,17 @@ from ib111 import week_10  # noqa
 def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
               result: dict[str, int], current_index: int,
               overflow: int, used: set[int],
-              firsts: set[str], handled: set[int] | None) -> bool:
+              firsts: set[str], handled: set[str] | None) -> bool:
     if handled is None:
         handled = set()
     else:
         handled = set(handled)
-
-    current_vars: list[str] = []
+    current_vars: dict[str, int] = {}
     for word in lhs:
         if current_index >= len(word):
             continue
-        current_vars.append(word[len(word) - current_index - 1])
+        var = word[len(word) - current_index - 1]
+        current_vars[var] = current_vars.get(var, 0) + 1
 
     if len(current_vars) == 0 and current_index >= len(rhs) and overflow == 0:
         all_letters = set()
@@ -59,13 +59,12 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
 
     sum_vars = overflow
 
-    for idx, var in enumerate(current_vars):
-        if idx in handled:
+    for var, count in list(current_vars.items()):
+        if var in handled:
             continue
-
         if var in result:
-            sum_vars += result[var]
-            handled.add(idx)
+            sum_vars += result[var] * count
+            handled.add(var)
             continue
 
         for i in range(base):
@@ -73,16 +72,17 @@ def solve_rec(lhs: list[list[str]], rhs: list[str], base: int,
                 continue
             if i not in used:
                 used.add(i)
-                sum_vars += i
+                sum_vars += i * count
                 result[var] = i
-                handled.add(idx)
+                handled.add(var)
                 if solve_rec(lhs, rhs, base, result,
                              current_index, sum_vars, used, firsts, handled):
                     return True
-                handled.remove(idx)
+                handled.remove(var)
                 used.remove(i)
                 result.pop(var)
-                sum_vars -= i
+                sum_vars -= i * count
+        return False
 
     if current_index >= len(rhs):
         return False

@@ -8,8 +8,14 @@ from ib111 import week_11  # noqa
 # můžeme nahradit za kterékoli písmeno z příslušné hodnoty. (Pro zjednodušení
 # možnost zacyklení procesu vytváření slov nemusíte vůbec řešit.)
 
+#Mypy and internet had to help with [str, ...]
 
-def is_creatable_rec(wanted: list[str], initial: list[str], rules: dict[str, list[str]]) -> bool:
+def is_creatable_rec(wanted: list[str], initial: list[str], rules: dict[str, list[str]], seen: set[tuple[str, ...]]) -> bool:
+    current = tuple(initial)
+    if current in seen:
+        return False
+    seen.add(current)
+
     if initial == wanted:
         return True
 
@@ -17,7 +23,7 @@ def is_creatable_rec(wanted: list[str], initial: list[str], rules: dict[str, lis
         if ch in rules:
             for rule in rules[ch]:
                 initial[index] = rule
-                if is_creatable_rec(wanted, initial, rules):
+                if is_creatable_rec(wanted, initial, rules, seen):
                     return True
                 initial[index] = ch
 
@@ -35,7 +41,7 @@ def is_creatable(wanted: str, initial: str,
     for ch in initial:
         initial_word.append(ch)
 
-    return is_creatable_rec(wanted_word, initial_word, rules)
+    return is_creatable_rec(wanted_word, initial_word, rules, set())
 
 
 def main() -> None:
@@ -63,7 +69,7 @@ def main() -> None:
                          "c": ["d"],
                          "d": ["f"],
                          "e": ["f"]})
-
+print(is_creatable('bcc', 'abb', {'a': ['b', 'c'], 'b': ['c', 'd'], 'c': ['d', 'e'], 'd': ['e', 'f']}))
 
 if __name__ == '__main__':
     main()
