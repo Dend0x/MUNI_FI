@@ -18,8 +18,21 @@ import sys
 #
 #     python r3_trailing.py soubor1.txt soubor2.py
 
+
+def trailing_file(filename: str) -> None:
+    with open(filename, "r") as file:
+        lines = file.readlines()
+        for i in range(len(lines)):
+            lines[i] = lines[i].rstrip()
+
+    with open(filename, "w") as file:
+        for line in lines:
+            file.write(line + "\n")
+
+
 def trailing() -> None:
-    pass
+    for i in range(1, len(sys.argv)):
+        trailing_file(sys.argv[i])
 
 
 def main() -> None:

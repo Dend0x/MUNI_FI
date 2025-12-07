@@ -174,7 +174,7 @@ def gen_lines_with_prefix(clue: Clue, size: int,
     in_clue = False
     clue = clue.copy()
 
-    parts = []
+    parts: list[tuple[int, bool]] = []
     index = 0
 
     while index < len(prefix):
@@ -182,18 +182,23 @@ def gen_lines_with_prefix(clue: Clue, size: int,
             new = old = index
             while new < len(prefix) and prefix[new] == FULL:
                 new += 1
-            parts.append(new - old)
+            is_full = new < len(prefix) and prefix[new] == EMPTY
+            parts.append((new - old, is_full))
             index = new
         else:
             index += 1
 
     if prefix and prefix[-1] == EMPTY:
         for i, part in enumerate(parts):
-            if i >= len(clue) or part != clue[i]:
+            length, _ = part
+            if i >= len(clue) or length != clue[i]:
                 return []
 
-    for i in range(len(parts)):
-        if i >= len(clue) or parts[i] > clue[i]:
+    for i, part in enumerate(parts):
+        length, is_full = part
+        if i >= len(clue) or length > clue[i]:
+            return []
+        if is_full and length != clue[i]:
             return []
 
     if sum(clue) + len(clue) - 1 > size:

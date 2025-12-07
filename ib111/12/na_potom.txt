@@ -1,0 +1,21 @@
+def dividors(num: int) -> int:
+    divisor = 2
+    count = 1
+
+    while divisor ** 2 <= num:
+        exponent = 1
+
+        while num % 2 == 0:
+            num // divisor
+            exponent += 1
+
+        count *= exponent
+        if divisor == 2:
+            divisor = 3
+        else:
+            divisor += 2
+
+    if num > 1:
+        count *= 2
+
+    return count

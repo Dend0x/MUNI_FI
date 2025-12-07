@@ -31,8 +31,11 @@ def leaf(value: str) -> Tree:
 # formou řetězce. Plným uzávorkováním myslíme, že každému
 # aritmetickému operátoru přísluší jedna dvojice kulatých závorek.
 
-def tree_to_expr(tree) -> str:
-    pass
+def tree_to_expr(tree: Tree) -> str:
+    if tree.left is None and tree.right is None:
+        return tree.value
+
+    return "(" + tree_to_expr(tree.left) + " " + tree.value + " " + tree_to_expr(tree.right) + ")"
 
 
 def main() -> None:
