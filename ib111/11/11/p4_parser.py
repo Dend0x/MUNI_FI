@@ -54,26 +54,48 @@ class Itemize:
 # řádek.
 
 
-def parse_lists_help(rows: list[str]):
+def parse_lists_help(rows: list[str]) -> list[Itemize]:
     r = 0
+    result: list[Itemize] = []
 
     while r < len(rows):
         if rows[r] == '\n':
             r += 1
             continue
-        itemize: Itemize = Itemize(rows[r])
-        print(itemize.name)
+        itemize: Itemize = Itemize(rows[r].rstrip())
+        result.append(itemize)
         r += 1
         stack: list[Item] = []
 
-        while r < len(rows):
-            pass
+        while r < len(rows) and rows[r] != '\n':
+            parts = rows[r].split('- ')
+            spaces_h, row = parts
+            spaces = len(spaces_h)
+            row = row.rstrip()
+            item: Item = Item(row)
+            if not stack:
+                itemize.items.append(item)
+                stack.append(item)
+                r += 1
+                continue
+            if len(stack) <= spaces - 1:
+                stack[-1].sublists.append(item)
+                stack.append(item)
+                r += 1
+                continue
+            if spaces - 2 >= 0:
+                stack[spaces - 2].sublists.append(item)
+            else:
+                itemize.items.append(item)
+            stack[spaces - 1] = item
+            r += 1
+    return result
 
 
 def parse_lists(filename: str) -> list[Itemize]:
     with open(filename, "rt") as file:
         rows = file.readlines()
-        parse_lists_help(rows)
+        return parse_lists_help(rows)
 
 
 def main() -> None:

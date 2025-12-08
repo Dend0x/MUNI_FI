@@ -13,13 +13,15 @@ from ib111 import week_11  # noqa
 # připouštíme pouze kanonický tvar IPv4 adres).
 
 def convert(to_convert: str) -> tuple[int, bool]:
-    digits: dict[str, int] = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
+    digits: dict[str, int] = {'0': 0, '1': 1, '2': 2,
+                              '3': 3, '4': 4, '5': 5, '6': 6,
+                              '7': 7, '8': 8, '9': 9}
     num = 0
 
-    for i in range(len(to_convert)):
-        if to_convert[i] not in digits:
+    for ch in to_convert:
+        if ch not in digits:
             return 0, False
-        digit = digits[to_convert[i]]
+        digit = digits[ch]
         num = num * 10 + digit
 
     return num, True
@@ -29,7 +31,7 @@ def ipv4_validate(address: str) -> bool:
     parts: list[str] = address.split('.')
     if len(parts) != 4:
         return False
-    
+
     for part in parts:
         if not part.isdecimal():
             return False
@@ -49,7 +51,8 @@ def ipv4_validate(address: str) -> bool:
 # 3 221 225 984⟧. Můžete počítat s tím, že vstupem bude vždy validní
 # IPv4 adresa ve výše popsaném kanonickém tvaru.
 
-def ipv4_value(address: str):
+
+def ipv4_value(address: str) -> int:
     parts: list[str] = address.split('.')
     value = 0
 

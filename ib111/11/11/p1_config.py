@@ -47,7 +47,6 @@ def write_config(filename: str, config: Config) -> None:
                 file.write(key_in + " = \"" + value + "\"\n")
 
 
-
 def main() -> None:
     test_file = "ib111_tmp_config.txt"
     if os.path.exists(test_file):
