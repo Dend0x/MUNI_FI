@@ -1,0 +1,191 @@
+cpu 8086
+segment interrupts
+	RESB 1024
+
+segment code
+	MOV BX, data
+	MOV DS, BX
+	MOV BX, stack
+	MOV SS, BX
+	MOV SP, dno
+	MOV BX, interrupts
+	MOV ES, BX
+	MOV ES:[92], word int17h
+	MOV ES:[94], word code
+	MOV BP, 0
+
+	MOV DX, tiskar
+	MOV AH, 10
+	INT 21h
+	MOV CL, [tiskar + 1]
+	CMP CL, 4
+	JNE vchyb
+	MOV DI, lpt1
+	MOV SI, tiskar + 2
+vybert	CMP CL, 0
+	JG pokrac
+	MOV DX, 0
+	JMP tisk
+pokrac	MOV BL, [DI]
+	CMP BL, [SI]
+	JNE druha
+	INC DI
+	INC SI
+	DEC CL
+	JMP vybert
+
+druha	MOV CL, 4
+	MOV DI, lpt2
+	MOV SI, tiskar + 2
+vybert2	CMP CL, 0
+	JG pokrac2
+	MOV DX, 1
+	JMP tisk
+pokrac2	MOV BL, [DI]
+	CMP BL, [SI]
+	JNE vchyb
+	INC DI
+	INC SI
+	DEC CL
+	JMP vybert2
+
+vchyb	MOV DX, chyba
+	MOV AH, 9
+	INT 21h
+	JMP konec
+
+tisk	MOV AH, 1
+	INT 17h
+	MOV AH, 1
+	INT 21h
+	JZ konec
+	MOV AH, 0
+	INT 17h
+	AND AH, 0x01
+	CMP AH, 1
+	JE chybpre
+	JMP tisk
+chybpre	MOV DX, timeon
+	MOV AH, 9
+	INT 21h
+konec	HLT
+
+int17h	PUSH DI
+	PUSH SI
+	PUSH BP
+	PUSH DX
+	PUSH CX
+	PUSH BX
+	MOV [bajt], AL
+	CMP DX, 0
+	JNE druhepo
+	MOV DI, 378h
+	MOV SI, 379h
+	MOV BP, 37Ah
+	JMP zaport
+druhepo	MOV DI, 278h
+	MOV SI, 279h
+	MOV BP, 27Ah
+zaport	CMP AH, 0
+	JNE init
+	MOV DX, SI
+	IN AL, DX
+	MOV AH, AL
+	AND AH, 16
+	CMP AH, 1
+	JG onlineo
+	JMP pretek
+onlineo	IN AL, DX
+	MOV AH, AL
+	AND AH, 8
+	CMP AH, 0
+	JG errorok
+	JMP konec
+errorok	IN AL, DX
+	MOV AH, AL
+	AND AH, 32
+	CMP AH, 0
+	JLE paperok
+	MOV DX, papirn
+	MOV AH, 9
+	INT 21h
+	JMP konec
+paperok	MOV CX, 500
+	MOV DX, SI
+znova	MOV BX, 100
+opakuji	DEC BX
+	JNZ opakuji
+	
+dalea	MOV DX, SI
+	IN AL, DX
+	AND AL, 0x80
+	CMP AL, 0x80
+	JE timeok
+	DEC CX
+	CMP CX, 0
+	JNZ znova
+pretek	MOV AL, [bajt]
+	MOV AH, 1
+	JMP ret17h
+timeok	MOV DX, DI
+	MOV AL, [bajt]
+	MOV DX, DI
+	OUT DX, AL
+	MOV CX, 200
+opakuje	LOOP opakuje
+	MOV DX, BP
+	IN AL, DX
+	OR AL, 1
+	OUT DX, AL
+	MOV CX, 200
+opakujd	LOOP opakujd
+	IN AL, DX
+	AND AL, 0xfe
+	OUT DX, AL
+	MOV CX, 200
+opakujq	LOOP opakujq
+	JMP stavin
+
+init	CMP AH, 1
+	JNE stav
+	MOV DX, BP
+	IN AL, DX
+	AND AL, 0xfb
+	OUT DX, AL
+	MOV CX, 10000
+opakuj	LOOP opakuj
+	OR AL, 4
+	OUT DX, AL
+	AND AL, 0xfe
+	OUT DX, AL
+	OR AL, 8
+	OUT DX, AL
+	MOV CX, 50
+opakujb	LOOP opakujb
+	JMP stavin
+stav	CMP AH, 2
+	JNE konec
+stavin	MOV DX, SI
+	IN AL, DX
+	MOV AH, AL
+ret17h	POP BX
+	POP CX
+	POP DX
+	POP BP
+	POP SI
+	POP DI
+	IRET
+
+segment data
+tiskar	DB 6, ?
+	RESB 6
+lpt1	DB "lpt1"
+lpt2	DB "lpt2"
+chyba	DB "Chybný vstup", 0Dh, 0Ah, '$'
+papirn	DB "Paperout", 0Dh, 0Ah, '$'
+timeon	DB "Timeout", 0Dh, 0Ah, '$'
+bajt	DB ?
+
+segment stack
+	RESB 256
+dno:	DB ?

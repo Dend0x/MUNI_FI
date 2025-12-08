@@ -68,7 +68,23 @@ Ends = dict[tuple[int, bool], Position]
 # (Proč volíme zrovna takovou reprezentaci, je vysvětleno níže.)
 
 def get_ends(grid: Grid) -> Ends:
-    pass
+    if not grid:
+        return {}
+
+    found: set[int] = set()
+    result: Ends = {}
+
+    for r in range(len(grid)):
+        for c in range(len(grid[0])):
+            if grid[r][c] == 0:
+                continue
+            if grid[r][c] not in found:
+                result[(grid[r][c], True)] = (c, r)
+                found.add((grid[r][c]))
+                continue
+            result[(grid[r][c], False)] = (c, r)
+
+    return result
 
 
 # Dále implementujte čistou funkci ‹solve›, která najde řešení pro zadaný
@@ -84,8 +100,11 @@ def get_ends(grid: Grid) -> Ends:
 # Kromě posouvání konců si zároveň chcete zaznamenat, která políčka už jsou
 # obsazena.
 
+
 def solve(grid: Grid) -> Grid | None:
     pass
+    
+
 
 
 # «Poznámka» k volbě typu ‹Ends› pro reprezentaci „konců provázků“:
