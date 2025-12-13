@@ -27,3 +27,6 @@ data RoseLeafTree a = RLNode [RoseLeafTree a] | RLLeaf a
 countValueLeaves :: RoseLeafTree a -> Integer
 countValueLeaves (RLLeaf _) = 1
 countValueLeaves (RLNode xs) = (sum . map countValueLeaves) xs
+
+rlFilter :: (a -> Bool) -> RoseLeafTree a -> RoseLeafTree a
+rlFilter f (RLNode xs) = rlFilter (RLNode (filter f xs))
