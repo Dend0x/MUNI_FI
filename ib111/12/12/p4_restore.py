@@ -14,15 +14,14 @@ def to_dec(num: str, high: int) -> int:
     result = 0
     chars: dict[str, int] = {'0': 0, '1': 1}
 
-    if not num:
-        return high + 1
-
-    if num[0] == '0':
+    if not num or num[0] == '0':
         return high + 1
 
     for ch in num:
         result *= 2
         result += chars[ch]
+        if result > high:
+            return high + 1
 
     return result
 
@@ -30,6 +29,8 @@ def to_dec(num: str, high: int) -> int:
 def convert(digits: str, low: int, high: int) -> bool:
     parts = digits.split(',')
     for part in parts:
+        if not part:
+            return False
         num = to_dec(part, high)
         if low > num or high < num:
             return False
@@ -37,18 +38,24 @@ def convert(digits: str, low: int, high: int) -> bool:
     return True
 
 
-def restore_sequence_rec(digits: str, index: int, low: int, high: int, result: set[str], current: str) -> None:
+def restore_sequence_rec(digits: str, index: int, low: int,
+                         high: int, result: set[str], current: str) -> None:
     if index >= len(digits):
         if convert(current, low, high):
             result.add(current)
         return
 
-    restore_sequence_rec(digits, index + 1, low, high, result, current + digits[index])
-    restore_sequence_rec(digits, index + 1, low, high, result, current + digits[index] + ',')
+    restore_sequence_rec(digits, index + 1, low, high,
+                         result, current + digits[index])
+    if index + 1 < len(digits) and digits[index + 1] == '1':
+        restore_sequence_rec(digits, index + 1, low, high,
+                             result, current + digits[index] + ',')
 
 
 def restore_sequence(digits: str, low: int, high: int) -> set[str]:
     result: set[str] = set()
+    if low > high:
+        return result
     restore_sequence_rec(digits, 0, low, high, result, "")
     return result
 

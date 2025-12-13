@@ -23,7 +23,24 @@ class ArrayList:
     # konci seznamu.
 
     def append(self, value: int) -> None:
-        pass
+        if self.tail is None:
+            node: Node = Node()
+            if self.capacity > 0:
+                node.data.append(value)
+            self.head = node
+            self.tail = node
+            return
+
+        if len(self.tail.data) >= self.capacity:
+            node: Node = Node()
+            if self.capacity > 0:
+                node.data.append(value)
+            self.tail.next = node
+            self.tail = node
+            return
+
+        self.tail.data.append(value)
+        return
 
     # Napište metodu ‹delete›, která smaže první výskyt hodnoty
     # ‹value› ze seznamu. Pokud by po smazání nastalo, že zůstane
@@ -55,7 +72,34 @@ class ArrayList:
     #           └──────┘ └───┴───┘
 
     def delete(self, value: int) -> None:
-        pass
+        current = self.head
+
+        if current is None:
+            return
+
+        for index, val in enumerate(self.head.data):
+            if val == value:
+                current.data.pop(index)
+        if not current.data:
+            self.head = self.head.next
+            return
+    
+        while current.next is not None:
+            for index, val in enumerate(current.next.data):
+                if val == value:
+                    current.next.data.pop(index)
+                    if not current.next.data:
+                        current.next = current.next.next
+                    return
+            current = current.next
+
+        for index, val in enumerate(current.data):
+            if val == value:
+                current.data.pop(index)
+        if not current.data:
+            self.head = self.head.next
+            return
+
 
     # Konečně napište metodu ‹compact›, která maximalizuje využití
     # kapacity uzlů: přesune prvky v seznamu tak, aby se uzly
@@ -79,7 +123,29 @@ class ArrayList:
     #           └──────┘ └───┴───┘ └──────┘ └───┘
 
     def compact(self) -> None:
-        pass
+        fromval: list[list[int]] = to_list(self)
+        values: list[int] = []
+        for val in fromval:
+            for i in val:
+                values.append(i)
+        current = self.head
+        cur_cap = 0
+
+        if current is None:
+            return
+
+        self.head.data = []
+
+        for val in values:
+            if cur_cap >= self.capacity:
+                current = current.next
+                cur_cap = 0
+                current.data = []
+
+            current.data.append(val)
+            cur_cap += 1
+
+        current.next = None
 
 
 def main() -> None:

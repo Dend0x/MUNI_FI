@@ -26,10 +26,33 @@ from ib111 import week_11  # noqa
 # délky, které zjistíte ze vztahu ⟦ |a|² = a⋅a ⟧).
 
 
+def vector(v1: list[int], v2: list[int]) -> float:
+    product = sum([v1[i] * v2[i] for i in range(len(v1))])
+    len_v1 = sqrt(sum[])
+
+
 def recognize_language(lang_freq: dict[str, dict[str, int]],
                        text_file: str) -> str:
-    pass
+    lang: dict[str, list[str]] = {}
+    for language, freqs in lang_freq.items():
+        lang[language] = [y for _, y in freqs.items()]
 
+    file_freq = [0 for _ in range(26)]
+    indices = enumerate(list("abcdefghijklmnopqrstuvwxyz"))
+    letters = dict([(letter, idx) for idx, letter in indices])
+
+    with open(text_file, "r") as file:
+        text = file.read()
+
+        for char in text:
+            if "a" <= char <= "z" or "A" <= char <= "Z":
+                file_freq[letters[char.lower()]] += 1
+
+    min_angle = 0
+    min_lang = ''
+
+    for l, lan in lang.items():
+        a = vector(file_freq, lan)
 
 def main() -> None:
     lang_freq = {
