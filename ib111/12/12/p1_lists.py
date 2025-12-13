@@ -27,7 +27,6 @@ def filter_out_odd(list_of_lists: list[list[int]]) -> list[list[int]]:
     return result
 
 
-
 # Dále napište čistou funkci ‹without_middle_occurrence›, která
 # dostane jako parametr seznam čísel ‹values› a hledané číslo
 # ‹value› a vrátí seznam bez prostředního výskytu hledaného čísla.
@@ -48,9 +47,9 @@ def without_middle_occurrence(values: list[int], value: int) -> list[int]:
 
     values_copy = values.copy()
 
-    to_del = len(indices) // 2 - 1 if len(indices) % 2 == 0 else len(indices) // 2
+    tod = len(indices) // 2 - 1 if len(indices) % 2 == 0 else len(indices) // 2
 
-    values_copy.pop(indices[to_del])
+    values_copy.pop(indices[tod])
     return values_copy
 
 

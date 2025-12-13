@@ -26,19 +26,24 @@ from ib111 import week_12  # noqa
 # ‹['x', 'y']› bude výsledkem maskování některá permutace seznamu
 # ‹['abxbaxa', 'abybaxa', 'abxbaya', 'abybaya']›.
 
-def wordmask_rec(word: str, mask: str, alternatives: list[str], result: list[str], current: str, index: int) -> None:
+def wordmask_rec(word: str, mask: str, alternatives: list[str],
+                 result: list[str], current: str, index: int) -> None:
     if index >= len(word):
         result.append(current)
-        return 
+        return
 
     if mask[index % len(mask)] == 'X':
-        wordmask_rec(word, mask, alternatives, result, current + word[index], index + 1)
+        wordmask_rec(word, mask, alternatives, result,
+                     current + word[index], index + 1)
         return
 
     for alt in alternatives:
-        wordmask_rec(word, mask, alternatives, result, current + alt, index + 1)
+        wordmask_rec(word, mask, alternatives, result,
+                     current + alt, index + 1)
 
-def wordmask(word: str, mask: str, alternatives: list[str]) -> list[str]:
+
+def wordmask(word: str, mask: str,
+             alternatives: list[str]) -> list[str]:
     result: list[str] = []
     wordmask_rec(word, mask, alternatives, result, "", 0)
     return result

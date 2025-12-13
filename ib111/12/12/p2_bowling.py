@@ -57,18 +57,13 @@ def bowling_score(rolls: list[int]) -> int:
         if rolls[index] == 10:
             score += 10 + rolls[index + 1] + rolls[index + 2]
             index += 1
-            round_bow += 1
-            continue
         elif rolls[index] + rolls[index + 1] == 10:
             score += 10 + rolls[index + 2]
             index += 2
-            round_bow += 1
-            continue
         else:
             score += rolls[index] + rolls[index + 1]
             index += 2
-            round_bow += 1
-            continue
+        round_bow += 1
 
     if rolls[index] == 10:
         score += 10 + rolls[index + 1] + rolls[index + 2]

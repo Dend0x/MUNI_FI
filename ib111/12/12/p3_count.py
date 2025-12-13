@@ -33,6 +33,7 @@ def to_list(num: int) -> list[int]:
 
     return new_list
 
+
 def count_seq(num: int, seq: int) -> int:
     result = 0
     num_list = to_list(num)
@@ -46,7 +47,6 @@ def count_seq(num: int, seq: int) -> int:
         if not bad:
             result += num_list[j]
     return result
-
 
 
 def main() -> None:

@@ -1,5 +1,4 @@
 from ib111 import week_12  # noqa
-from math import isqrt
 
 
 # Napište čistou funkci ‹highly_composite›, která dostane na vstupu
@@ -11,15 +10,27 @@ from math import isqrt
 
 
 def dividors(num: int) -> int:
-    count = 0
+    divisor = 2
+    count = 1
 
-    for i in range(1, isqrt(num) + 1):
-        if num % i == 0:
-            if i ** 2 != num:
-                count += 1
-            count += 1
+    while divisor ** 2 <= num:
+        exponent = 1
+
+        while num % divisor == 0:
+            num //= divisor
+            exponent += 1
+
+        count *= exponent
+        if divisor == 2:
+            divisor = 3
+        else:
+            divisor += 2
+
+    if num > 1:
+        count *= 2
 
     return count
+
 
 def highly_composite(numbers: set[int]) -> set[int]:
     nums = sorted(numbers)

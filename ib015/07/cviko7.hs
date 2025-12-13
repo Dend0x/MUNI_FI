@@ -23,3 +23,4 @@ loopecho = getLine >>= (\x -> if x == [] then putStrLn x else putStrLn x >> loop
 
 getSanitized :: IO String
 getSanitized = getLine >>= (pure . (filter isAlpha))
+
