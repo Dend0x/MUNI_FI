@@ -1,0 +1,53 @@
+from ib111 import week_10  # noqa
+
+
+# Napište čistou funkci, která ze vstupního seznamu vytvoří seznam
+# všech jeho permutací (tedy seznamů takových, že jsou tvořena
+# stejnými hodnotami v libovolném pořadí). Výsledný seznam permutací
+# nechť je uspořádán lexikograficky.
+
+# Nápověda: řešení se znatelně zjednoduší, budete-li celou dobu
+# pracovat se seřazenou verzí vstupního seznamu (seřazení je nakonec
+# také jen permutace). Dobré řešení pak vytvoří každou permutaci
+# pouze jednou a také je vytvoří rovnou ve správném pořadí.
+
+
+def perm_rec(word: list[int], count: int, used: set[int], perm: list[int], perm_list: list[list[int]]) -> None:
+    if len(used) == count:
+        if len(perm_list) != 0 and perm_list[-1] == perm:
+            return
+        perm_list.append(perm.copy())
+        return
+
+    for i in range(count):
+        if i in used:
+            continue
+        perm.append(word[i])
+        used.add(i)
+        perm_rec(word, count, used, perm, perm_list)
+        used.remove(i)
+        perm.pop()
+
+
+def permutations(word: list[int]) -> list[list[int]]:
+    word.sort()
+    perm_list: list[list[int]] = []
+
+    perm_rec(word, len(word), set(), [], perm_list)
+    return perm_list
+
+
+def main() -> None:
+    assert permutations([]) == [[]]
+    assert permutations([1, 1]) == [[1, 1]]
+    assert permutations([1, 2]) == [[1, 2], [2, 1]]
+    assert permutations([3, 1, 2]) == [[1, 2, 3],
+                                       [1, 3, 2],
+                                       [2, 1, 3],
+                                       [2, 3, 1],
+                                       [3, 1, 2],
+                                       [3, 2, 1]]
+
+
+if __name__ == '__main__':
+    main()
