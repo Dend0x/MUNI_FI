@@ -21,8 +21,27 @@ Position = tuple[int, int]
 Area = list[list[int]]
 
 
+def flood_fill_rec(area: Area, pos: Position, colour: int, original: int) -> None:
+    x, y = pos
+    if area[x][y] != original:
+        return
+
+    area[x][y] = colour
+
+    for x2, y2 in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
+        x2 += x
+        y2 += y
+        if x2 < 0 or x2 >= len(area) or y2 < 0 or y2 >= len(area[0]):
+            continue
+        flood_fill_rec(area, (x2, y2), colour, original)
+
 def flood_fill(area: Area, start: Position, colour: int) -> None:
-    pass
+    x, y = start
+    original: int = area[x][y]
+    if colour == original:
+        return
+
+    flood_fill_rec(area, start, colour, original)
 
 
 def main() -> None:

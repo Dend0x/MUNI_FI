@@ -13,7 +13,27 @@ from ib111 import week_06  # noqa
 # spojů ze zadaného slovníku.
 
 def all_connected(stops: dict[str, list[str]]) -> bool:
-    pass
+    all_buses = set(stops.keys())
+
+    for bus in stops.keys():
+        stack = [bus]
+        seen = {bus}
+
+        while stack != []:
+            cur_bus = stack.pop()
+            lines = stops[cur_bus]
+
+            for line in lines:
+                if line not in seen:
+                    stack.append(line)
+                seen.add(line)
+
+            if seen == all_buses:
+                break
+        if seen != all_buses:
+            return False
+
+    return True
 
 
 def main() -> None:

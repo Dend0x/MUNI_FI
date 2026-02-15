@@ -18,7 +18,26 @@ from ib111 import week_06  # noqa
 
 def is_creatable(owned_substances: set[str],
                  rules: dict[str, set[str]], wanted: str) -> bool:
-    pass
+    stack: list[int] = [(wanted, False)]
+    using: set[int] = set()
+
+    while stack != []:
+        potion, done = stack.pop()
+        if potion in owned_substances:
+            continue
+        if not done:
+            if potion in using:
+                return False
+            if potion not in rules:
+                return False
+            stack.append((potion, True))
+            using.add(potion)
+            for item in rules[potion]:
+                stack.append((item, False))
+        else:
+            using.remove(potion)
+
+    return True
 
 
 def main() -> None:
@@ -52,7 +71,6 @@ def main() -> None:
     assert rules == {"c": {"a", "b"}, "d": {"a", "c"},
                      "e": {"d", "b"},
                      "f": {"e", "a", "h"}}
-
 
 if __name__ == '__main__':
     main()
