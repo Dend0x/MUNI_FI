@@ -21,7 +21,13 @@ from ib111 import week_06  # noqa
 
 def evaluate(expr: dict[str, tuple[str, str, str]],
              const: dict[str, int], var: str) -> int:
-    pass
+    if var in const:
+        return const[var]
+    op, fs, sn = expr[var]
+    if op == "*":
+        return evaluate(expr, const, fs) * evaluate(expr, const, sn)
+    else:
+        return evaluate(expr, const, fs) + evaluate(expr, const, sn)
 
 
 def main() -> None:

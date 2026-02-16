@@ -1,4 +1,5 @@
 from ib111 import week_07  # noqa
+from math import sin, cos, radians
 
 # V této úloze budete programovat třídu ‹Tortoise›, která se chová
 # podobně jako želva, kterou jsme používali v kapitole B. Rozdílem
@@ -13,19 +14,24 @@ from ib111 import week_07  # noqa
 
 Point = tuple[int, int]
 
-
 class Tortoise:
 
     # Želva je po vytvoření otočena v kladném směru osy ⟦y⟧ t.j. „na
     # sever“ a nachází se v bodě ‹initial_point›.
 
     def __init__(self, initial_point: Point) -> None:
-        pass
-
+        self.initial_point = initial_point
+        self.heading = 0
     # Metoda ‹forward› posune želvu vpřed o vzdálenost ‹distance›.
 
     def forward(self, distance: int) -> 'Tortoise':
-        pass
+        x, y = self.location
+
+        x = round(x + sin(radians(self.heading)) * distance)
+        y = round(y + cos(radians(self.heading)) * distance)
+
+        self.location = (x, y)
+        return self
 
     # Metoda ‹backward› ji posune naopak vzad, opět o vzdálenost
     # ‹distance›.
@@ -46,7 +52,7 @@ class Tortoise:
     # Konečně (čistá) metoda ‹position› vrátí aktuální pozici želvy.
 
     def position(self) -> Point:
-        pass
+        return self.initial_point
 
 
 def main() -> None:

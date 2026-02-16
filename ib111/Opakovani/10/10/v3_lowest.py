@@ -15,7 +15,7 @@ from ib111 import week_10  # noqa
 # ‹lowest_increasing_sequence_end("23245")› tedy vrátí ‹45›.
 
 def lowest_increasing_sequence_end(digits: list[int]) -> int:
-    pass
+    
 
 
 def main() -> None:

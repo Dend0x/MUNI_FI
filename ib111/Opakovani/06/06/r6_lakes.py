@@ -21,7 +21,26 @@ from ib111 import week_06  # noqa
 #     3   1   2   3   2
 
 def lakes(land: list[int]) -> int:
-    pass
+    left = left_max = right_max =  0
+    right = len(land) - 1
+    area = 0
+
+    while left <= right:
+        if left_max <= right_max:
+            if land[left] < left_max:
+                area += left_max - land[left]
+            else:
+                left_max = land[left]
+            left += 1
+        else:
+            if land[right] < right_max:
+                area += right_max - land[right]
+            else:
+                right_max = land[right]
+            right -= 1
+
+    return area
+
 
 
 def main() -> None:
@@ -30,6 +49,7 @@ def main() -> None:
     assert land == [0, 0, 0]
 
     assert lakes([20, 0, 1]) == 1
+    assert lakes([4,2,5,2,3]) == 3
     assert lakes([1, 2, 3, 2, 1]) == 0
     assert lakes([3, 1, 2, 3, 2]) == 3
     assert lakes([2, 0, 1, 3, 2]) == 3
