@@ -1,0 +1,16 @@
+# B. Úvod
+
+Účelem tohoto kurzu je seznámit Vás s tím, jak probíhá výpočet na
+úrovni procesoru, a jaký je vztah mezi tímto nízkoúrovňovým
+výpočetním modelem a tzv. jazyky vyšší úrovně. Abychom mohli tento
+vztah zkoumat, musíme porozumět jak
+
+ 1. onomu vyššímu jazyku (v tomto kurzu to bude ten nejnižší z nich
+    – jazyk C – abychom co nejvíce zmenšili vzdálenost, kterou
+    musíme překlenout) tak
+ 2. výpočetnímu stroji (který odpovídá procesoru a paměti), který
+    bude výpočty našich programů realizovat.
+
+Z předchozího již znáte jiný vyšší programovací jazyk, Python – ten
+použijeme jako odrazový bod. Potřebovat budete samozřejmě pouze ty
+části jazyka, které znáte z kurzu IB111.

@@ -1,0 +1,75 @@
+## Výpočetní stroj
+
+Stav výpočetního stroje, se kterým budeme v tomto předmětu pracovat,
+je velmi jednoduchý. Skládá se z:
+
+ 1. šestnácti registrů, každý o šířce 16 bitů:
+    ◦ registr ‹rv› (return value),
+    ◦ registry ‹l1› až ‹l7› (local),
+    ◦ registry ‹t1› až ‹t6› (temporary),
+    ◦ registry ‹bp› a ‹sp›,
+ 2. speciálního 16bitového registru ‹pc› (program counter),
+ 3. 64 KiB paměti adresované po slabikách (bajtech) – adresa je tedy
+    16bitové celé číslo (bez znaménka), které přesně určuje právě
+    jednu paměťovou buňku, přitom každá taková buňka obsahuje celé
+    číslo v rozsahu 0 až 255.
+
+Sémanticky speciální jsou pouze registry ‹pc› a ‹sp› – všechny
+ostatní jsou z pohledu stroje ekvivalentní a jejich jména nemají pro
+samotný výpočet žádný speciální význam – jedná se pouze o konvenci,
+která nám usnadní čtení (a psaní) programů.
+
+Výpočet stroje probíhá takto:
+
+ 1. z adresy uložené v registru ‹pc› se načtou dvě šestnáctibitová
+    slova – ‹hi› z adresy ‹pc› a ‹lo› z adresy ‹pc + 2› – která
+    kódují jednu instrukci,
+ 2. instrukce je strojem dekódována a provedena:
+    ◦ slovo ‹hi› kóduje operaci (vyšší slabika), cílový registr a
+      první registrový operand,
+    ◦ slovo ‹lo› kóduje přímý (immediate) operand, nebo druhý
+      registrový operand (v nejvyšší půlslabice),
+    ◦ provede se efekt instrukce (tento efekt samozřejmě závisí jak
+      na operaci, tak na operandech) – obvykle je součástí tohoto
+      efektu změna hodnoty uložené v registru ‹pc›,
+ 3. nebyl-li výpočet zastaven, pokračuje bodem 1.
+
+Registry jsou očíslovány v pořadí uvedeném výše, totiž ‹rv› je
+registr číslo 0 a ‹sp› je registr číslo 15. Je vidět, že číslo
+registru lze zakódovat do jedné půlslabiky (registr ‹pc› operandem
+být nemůže).
+
+Následuje výčet všech operací, které umí stroj provést. Nebudeme
+všechny operace potřebovat hned, a nebudeme se tedy zatím ani
+podrobněji zabývat jejich sémantikou – tu si rozebereme vždy na
+začátku kapitoly, v níž začnou být tyto operace relevantní.
+
+ 1. speciální operace:
+    ◦ práce se zásobníkem (‹push›, ‹pop›),
+    ◦ nastavení registru na konstantu (‹put›),
+    ◦ nastavení registru na hodnotu z jiného registru (‹copy›),
+    ◦ znaménkové rozšíření bajtu (‹sext›),
+ 2. operace pro práci s pamětí:
+    ◦ kopírování dat z paměti do registru (‹ld›, ‹ldb›),
+    ◦ kopírování z registru do paměti (‹st›, ‹stb›),
+ 3. aritmetické operace:
+    ◦ aditivní – bez rozlišení znaménkovosti (‹add›, ‹sub›),
+    ◦ násobení ‹mul›,
+    ◦ dělení se znaménkem (‹sdiv›, ‹smod›),
+    ◦ dělení bez znaménka (‹udiv› a ‹umod›),
+ 4. operace pro srovnání dvou hodnot:
+    ◦ rovnost (‹eq›, ‹ne›),
+    ◦ znaménkové ostré nerovnosti (‹slt›, ‹sgt›),
+    ◦ znaménkové neostré nerovnosti (‹sle›, ‹sge›),
+    ◦ bezznaménkové ostré (‹ult›, ‹ugt›), a konečně
+    ◦ bezznaménkové neostré (‹ule›, ‹uge›),
+ 5. bitové operace:
+    ◦ logické operace ‹and›, ‹or› a ‹xor› aplikované po bitech,
+    ◦ bitové posuvy ‹shl› (levý), ‹shr› (pravý) a aritmetický ‹sar›,
+ 6. řízení toku:
+    ◦ nepodmíněný skok ‹jmp›,
+    ◦ podmíněné skoky ‹jz› (jump if zero) a ‹jnz› (if not zero),
+    ◦ volání a návrat z podprogramu (‹call›, ‹ret›),
+ 7. ovládaní stroje:
+    ◦ ‹halt› zastaví výpočet,
+    ◦ ‹asrt› zastaví výpočet s chybou, je-li operand nulový.

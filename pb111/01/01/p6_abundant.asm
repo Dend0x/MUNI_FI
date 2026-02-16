@@ -1,0 +1,36 @@
+; Napište program, který rozhodne, je-li hodnota uložená v registru
+; ‹l6› abundantním číslem (číslo ⟦n⟧ je abundantní, je-li součet
+; všech jeho dělitelů ⟦d > 2n⟧). Vstup interpretujte jako číslo bez
+; znaménka.
+;
+; Výsledek (1 pokud abundantní je, 0 jinak) uložte do registru ‹rv›
+; a proveďte skok na návěstí ‹check›.  Hodnotu registru ‹l7› nijak
+; neměňte.
+
+main:
+    ld   l7, data   → l6
+    eq   l6, 0xffff → t1 ; test-end marker
+    jz   t1, solution
+    halt
+
+data:   ; input, expect
+    .word     1,      0
+    .word    12,      1
+    .word    17,      0
+    .word    18,      1
+    .word    24,      1
+    .word    25,      0
+    .word    -1,      0
+
+check:
+    add  l7, 2      → l7
+    ld   l7, data   → t1
+    eq   rv, t1     → t1
+    asrt t1
+    add  l7, 2      → l7
+    jmp  main
+
+.trigger set _tc_expect_ 6
+.trigger inc _tc_
+
+solution: ; zde začíná řešení

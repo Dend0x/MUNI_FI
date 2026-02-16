@@ -1,0 +1,75 @@
+## Závěrečný test
+
+Zkouškové období tvoří pomyslný 4. blok a platí zde stejné kritérium
+jako pro všechny ostatní bloky: musíte získat alespoň 50 bodů.
+Závěrečný test:
+
+ • proběhne v počítačové učebně bez přístupu k internetu nebo
+   vlastním materiálům,
+ • k dispozici budete mít přehled jazyka (‹pb111.reference.pdf› a
+   ‹.html›) a zabudovanou nápovědu dostupných programů (jiné
+   materiály nejsou povoleny),
+ • budete moct používat textový editor nebo vývojové prostředí VS
+   Code, standardní překladače jazyka C a odpovídající nástroje,
+   překladač ‹tiny› a odpovídající virtuální stroj.
+
+Na vypracování testu budete mít 4 hodiny čistého času a bude
+sestávat ze dvou částí (zadávají a odevzdávají se ovšem společně):
+
+ • pět programovacích příkladů, které budou hodnoceny automatickými
+   testy; za každý příklad, který splní testy „verity“ získáte 16
+   bodů (za všechny ostatní 0), za celkem 0 až 80 bodů,
+ • deset teoretických otázek, přitom každá bude složená z 5 tvrzení,
+   z toho dvou pravdivých a tří nepravdivých; hodnocení/otázka:
+   
+   ◦ -2 body jsou-li vybrané alespoň 2 nepravdivé odpovědi,
+   ◦ 0 bodů za právě 1 vybranou pravdivou odpověď,
+   ◦ 2 body za právě 2 vybrané pravdivé odpovědi,
+   ◦ -1 bod jinak (za 1 pravdivou + 1 nepravdivou, nebo za žádnou
+     odpověď, nebo 2 pravdivé + nepravdivá, atp.)
+   
+   celkem za -20 až +20 bodů.
+
+Celkový maximální zisk je tedy 100 bodů (80+20). Základní možnosti,
+jak splnit minimální bodovou hranici, jsou 3 příklady + 2 body za
+teorii, nebo 2 příklady + 18 bodů za teorii. Nechcete-li se teorií
+vůbec zabývat, máte také možnost vyřešit 4 příklady (64 - 10 = 54
+bodů).
+
+Programovací příklady budou na stejné úrovni obtížnosti jako
+příklady typu ‹p›/‹r›/‹v› ze sbírky.
+
+Během zkoušky můžete kdykoliv odevzdat (na počet odevzdání není
+žádný konkrétní limit) a vždy dostanete zpět výsledek testů syntaxe
+a sanity. Součástí zadání bude navíc soubor ‹tokens.txt›, kde
+naleznete 3 kódy. Každý z nich lze použít nejvýše jednou (vložením
+do komentáře do jednoho z příkladů) a každé použití kódu odhalí
+výsledek verity testu pro ten soubor, do kterého byl vložen. Toto se
+projeví pouze při prvním odevzdání s vloženým kódem, v dalších
+odevzdáních bude tento kód ignorován (bez ohledu na soubor, do
+kterého bude vložen).
+
+### Vnitrosemestrálky
+
+V posledním týdnu každého bloku, tedy
+
+ • cvičení 4 (17.-21. března),
+ • cvičení 8 (14.-18. dubna),
+ • cvičení 12 (12.-16. května),
+
+proběhne v rámci cvičení programovací test na 60 minut. Tyto testy
+budou probíhat za stejných podmínek, jako výše popsaný závěrečný
+test (slouží tedy mimo jiné jako příprava na něj). Zadání bude
+sestávat ze dvou programovacích příkladů a třech teoretických
+otázek. Získat můžete:
+
+ • 2 body za ‹task_1›, splní-li verity testy,
+ • 3 body za ‹task_2›, opět za splněné verity testy,
+ • 1 bod za správně vybraná 2 pravdivá tvrzení v jedné teoretické
+   otázce (jinak 0).
+
+Celkem tak můžete získat 0 až 8 bodů, které se počítají jako
+aktivita v příslušném bloku. Připomínáme, že tyto body se sčítají
+s body za aktivitu ve cvičení, a že tento součet je omezen na
+maximálně 8 bodů/blok. Součástí zadání bude také 1 token pro
+odhalení výsledku verity testu.

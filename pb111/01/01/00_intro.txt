@@ -1,0 +1,32 @@
+# Výpočetní stroj
+
+Předmětem této kapitoly je přímé programování výpočetního stroje
+‹tiny› (v jazyce symbolických adres).
+
+Ukázky:
+
+ 1. ‹triangle›  – trojúhelníková nerovnost,
+ 2. ‹factorial› – iterativní výpočet faktoriálu.
+
+Elementární:
+
+ 1. ‹isodd›     – určení lichosti čísla,
+ 2. ‹nor›       – logická bitová operace NOR.
+
+Přípravy:
+
+ 1. ‹fib›       – ⟦n⟧-té Fibonacciho číslo (mod ⟦2¹⁶⟧),
+ 2. ‹adder›     – dvouslovná sčítačka (32b),
+ 3. ‹gcd›       – Euklidův algoritmus,
+ 4. ‹prime›     – rozhodování prvočíselnosti,
+ 5. ‹popcnt›    – počítání jedniček ve slově,
+ 6. ‹abundant›  – součet dělitelů.
+
+Řešené příklady:
+
+ 1. ‹reverse›   – otočení bitů ve slově,
+ 2. ‹hamming›   – Hammingova vzdálenost slov,
+ 3. ‹packed›    – sečtení dvou dvojic po složkách,
+ 4. ‹bitswap›   – prohození dvou bitů ve slově,
+ 5. ‹collatz›   – počítání kroků iterovaného výpočtu,
+ 6. ‹shift›     – bitový posuv na části slova.

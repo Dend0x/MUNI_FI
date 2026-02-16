@@ -1,0 +1,60 @@
+## Jazyk symbolických adres
+
+Stroj jako takový pracuje pouze s «číselnými» adresami – instrukce,
+která obsahuje adresu, ji vždy obsahuje jako číslo. To při
+programování představuje značný problém, protože adresy jednotlivých
+částí programu závisí na tom, kolik instrukcí se nachází v části
+předchozí. Uvažme třeba tento program¹ (uložený v paměti od adresy
+nula):
+
+        put  0     → rv ; vynuluj registr rv
+        add  1, rv → rv ; do registru rv přičti 1
+        jnz  rv, 0x0004 ; je-li rv nenulové, skoč na adresu 4
+
+Protože každá instrukce je kódována do 4 bajtů, adresa druhé
+instrukce (operace ‹add›) je 4 (její kódování je uloženo na adresách
+4, 5, 6 a 7). Program jak je napsaný provede prázdný cyklus 65535×
+(v poslední iteraci je v registru ‹rv› hodnota ‹ffff›, přičtením
+jedničky se změní na nulu, podmíněný skok „není-li ‹rv› nula“ se
+neprovede a cyklus tak skončí).
+
+Uvažme nyní situaci, kdy do programu potřebujeme (na začátek)
+zařadit další instrukci, např. nastavení registru l1:
+
+        put  0     → l1 ; vynuluj registr l1
+        put  0     → rv ; vynuluj registr rv
+        add  1, rv → rv ; do registru rv přičti 1
+        jnz  rv, 0x0004 ; je-li rv nenulové, skoč na adresu 4
+
+Tím se ale posunuly všechny další instrukce v programu na jiné
+adresy – proto adresa skoku předaná operaci ‹jnz› neodpovídá
+původnímu programu – tento nový program bude cyklit donekonečna
+(rozmyslete si proč).
+
+Je asi zřejmé, že kdyby měla každá změna programu (přidání nebo
+odebrání instrukce) znamenat, že musíme opravit všechny adresy ve
+všech ostatních instrukcích, moc dobře by se nám neprogramovalo.
+Proto pro zápis strojového kódu používáme tzv. jazyk «symbolických
+adres». Ten nám umožňuje místa v programu – adresy – pojmenovat
+«symbolem» – textovým názvem, podobně jako nazýváme třeba proměnné
+v jazyce Python. Symbol zavedeme tzv. «návěstím» a použijeme
+v zápisu instrukce² na místě adresy:
+
+        put  0     → rv ; vynuluj registr rv
+    loop:               ; návěstí pro první instrukci cyklu
+        add  1, rv → rv ; do registru rv přičti 1
+        jnz  rv, loop   ; je-li rv nenulové, skoč na začátek cyklu
+
+Když nyní přidáme na začátek programu instrukci, nic špatného se
+nestane – při sestavení (angl. «assembly») programu se pak do
+podmíněného skoku místo adresy 4 doplní adresa 8 – totiž adresa
+instrukce, která bezprostředně následuje za návěstím.
+
+¹ K zápisu kódu: vše od středníku až ke konci řádku je komentář
+  (středník se chová stejně, jako v Pythonu znak ‹#›). Šipku ‹→› lze
+  v zápisu ekvivalentně nahradit také ASCII řetězcem ‹->›.
+² Striktně vzato se v takové chvíli nejedná o zápis instrukce, pouze
+  o předpis, jak konkrétní instrukci dopočítat – protože je to ale
+  výpočet velmi jednoduchý, nebudeme obvykle tyto případy rozlišovat
+  (tzn. návěstí budeme přímo interpretovat jako adresu, kterou
+  reprezentuje v daném programu).

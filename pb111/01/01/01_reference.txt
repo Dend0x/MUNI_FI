@@ -1,0 +1,224 @@
+V této kapitole budeme potřebovat 2 typy instrukcí – výpočetní
+(aritmetické, logické, atp.) a instrukce pro řízení toku
+(nepodmíněné a podmíněné skoky). Zejména prozatím nebudeme
+potřebovat pracovat s adresami, pamětí obecně, ani zásobníkem.
+
+## Kopírování hodnot
+
+Nejzákladnější operací, kterou můžeme v programu potřebovat, je
+nastavení registru, a to buď na předem známou konstantu, nebo na
+hodnotu aktuálně uloženou v některém jiném registru.
+
+K nastavení registru na konstantu můžeme použít operaci ‹put›, která
+nastaví výstupní registr na hodnotu přímého operandu. Zápis této
+instrukce bude vypadat např. takto:
+
+    put 13   → rv                                  ; tiny
+    put 0x70 → l1
+    halt
+
+Tento program nastaví registr ‹rv› na hodnotu 13 a registr ‹l1› na
+hodnotu 112.
+
+Pro kopírování hodnot mezi registry použijeme operaci ‹copy› – ta
+nastaví výstupní registr na tutéž hodnotu, jakou má registr vstupní.
+Například:
+
+    put  13 → rv                                   ; tiny
+    put  17 → l1
+    copy rv → l2 ; sets l2 = 13
+    copy l1 → rv ; sets rv = 17
+    halt
+
+Po provedení tohoto programu budou hodnoty registrů ‹rv = 17›, ‹l1 =
+17› a ‹l2 = 13›.
+
+## Aritmetika
+
+Další důležitou kategorií jsou aritmetické instrukce. Následující
+tabulka shrnuje operace, které máte k dispozici. Registr ‹l1›
+odpovídá proměnné ‹a›, registr ‹l2› proměnné ‹b›, registr ‹rv› pak
+proměnné ‹x›.
+
+│     název │       python │               tiny │
+├──────────▻│──────────────│────────────────────│
+│   sčítání │  ‹x = a + b› │  ‹add l1, l2 → rv› │
+│ odečítání │  ‹x = a - b› │  ‹sub l1, l2 → rv› │
+│  násobení │  ‹x = a * b› │  ‹mul l1, l2 → rv› │
+│    dělení │ ‹x = a // b› │ ‹sdiv l1, l2 → rv› │
+│           │              │ ‹udiv l1, l2 → rv› │
+│    zbytek │  ‹x = a % b› │ ‹smod l1, l2 → rv› │
+│           │              │ ‹umod l1, l2 → rv› │
+
+Všimněte si, že operaci celočíselného dělení a zbytku po dělení
+odpovídají dvě různé instrukce. Je to proto, že fyzicky jsou
+registry realizované jako sekvence binárních přepínačů – každý
+přepínač reprezentuje jeden bit. Tyto binární sekvence lze
+interpretovat různými způsoby, nicméně ⟦b⟧-bitový registr obvykle
+chápeme jako:
+
+ 1. celé číslo ⟦n⟧ bez znaménka v rozsahu ⟦⟨0, 2ᵇ)⟧ – pak sekvence
+    bitů přímo odpovídá binárnímu zápisu tohoto čísla,
+ 2. jako celé číslo ⟦s⟧ se znaménkem v rozsahu ⟦⟨-2ᵇ⁻¹, 2ᵇ⁻¹)⟧, a to
+    tak, že:
+    
+     a. je-li nejvyšší bit nastaven na 1, ⟦s = n - 2ᵇ⟧,
+     b. jinak ⟦s = n⟧
+
+    Podmínku z bodu (a) můžeme také chápat jako ⟦n ≥ 2ᵇ⁻¹⟧.
+
+Pro 16bitová čísla, která budeme v tomto předmětu používat zdaleka
+nejčastěji, to jsou tyto rozsahy:
+
+ • ⟦⟨0, 65535⟩⟧ (nebo ‹0–ffff› v šestnáctkovém zápisu) pro
+   reprezentaci bez znaménka,
+ • ⟦⟨-32768, 32767⟩⟧ (nebo ‹-8000› až ‹7fff› šestnáctkově) pro
+   reprezentaci se znaménkem.
+
+Tato reprezentace má tu vlastnost, že sčítání, odečítání a násobení
+používá na úrovni bitů stejný algoritmus v obou případech – proto
+operace ‹add› funguje stejně dobře bez ohledu na to, chápeme-li
+operandy jako znaménkové nebo bezznaménkové.
+
+To ale neplatí pro dělení (a nebude to platit ani pro srovnání, jak
+uvidíme za chvíli) – výsledek se bude lišit v závislosti na tom,
+je-li operace znaménková (‹sdiv›, ‹smod›) nebo nikoliv (‹udiv›,
+‹umod›).
+
+## Srovnání
+
+Prakticky každý vyšší programovací jazyk má nějakou formu
+«podmíněného příkazu». Aby byla tato konstrukce užitečná,
+potřebujeme mít k dispozici «predikáty» – operace, kterých výsledkem
+je pravdivostní hodnota. Ty nejběžnější již dobře znáte – jsou to
+celočíselné srovnávací operátory. V Pythonu je zapisujeme jako ‹a ==
+b›, ‹a < b›, atp.
+
+Náš výpočetní stroj má pro tento účel sadu operací – jsou shrnuty
+v tabulce níže. Jak již bylo výše naznačeno, s výjimkou rovnosti
+musíme rozlišovat znaménkovou a bezznaménkovou verzi. Na rozdíl od
+Pythonu (nebo jazyka C) nemá strojový kód složené výrazy, proto
+musíme výsledek srovnání vždy uložit do registru (analogem v Pythonu
+je booleovská proměnná – budeme ji zde opět značit ‹x›).
+
+│       python │               tiny │          │                  │
+├──────────────│────────────────────│─────────▻┼◅─────────────────│
+│ ‹x = a == b› │  ‹eq  l1, l2 → rv› │          │     𝐞𝐪ual        │
+│ ‹x = a != b› │  ‹ne  l1, l2 → rv› │          │ 𝐧ot 𝐞qual        │
+│  ‹x = a < b› │  ‹slt l1, l2 → rv› │   𝐬igned │ 𝐥ess 𝐭han        │
+│              │  ‹ult l1, l2 → rv› │ 𝐮nsigned │ 𝐥ess 𝐭han        │
+│  ‹x = a > b› │  ‹sgt l1, l2 → rv› │   𝐬igned │ 𝐠reater 𝐭han     │
+│              │  ‹ugt l1, l2 → rv› │ 𝐮nsigned │ 𝐠reater 𝐭han     │
+│ ‹x = a <= b› │  ‹sle l1, l2 → rv› │   𝐬igned │ 𝐥ess or 𝐞qual    │
+│              │  ‹ule l1, l2 → rv› │ 𝐮nsigned │ 𝐥ess or 𝐞qual    │
+│ ‹x = a >= b› │  ‹sge l1, l2 → rv› │   𝐬igned │ 𝐠reater or 𝐞qual │
+│              │  ‹uge l1, l2 → rv› │ 𝐮nsigned │ 𝐠reater or 𝐞qual │
+
+Výsledek uložený do výstupního registru (v příkladech výše ‹rv›)
+je u instrukcí z této rodiny vždy 1 (pravda) nebo 0 (nepravda). To
+zejména znamená, že je možné tyto výsledky kombinovat operacemi
+‹and›, ‹or› a ‹xor› a výsledek bude vždy opět 0 nebo 1, v souladu
+s definicí příslušné logické operace (k těmto se vrátíme níže).
+
+## Řízení toku
+
+Abychom mohli realizovat podmíněné příkazy a cykly, budeme k tomu
+potřebovat speciální operace – podobně jako příslušným příkazům ve
+vyšším jazyce jim budeme říkat «řízení toku».
+
+Výpočetní stroj ‹tiny› obsahuje 3 operace tohoto typu:
+
+ • ‹jmp addr› způsobí, že výpočet bude pokračovat od adresy ‹addr›
+   – bez ohledu na aktuální stav registrů; adresu můžeme (a typicky
+   budeme) zadávat jako «symbol» (jméno «návěstí» – viz též část
+   B.3),
+ • ‹jz reg, addr› (jump if zero) nejprve ověří, je-li hodnota
+   registru ‹reg› nulová – pokud ano, provede skok stejně jako ‹jmp
+   addr›, v případě opačném pokračuje na další instrukci bez
+   jakéhokoliv dalšího efektu,
+ • ‹jnz reg, addr› (jump if not zero) se chová stejně, ale skok
+   provede pouze je-li hodnota uložená v ‹reg› nenulová.
+
+V kombinaci s aritmetickými a srovnávacími operacemi popsanými výše
+dokážeme zapsat jednoduchou podmínku např. takto (odpovídající
+program v Python-u je uveden v komentářích):
+
+        put 1     → l1 ; a = 1
+        slt l1, 3 → t1 ; t = a < 3
+        jz  t1, else   ; if t:
+    then:
+        put 2     → l2 ;     b = 2
+        jmp endif      ; else:
+    else:
+        put 3     → l2 ;     b = 3
+    endif:
+        halt
+
+Zkuste si program spustit pomocí ‹tinyvm.py› z kapitoly B, a také
+upravit první instrukci na ‹put 5 → l1› a srovnejte výsledek.
+Podobně můžeme zapsat také ‹while› cyklus (cykly ‹for› do strojového
+kódu přímo přepsat nemůžeme, ale jak jistě víte, je vždy možné
+nejprve je přepsat na cykly ‹while›). Uvažme tento velmi jednoduchý
+program v Pythonu:
+
+    a = 1
+    while a < 3:
+        a += 1
+
+Přepis do strojového kódu bude opět vyžadovat určitou kreativitu,
+protože máme pouze instrukce skoku, nikoliv instrukce cyklu. Stačí
+si ale uvědomit, že ‹while True› se realizuje snadno: pomocí
+nepodmíněného skoku zpět (na nižší adresu).
+
+        put 1     → l1   ; a = 1
+    loop:                ; while True:
+        slt l1, 3 → t1   ;     t = a < 3
+        jz  t1, end      ;     if not t: break
+        add l1, 1 → l1   ;     a += 1
+        jmp loop
+    end:
+        halt
+
+Cyklus ‹while podmínka› jsme přepsali na ‹while True› a podmíněný
+‹break› – ekvivalenci těchto dvou zápisů si rozmyslete.
+
+## Bitové logické operace
+
+Operace, které slovo interpretují jako sekvenci bitů a provádí
+souběžně tu stejnou logickou operaci na odpovídajících bitech,
+nazýváme bitovými logickými operacemi – jsou to ‹or›, ‹and›, ‹xor›.
+
+Tyto operace získají ⟦i⟧-tý bit výsledku pomocí příslušné logické
+operace provedené na ⟦i⟧-tém bitu levého a ⟦i⟧-tém bitu pravého
+operandu. Jinak řečeno, každý bit výsledku závisí pouze na jednom
+bitu obou operandů (např. u aritmetických operací to neplatí).
+
+Instrukce mají tyto tvary:
+
+ • ‹or  l1, l2 → rv› – provede logickou disjunkci po bitech,
+ • ‹and l1, l2 → rv› – provede logickou konjunkci po bitech,
+ • ‹xor l1, l2 → rv› – provede negaci logické ekvivalence po bitech
+   (výsledný bit je 1, je-li právě jeden ze vstupních bitů 1).
+
+Existují také verze s přímým operandem – ‹or l1, imm → rv›, atp.
+Logickou negaci je pak možné zapsat jako ‹xor l1, ffff → rv›.
+
+## Bitové posuvy
+
+Operace pro bitové posuvy realizují násobení a dělení mocninami 2
+(tzn. hodnotami 2, 4, 8, 16, 32, 64 …). Druhý operand určuje, která
+mocnina 2 se použije (tzn. posuv o 3 bity realizuje násobení/dělení
+číslem ⟦2³ = 8⟧). Protože dělení existuje ve dvou variantách (se
+znaménkem nebo bez), bitový posuv doprava existuje také ve dvou
+verzích – logický (bez znaménka) a aritmetický (se znaménkem).
+
+Instrukce mají tyto tvary:
+
+ • ‹shl l1, l2 → rv› – bitový posuv doleva o ‹l2› bitů (násobení),
+ • ‹shr l1, l2 → rv› – bitový posuv doprava o ‹l2› bitů (dělení bez
+   znaménka),
+ • ‹sar l1, l2 → rv› – bitový posuv doprava o ‹l2› bitů, ale místo
+   doplnění nulami se kopíruje znaménkový bit (dělení se znaménka).
+
+Všechny operace lze také použít ve formách s přímým operandem: ‹shl
+l1, imm → rv› nebo ‹shl imm, l2 → rv›.

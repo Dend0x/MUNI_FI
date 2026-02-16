@@ -1,0 +1,156 @@
+## Přehled
+
+Tento předmět sestává z cvičení, sad domácích úloh a závěrečného
+praktického testu (zkoušky). Protože se jedná o „programovací“
+předmět, většina práce v předmětu – a tedy i jeho hodnocení – se
+bude zaměřovat na praktické programování. Je důležité, abyste
+programovali co možná nejvíce, ideálně každý den, ale minimálně
+několikrát každý týden. K tomu Vám budou sloužit příklady v této
+sbírce a domácí úlohy, kterých budou za semestr 3 sady a budou
+znatelně většího rozsahu (maximálně malé stovky řádků). V obou
+případech bude v průběhu semestru stoupat náročnost – je tedy
+důležité, abyste drželi krok a práci neodkládali na poslední chvíli.
+
+Protože programování je těžké, bude i tento kurz těžký – je zcela
+nezbytné vložit do něj odpovídající úsilí. Doufáme, že kurz úspěšně
+absolvujete, a co je důležitější, že se v něm toho naučíte co
+nejvíce. Je ale nutno podotknout, že i přes svou náročnost je tento
+kurz jen malým krokem na dlouhé cestě.
+
+### Probíraná témata
+
+Předmět je rozdělen do 4 bloků (čtvrtý blok patří do zkouškového
+období). Do každého bloku v semestru patří 4 kapitoly (témata) a
+jim odpovídající 4 cvičení.
+
+│ bl. │     │ téma                                  │
+├─────│────▻┼◅──────────────────────────────────────│
+│  1  │  1. │ výpočetní stroj                       │
+│     │  2. │ lokální proměnné, řízení toku         │
+│     │  3. │ podprogram                            │
+│     │  4. │ adresa, ukazatel                      │
+│┄┄┄┄┄│┄┄┄┄┄│┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄│
+│  2  │  5. │ pole, index, ukazatel do pole         │
+│     │  6. │ struktura, zřetězený seznam           │
+│     │  7. │ živost, zdroj                         │
+│     │  8. │ alokace prvků v poli                  │
+│┄┄┄┄┄│┄┄┄┄┄│┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄│
+│  3  │  9. │ množina, slovník                      │
+│     │ 10. │ pole bajtů, reprezentace objektů      │
+│     │ 11. │ dynamická paměť                       │
+│     │ 12. │ reprezentace programů                 │
+
+### Organizace sbírky
+
+V následujících sekcích naleznete detailnější informace a «závazná»
+pravidla kurzu: doporučujeme Vám, abyste se s nimi důkladně
+seznámili.¹ Zbytek sbírky je pak rozdělen na části, které odpovídají
+jednotlivým týdnům semestru. «Důležité:» během prvního týdne
+semestru už budete řešit přípravy z první kapitoly, přestože první
+cvičení je ve až v týdnu druhém. Nulté cvičení je volitelné a není
+nijak hodnoceno.
+
+Kapitoly jsou číslovány podle témat z předchozí tabulky: ve druhém
+týdnu semestru se tedy «ve cvičení» budeme zabývat tématy, ke kterým
+jste v prvním týdnu vypracovali a odevzdali přípravy.
+
+¹ Pravidla jsou velmi podobná těm v kurzu IB111, ale přesto si je
+  pozorně přečtěte.
+
+### Plán semestru
+
+Tento kurz vyžaduje značnou aktivitu během semestru. V této sekci
+naleznete přehled důležitých událostí formou kalendáře. Jednotlivé
+události jsou značeny takto (bližší informace ke každé naleznete
+v následujících odstavcích tohoto úvodu):
+
+ • „#X“    – číslo týdne v semestru,
+ • „cv0“   – tento týden běží „nulté“ cvičení (kapitola B),
+ • „cv1“   – tento týden probíhají cvičení ke kapitole 1,
+ • „X/v“   – mezivýsledek verity testů příprav ke kapitole X,
+ • „X/p“   – poslední termín odevzdání příprav ke kapitole X,
+ • „sX/Y“  – Yté kolo verity testů k sadě X.
+
+Nejdůležitější události jsou zvýrazněny: termíny odevzdání příprav a
+poslední termín odevzdání úloh ze sad (obojí vždy o 23:59 uvedeného
+dne).
+
+│                             únor                             │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│      │   Po  │   Út  │   St  │   Čt  │   Pá  │   So  │   Ne  │
+├─────▻│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│
+│   #1 │ 9     │ 10    │ 11    │ 12    │ 13    │ 14    │ 15    │
+│      │       │       │       │       │       │       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #2 │ 16    │ 17    │ 18    │ 19    │ 20    │ 21    │ 22    │
+│ cv 0 │       │       │       │ 01/v  │       │«01/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #3 │ 23    │ 24    │ 25    │ 26    │ 27    │ 28    │       │
+│ cv 1 │ s1/1  │       │ s1/2  │ 02/v  │ s1/3  │«02/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+
+
+│                            březen                            │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│      │   Po  │   Út  │   St  │   Čt  │   Pá  │   So  │   Ne  │
+├─────▻│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│
+│   #3 │       │       │       │       │       │       │ 1     │
+│      │       │       │       │       │       │       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #4 │ 2     │ 3     │ 4     │ 5     │ 6     │ 7     │ 8     │
+│ cv 2 │ s1/4  │       │ s1/5  │ 03/v  │ s1/6  │«03/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #5 │ 9     │ 10    │ 11    │ 12    │ 13    │ 14    │ 15    │
+│ cv 3 │ s1/7  │       │ s1/8  │ 04/v  │ s1/9  │«04/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #6 │ 16    │ 17    │ 18    │ 19    │ 20    │ 21    │ 22    │
+│ cv 4 │ s1/10 │       │ s1/11 │ 05/v  │«s1/12»│«05/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #7 │ 23    │ 24    │ 25    │ 26    │ 27    │ 28    │ 29    │
+│ cv 5 │ s2/1  │       │ s2/2  │ 06/v  │ s2/3  │«06/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #8 │ 30    │ 31    │       │       │       │       │       │
+│ cv 6 │ s2/4  │       │       │       │       │       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+
+
+│                            duben                             │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│      │   Po  │   Út  │   St  │   Čt  │   Pá  │   So  │   Ne  │
+├─────▻│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│
+│   #8 │       │       │ 1     │ 2     │ 3     │ 4     │ 5     │
+│      │       │       │ s2/5  │ 07/v  │ s2/6  │«07/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│   #9 │ 6     │ 7     │ 8     │ 9     │ 10    │ 11    │ 12    │
+│ cv 7 │ s2/7  │       │ s2/8  │ 08/v  │ s2/9  │«08/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│  #10 │ 13    │ 14    │ 15    │ 16    │ 17    │ 18    │ 19    │
+│ cv 8 │ s2/10 │       │ s2/11 │ 09/v  │«s2/12»│«09/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│  #11 │ 20    │ 21    │ 22    │ 23    │ 24    │ 25    │ 26    │
+│ cv 9 │ s3/1  │       │ s3/2  │ 10/v  │ s3/3  │«10/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│  #12 │ 27    │ 28    │ 29    │ 30    │       │       │       │
+│ cv10 │ s3/4  │       │ s3/5  │ 11/v  │       │       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+
+
+│                            květen                            │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│      │   Po  │   Út  │   St  │   Čt  │   Pá  │   So  │   Ne  │
+├─────▻│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│◅──────│
+│  #12 │       │       │       │       │ 1  sv │ 2     │ 3     │
+│      │       │       │       │       │ s3/6  │«11/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│  #13 │ 4     │ 5     │ 6     │ 7     │ 8  sv │ 9     │ 10    │
+│ cv11 │ s3/7  │       │ s3/8  │ 12/v  │ s3/9  │«12/p» │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│  #14 │ 11    │ 12    │ 13    │ 14    │ 15    │ 16    │ 17    │
+│ cv12 │ s3/10 │       │ s3/11 │       │«s3/12»│       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│      │ 18    │ 19    │ 20    │ 21    │ 22    │ 23    │ 24    │
+│      │       │       │       │       │       │       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│
+│      │ 25    │ 26    │ 27    │ 28    │ 29    │ 30    │ 31    │
+│      │       │       │       │       │       │       │       │
+│┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│┄┄┄┄┄┄┄│

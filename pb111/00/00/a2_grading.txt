@@ -1,0 +1,63 @@
+## Hodnocení
+
+Abyste předmět úspěšně ukončili, musíte v «každém bloku¹» získat «50
+bodů». Žádné další požadavky nemáme.
+
+Výsledná známka závisí na celkovém součtu bodů (splníte-li
+potřebných 4×50 bodů, automaticky získáte známku alespoň E). Hodnota
+ve sloupci „předběžné minimum“ danou známku zaručuje – na konci
+semestru se hranice ještě mohou posunout směrem dolů tak, aby
+výsledná stupnice přibližně odpovídala očekávané distribuci dle
+ECTS.²
+
+│ známka  │ předběžné minimum │ po vyhodnocení semestru │
+├─────────│───────────────────│─────────────────────────┤
+│    A    │               360 │      90. percentil + 75 │
+│    B    │               320 │      65. percentil + 75 │
+│    C    │               280 │      35. percentil + 75 │
+│    D    │               240 │      10. percentil + 75 │
+│    E    │               200 │                     200 │
+
+Body lze získat mnoha různými způsoby (přesnější podmínky naleznete
+v následujících sekcích této kapitoly). V blocích 1-3 (probíhají
+během semestru) jsou to:
+
+ • za každou úspěšně odevzdanou přípravu «1» bod (max. 6 bodů každý
+   týden, nebo «24/blok»),
+ • za každou přípravu, která projde „verity“ testy navíc další «1» bod
+   (max. 6 bodů každý týden, nebo «24/blok»),
+ • za účast³ na cvičení získáte 3 body (max. tedy «12/blok»),
+ • za aktivitu ve cvičení 2 body (max. tedy «8/blok»).
+
+Za přípravy a cvičení lze tedy získat teoretické maximum «68» bodů.
+Dále můžete získat:
+
+ • «8» bodů za úspěšně vyřešený příklad ze sady domácích úloh
+   (maximálně 4 příklady, celkem tedy až «32/blok»).
+
+Konečně blok 4, který patří do zkouškového období, nemá ani cvičení
+ani sadu domácích úloh. Body získáte účastí na závěrečném testu:
+
+ • «16» bodů za každý zkouškový příklad (5 příkladů, maximálně tedy
+   celkem «80/blok»),
+ • -2 až +2 body za každou z 10 teoretických otázek (celkem až
+   «20/blok»).
+
+¹ Máte-li předmět ukončen zápočtem, čtvrtý blok a tedy ani závěrečný
+  test pro Vás není relevantní. Platí požadavek na 3×50 bodů z bloků
+  v semestru.
+
+² Percentil budeme počítat z bodů v semestru (první tři bloky)
+  a bude brát do úvahy všechny studenty, bez ohledu na ukončení,
+  kteří splnili tyto tři bloky (tzn. mají potřebné minimum 3×50
+  bodů).
+
+³ V případě, že jste «řádně omluveni» v ISu, nebo Vaše cvičení
+  «odpadlo» (např. padlo na státní svátek), můžete body «za účast»
+  získat buď náhradou v jiné skupině (pro státní svátky dostanete
+  instrukce mailem, individuální případy si domluvte s cvičícími
+  obou dotčených skupin). Nemůžete-li účast nahradit takto,
+  «domluvte se» se svým cvičícím (v tomto případě lze i mailem) na
+  vypracování 3 rozšířených příkladů ze sbírky (přesné detaily Vám
+  sdělí cvičící podle konkrétní situace). Neomluvenou neúčast lze
+  nahrazovat «pouze» v jiné skupině a to nejvýše jednou za semestr.

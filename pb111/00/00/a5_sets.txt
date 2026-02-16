@@ -1,0 +1,81 @@
+## Sady domácích úloh
+
+Ke každému bloku patří sada 4–6 domácích úloh. Na úspěšné odevzdání
+každé domácí úlohy budete mít 12 pokusů rozložených do 4 týdnů
+odpovídajícího bloku cvičení. Odevzdávání bude otevřeno vždy v 0:00
+prvního dne bloku (tzn. 24h před prvním spuštěním verity testů).
+
+Termíny odevzdání (vyhodnocení verity testů) jsou vždy v pondělí,
+středu a pátek v 23:59 – vyznačeno jako s1/1–12, s2/1–12 a s3/1–12
+v přehledovém kalendáři v části A.1.
+
+### Odevzdávání
+
+Součástí každého zadání je jeden zdrojový soubor (kostra), do
+kterého své řešení vepíšete. Vypracované příklady lze pak odevzdávat
+stejně jako přípravy:
+
+ 1. do «odevzdávárny» s názvem ‹sN_úkol› v ISu (např. ‹s1_a_queens›),
+ 2. příkazem ‹pb111 submit sN_úkol› ve složce ‹~/pb111/sN›, např.
+    ‹pb111 submit s1_a_queens›.
+
+Podrobnější instrukce naleznete opět v kapitole T.
+
+### Vyhodnocení
+
+Vyhodnocení Vašich řešení probíhá ve třech fázích a s každou z nich
+je spjata sada automatických testů. Tyto sady jsou:
+
+ • „syntax“ – kontroluje, že odevzdaný program je syntakticky
+   správně, lze jej přeložit a prochází základními statickými
+   kontrolami,
+ • „sanity“ – kontroluje, že odevzdaný program se chová „rozumně“ na
+   jednoduchých případech vstupu; tyto testy jsou rozsahem a stylem
+   podobné těm, které máte přiložené k příkladům ve cvičení,
+ • „verity“ – důkladně kontrolují správnost řešení, včetně složitých
+   vstupů a okrajových případů a kontroly paměťových chyb.
+
+Fáze na sebe navazují v tom smyslu, že nesplníte-li testy v některé
+fázi, žádná další se už (pro dané odevzdání) nespustí. Pro splnění
+domácí úlohy je klíčová fáze „verity“, za kterou jsou Vám uděleny
+body. Časový plán vyhodnocení fází je následovný:
+
+ • kontrola „syntax“ se provede obratem (do cca 5 minut od
+   odevzdání),
+ • kontrola „sanity“ každých 6 hodin počínaje půlnocí (tzn. 0:00,
+   6:00, 12:00, 18:00),
+ • kontrola „verity“ se provede v pondělí, středu a pátek ve 23:59
+   (dle tabulky uvedené výše).
+
+Vyhodnoceno je vždy pouze nejnovější odevzdání a každé odevzdání je
+vyhodnoceno v každé fázi nejvýše jednou. Výsledky naleznete
+v poznámkových blocích v ISu (každá úloha v samostatném bloku),
+případně je získáte příkazem ‹pb111 status›.
+
+Za každý domácí úkol, ve kterém Vaše odevzdání v příslušném termínu
+splní testy „verity“, získáte 8 bodů (strop bodů za úkoly je 32 za
+blok, počítají se tedy maximálně čtyři úspěšně vyřešené úkoly).
+
+### Neúspěšná řešení
+
+Příklady, které se Vám nepodaří vyřešit kompletně (tzn. tak, aby na
+nich uspěla kontrola „verity“), nebudeme hodnotit. Nicméně může
+nastat situace, kdy byste potřebovali na „téměř hotové“ řešení
+zpětnou vazbu, např. proto, že se Vám nepodařilo zjistit, proč
+nefunguje.
+
+Taková řešení můžou být předmětem společné analýzy ve cvičení,
+v podobném duchu jako probíhá rozprava kolem odevzdaných příprav
+(samozřejmě až poté, co pro danou sadu skončí odevzdávání). Máte-li
+zájem takto rozebrat své řešení, domluvte se, ideálně s předstihem,
+se svým cvičícím. To, že jste autorem, zůstává mezi cvičícím a Vámi
+– Vaši spolužáci to nemusí vědět (ke kódu se samozřejmě můžete
+v rámci debaty přihlásit, uznáte-li to za vhodné). Stejná pravidla
+platí také pro nedořešené přípravy (musíte je ale odevzdat).
+
+Tento mechanismus je omezen prostorem ve cvičení – nemůžeme zaručit,
+že v případě velkého zájmu dojde na všechny (v takovém případě
+cvičící vybere ta řešení, která bude považovat za přínosnější pro
+skupinu – je tedy možné, že i když se na Vaše konkrétní řešení
+nedostane, budete ve cvičení analyzovat podobný problém v řešení
+někoho jiného).

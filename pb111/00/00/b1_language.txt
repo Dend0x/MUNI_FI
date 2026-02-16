@@ -1,0 +1,17 @@
+## Programovací jazyk
+
+Podobně jako v kurzu IB111, budeme používat omezenou podmnožinu
+„skutečného“ (prakticky běžně používaného) programovacího jazyka –
+v tomto kurzu to bude podmnožina jazyka C. Každá kapitola, počínaje
+tou druhou, bude obsahovat popis všech prvků jazyka C, které musíte
+v dané kapitole zvládnout.¹
+
+V nulté a první kapitole se budeme zabývat pouze strojovým kódem a
+jazykem symbolických adres – budeme tedy programovat přímo výpočetní
+stroj, se zcela minimální abstrakcí. (Omezený) jazyk C se objeví
+teprve ve 2. kapitole.
+
+¹ Žádné jiné v kurzu nebudou k dispozici, máte tedy zaručeno, že
+  dokážete přečíst každý program, který k dané kapitole patří – ať
+  už z přednášky, z této sbírky, nebo kód svých spolužáků, který
+  uvidíte ve cvičení.
