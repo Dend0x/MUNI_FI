@@ -94,8 +94,25 @@ def keep_each(linked_list: LinkedList, k: int) -> None:
     Pro vstup → 10 → 7 → 1 → 2 → 3 → 4 → 19 a k = 3 bude seznam
     modifikován na → 1 → 4.
     """
-    pass  # TODO
 
+    if linked_list.first is None:
+        return
+
+    i: int = 1
+    last: Node | None = None
+    dummy: Node | None = linked_list.first
+
+    while dummy is not None:
+        if i % k == 0:
+            last = dummy
+        else:
+            if last is None:
+                linked_list.first = linked_list.first.next
+            else:
+                last.next = last.next.next
+
+        dummy = dummy.next
+        i += 1
 
 # Část 2.
 # Implementuje funkci split_by_value, která rozdělí zadaný jednosměrně
@@ -124,3 +141,26 @@ def split_by_value(linked_list: LinkedList, value: int) \
     seznamů → 1 → 2 → 5 → 3 → 4 a → 7.
     """
     pass  # TODO
+
+
+if __name__ == "__main__":
+    nod1 = Node(5)
+    nod2 = Node(6)
+    nod3 = Node(7)
+    nod4 = Node(8)
+    nod5 = Node(9)
+    nod6 = Node(10)
+    nod7 = Node(11)
+    nod8 = Node(12)
+    nod9 = Node(13)
+    list = LinkedList()
+    list.first = nod1
+    nod1.next = nod2
+    nod2.next = nod3
+    nod3.next = nod4
+    nod4.next = nod5
+    nod5.next = nod6
+    nod6.next = nod7
+    nod7.next = nod8
+    nod8.next = nod9
+    print(keep_each(list, 3))
