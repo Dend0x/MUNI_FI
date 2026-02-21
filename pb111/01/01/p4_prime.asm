@@ -1,4 +1,4 @@
-; Napište program, který rozhodne, je-li hodnota uložená v registru
+; Napište program, který rozhodne, je-li hodnota uložená v registru
 ; ‹l6› prvočíslem (hodnotu interpretujte jako číslo bez znaménka).
 ; Výsledek (1 pokud prvočíslem je, 0 jinak) uložte do registru ‹rv›
 ; a proveďte skok na návěstí ‹check›. Hodnotu registru ‹l7› nijak
@@ -32,3 +32,21 @@ check:
 .trigger inc _tc_
 
 solution: ; zde začíná řešení
+	put 2 -> l3
+	copy l6 -> l1
+	ule l1, 1 -> l2
+	jz l2, loop
+	put 0 -> rv
+	jmp check
+loop:
+	udiv l6, l3 -> l4
+	ugt l3, l4 -> l2
+	jz l2, cont
+	put 1 -> rv
+	jmp check
+cont:
+	umod l6, l3 -> l2
+	add l3, 1 -> l3
+	jnz l2, loop
+	put 0 -> rv
+	jmp check

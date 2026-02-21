@@ -1,8 +1,8 @@
 ; Vaším úkolem je tentokrát naprogramovat 32bitovou sčítačku.
-; Vstupem jsou 4 16bitové hodnoty uložené v registrech ‹l1› až ‹l4›,
+; Vstupem jsou 4 16bitové hodnoty uložené v registrech ‹l1› až ‹l4›,
 ; kde ‹l1› a ‹l3› jsou nižší a ‹l2› a ‹l4› jsou vyšší slova
 ; sčítanců. Nižší slovo výsledku uložte do ‹rv›, to vyšší pak do
-; ‹l6›. Hodnotu v registru ‹l7› neměňte.
+; ‹l6›. Hodnotu v registru ‹l7› neměňte.
 
 main:
     ld   l7, data   → l2
@@ -39,3 +39,15 @@ check:
 .trigger inc _tc_
 
 solution: ; zde začíná řešení
+	put 0 -> rv
+	put 0 -> l6
+	add l1, l3 -> rv
+	ult rv, l1 -> t1
+	ult rv, l3 -> t2
+	and t1, t2 -> t1
+	jz t1, high
+	add l6, 1 -> l6
+high:
+	add l2, l4 -> l2
+	add l2, l6 -> l6
+	jmp check

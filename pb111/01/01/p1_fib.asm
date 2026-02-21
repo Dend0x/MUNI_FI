@@ -4,7 +4,7 @@
 ; předchozích dvou (s výjimkou prvních dvou, které jsou pevně dané).
 
 ; Vaším úkolem je naprogramovat iterativní výpočet ⟦n⟧-tého
-; Fibonacciho čísla. Vstupní hodnotu ⟦n⟧ naleznete v registru ‹l6›,
+; Fibonacciho čísla. Vstupní hodnotu ⟦n⟧ naleznete v registru ‹l6›,
 ; výsledek uložte do registru ‹rv›. Po skončení výpočtu proveďte
 ; skok na návěstí ‹check›. Hodnotu registru ‹l7› zachovejte.
 
@@ -33,3 +33,26 @@ check:
 .trigger inc _tc_
 
 solution: ; zde začíná řešení
+	sle l6, 0 -> l1
+	jz l1, gre_0
+	put 0 -> rv
+	jmp check
+gre_0:
+	eq l6, 1 -> l1
+	jz l1, val_ok
+	put 1 -> rv
+	jmp check
+val_ok:
+	put 1 -> l1
+	put 1 -> l2
+	sub l6, 2 -> l6
+loop:
+	jz l6, end
+	sub l6, 1 -> l6
+	copy l2 -> l3
+	add l1, l2 -> l2
+	copy l3 -> l1
+	jmp loop
+end:
+	copy l2 -> rv
+	jmp check
