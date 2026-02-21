@@ -107,8 +107,10 @@ def keep_each(linked_list: LinkedList, k: int) -> None:
             last = dummy
         else:
             if last is None:
+                assert linked_list.first is not None
                 linked_list.first = linked_list.first.next
             else:
+                assert last.next is not None
                 last.next = last.next.next
 
         dummy = dummy.next
@@ -119,6 +121,7 @@ def keep_each(linked_list: LinkedList, k: int) -> None:
 # zřetězený seznam na dva – uzly s hodnotami menší nebo rovné zadané hodnotě
 # budou v „levém“ seznamu, ostatní uzly budou v „pravém“ seznamu. Pořadí uzlů
 # ve výsledných seznamech musí odpovídat jejich pořadí v původním seznamu.
+
 
 def split_by_value(linked_list: LinkedList, value: int) \
         -> tuple[LinkedList, LinkedList]:
@@ -140,27 +143,33 @@ def split_by_value(linked_list: LinkedList, value: int) \
     Pro vstup → 1 → 7 → 2 → 5 → 3 → 4 a value = 6 funkce vrátí dvojici
     seznamů → 1 → 2 → 5 → 3 → 4 a → 7.
     """
-    pass  # TODO
 
+    left_list: LinkedList = LinkedList()
+    right_list: LinkedList = LinkedList()
+    left: Node | None = None
+    right: Node | None = None
 
-if __name__ == "__main__":
-    nod1 = Node(5)
-    nod2 = Node(6)
-    nod3 = Node(7)
-    nod4 = Node(8)
-    nod5 = Node(9)
-    nod6 = Node(10)
-    nod7 = Node(11)
-    nod8 = Node(12)
-    nod9 = Node(13)
-    list = LinkedList()
-    list.first = nod1
-    nod1.next = nod2
-    nod2.next = nod3
-    nod3.next = nod4
-    nod4.next = nod5
-    nod5.next = nod6
-    nod6.next = nod7
-    nod7.next = nod8
-    nod8.next = nod9
-    print(keep_each(list, 3))
+    dummy: Node | None = linked_list.first
+
+    while dummy is not None:
+        if dummy.value <= value:
+            if left is None:
+                left_list.first = dummy
+                left = dummy
+            else:
+                left.next = dummy
+                left = dummy
+        else:
+            if right is None:
+                right_list.first = dummy
+                right = dummy
+            else:
+                right.next = dummy
+                right = dummy
+        dummy = dummy.next
+
+    if left is not None:
+        left.next = None
+    if right is not None:
+        right.next = None
+    return (left_list, right_list)
