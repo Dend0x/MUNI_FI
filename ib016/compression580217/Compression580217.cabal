@@ -68,7 +68,9 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.17.2.0
+    build-depends:    base ^>=4.17.2.0,
+    				  containers,
+    				  mtl
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -101,4 +103,8 @@ test-suite Compression580217-test
     -- Test dependencies.
     build-depends:
         base ^>=4.17.2.0,
-        Compression580217
+        Compression580217,
+        containers,
+        mtl,
+        HUnit, 
+        MyLZW
