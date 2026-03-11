@@ -1,5 +1,5 @@
-; Napište program, který určí, kolik je jedniček v binárním zápisu
-; čísla uloženého v registru ‹l6›. Výsledek uložte do registru ‹rv›
+; Napište program, který určí, kolik je jedniček v binárním zápisu
+; čísla uloženého v registru ‹l6›. Výsledek uložte do registru ‹rv›
 ; a poté proveďte skok na návěstí ‹check›. Hodnotu registru ‹l7›
 ; nijak neměňte.
 
@@ -29,3 +29,16 @@ check:
 .trigger inc _tc_
 
 solution: ; zde začíná řešení
+	put 15 -> l3
+	put 0 -> rv
+loop:
+	slt l3, 0 -> l2
+	jz l2, cont
+	jmp check
+cont:
+	jz l6, check
+	sub l3, 1 -> l3
+	and l6, 1 -> l5
+	add rv, l5 -> rv
+	shr l6, 1 -> l6
+	jmp loop

@@ -33,3 +33,17 @@ check:
 .trigger inc _tc_
 
 solution: ; zde začíná řešení
+	ult l1, l2 -> l3
+	jz l3, gcd
+	copy l1 -> l3
+	copy l2 -> l1
+	copy l3 -> l2
+gcd:
+	jz l2, end
+	umod l1, l2 -> l3
+	copy l2 -> l1
+	copy l3 -> l2
+	jmp gcd
+end:
+	copy l1 -> rv
+	jmp check
