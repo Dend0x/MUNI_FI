@@ -30,6 +30,9 @@ type DecompressionDict = Map.Map Codeword String
 data CompressionState = CompressionState { dictionary :: CompressionDict,
                                            nextKey :: Codeword }
 
+data DecompressionState = DecompressionState { dictionary :: DecompressionDict,
+                                               nextKey :: Codeword}
+
 -- map (:[]) converts Char to String, list generator wont work on Strings
 compressionDictInit :: CompressionDict
 compressionDictInit = Map.fromDistinctAscList $ ("#", 0) : zip (map (:[]) ['A'..'Z']) [1..26]
@@ -105,6 +108,12 @@ compressionState toEncode = compressionStep "" toEncode
 -- | The initial state of State is compressionStateInit
 compress :: String -> Encoding
 compress toEncode = State.evalState (compressionState toEncode) compressionStateInit
+
+decompressionDictInit :: DecompressionDict
+decompressionDictInit = Map.fromDistinctAscList $ (0, "#") : zip (map (:[]) [1..26]) ['A'..'Z']
+
+decompressionStateInit :: DecompressionState
+decompressionStateInit = DecompressionState decompressionStateInit 27
 
 decompress :: Encoding -> String
 decompress = undefined
