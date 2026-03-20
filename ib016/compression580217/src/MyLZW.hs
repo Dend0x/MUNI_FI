@@ -15,10 +15,7 @@ type DecompressionDict = Map.Map Codeword String
     Every letter (or sequence of letters) found in input has its number (encodeNumber), 
     which will be representing that substring in the output, to make it shorter
 
-    The State monad holds the informations about current dictionary, as it has to lookup
-    through found substrings and letters to correctly give a number that is representing it,
-    and a nextKey, that is a number (encodeNumber), that will be given to the next newly found
-    substring
+    The State monad holds current dictionary and nextKey, that will be given the next new found string
 
     During the making of this code I was learning the State Monad from scratch, therefore I
     am using a lot of comments to make it clear to me
@@ -30,6 +27,9 @@ type DecompressionDict = Map.Map Codeword String
 data CompressionState = CompressionState { dictionary :: CompressionDict,
                                            nextKey :: Codeword }
 
+data DecompressionState = DecompressionState { dictionaryDec :: DecompressionDict,
+                                               nextKeyDec :: Codeword }
+
 -- map (:[]) converts Char to String, list generator wont work on Strings
 compressionDictInit :: CompressionDict
 compressionDictInit = Map.fromDistinctAscList $ ("#", 0) : zip (map (:[]) ['A'..'Z']) [1..26]
@@ -40,12 +40,6 @@ compressionStateInit = CompressionState compressionDictInit 27
 {-
 
     case 1 - No more letters to work with
-        currentState and currentDictionary represent current state of State
-
-        As it is our last iteration through the input, we know, that the substring has to be
-        in the dictionary, because of the way how new substrigs were being created, therefore
-        I only used Just in pattern to immediattly get the value
-
         The function returns a State, which is a Monad and because of that I had to pack the value
         of encodeNumber. I preffer pure, as it is less confusing than using return
 
@@ -66,11 +60,6 @@ compressionStateInit = CompressionState compressionDictInit 27
         Setting the new State with updated dictionary and nextKey incremented
         State.put removes the previous state and overwrites it with a new one, 
         or simply updates it
-
-        Then is the function recursivily called, on the letters left, [letter] is the
-        newly added letter, that is our new start of the substring
-
-        As the encodeNumber is unpacked inside do notation, it has to be packed back, so pure
 -}
 compressionStep :: String -> String -> State.State CompressionState Encoding
 compressionStep subString [] = do
@@ -106,5 +95,49 @@ compressionState toEncode = compressionStep "" toEncode
 compress :: String -> Encoding
 compress toEncode = State.evalState (compressionState toEncode) compressionStateInit
 
+decompressionDictInit :: DecompressionDict
+decompressionDictInit = Map.fromDistinctAscList $ (0, "#") : zip [1..26] (map (:[]) ['A'..'Z'])
+
+decompressionStateInit :: DecompressionState
+decompressionStateInit = DecompressionState decompressionDictInit 27
+
+decompressionState :: Encoding -> State.State DecompressionState String
+decompressionState [] = pure ""
+decompressionState (encodeNumber:xs) = do
+    state <- State.get
+    let dict = dictionaryDec state
+    let Just encodeString = Map.lookup encodeNumber dict
+    xsStrings <- decompressionStep encodeString xs
+    pure (encodeString ++ xsStrings)
+
+{-
+
+    Almost the same
+    Creating and editing state to update decompresser
+
+    For creation of new strings compresser has to use last used string and new input
+
+-}
+
+decompressionStep :: String -> Encoding -> State.State DecompressionState String
+decompressionStep _ [] = pure ""
+decompressionStep last (encodeNumber:xs) = do
+    state <- State.get
+    let dict = dictionaryDec state
+    let input = case Map.lookup encodeNumber dict of
+                    Just string -> string
+                    -- For the case newly created code was used
+                    Nothing -> last ++ [head last]
+    -- First char of input is what compresser used to make new input to dict
+    let newInput = last ++ [head input]
+
+    let newDict = Map.insert (nextKeyDec state) newInput dict
+    let newState = DecompressionState newDict (nextKeyDec state + 1)
+
+    State.put newState
+
+    xsStrings <- decompressionStep input xs
+    pure (input ++ xsStrings)
+
 decompress :: Encoding -> String
-decompress = undefined
+decompress toDecode = State.evalState (decompressionState toDecode) decompressionStateInit
