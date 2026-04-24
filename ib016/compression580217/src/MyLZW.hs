@@ -9,6 +9,9 @@ type CompressionDict = Map.Map String Codeword
 type DecompressionDict = Map.Map Codeword String
 
 {-
+    This helped a lot
+    https://www.youtube.com/watch?v=oKum39FSn8U&t=300s
+
     Algorithm works by creating a map of letters of the alphabet + 
     later found substrings of the input
 
