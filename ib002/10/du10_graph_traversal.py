@@ -73,15 +73,18 @@ class Color:
 # Implementujte funkci reachable_size, která zjistí počet vrcholů a hran
 # dosažitelných ze zadaného vrcholu.
 
-def dfs_visit(u: Vertex, vertexes: deque, edges: deque) -> None:
+def dfs_visit(u: Vertex, couple: tuple[int, int]) -> tuple[int, int]:
     u.flag = Color.GRAY
+    ver, edg = couple
 
     for v in u.succs:
         if v.flag is None:
-            vertexes.append(v)
-            dfs_visit(v, vertexes, edges)
-        edges.append(v)
+            ver += 1
+            ver, edg = dfs_visit(v, (ver, edg))
+        edg += 1
     u.flag = Color.BLACK
+
+    return (ver, edg)
 
 
 def reachable_size(source: Vertex) -> tuple[int, int]:
@@ -100,12 +103,9 @@ def reachable_size(source: Vertex) -> tuple[int, int]:
       pro počáteční vrchol C bude výsledkem dvojice (4, 5)
       pro počáteční vrchol E bude výsledkem dvojice (3, 2)
     """
-    vertexes: deque = deque()
-    edges: deque = deque()
+    ver, edg = dfs_visit(source, (0, 0))
 
-    dfs_visit(source, vertexes, edges)
-
-    return (len(vertexes) + 1, len(edges))
+    return (ver + 1, edg)
 
 
 # Část 2.
@@ -118,10 +118,9 @@ def dfs_visit_cyc(source: Vertex) -> bool:
     for v in source.succs:
         if v.flag == Color.GRAY:
             return True
-        if v.flag == Color.BLACK:
-            return False
-        if dfs_visit_cyc(v):
-            return True
+        if v.flag is None:
+            if dfs_visit_cyc(v):
+                return True
 
     source.flag = Color.BLACK
     return False
@@ -213,22 +212,22 @@ def distance(source: Vertex, target: Vertex) -> int | None:
     if source == target:
         return 0
 
-    source.flag = Color.GRAY
+    source.flag = 0
     queue: deque = deque()
     queue.append(source)
-    distance: int = 1
 
     while len(queue) != 0:
         elem: Vertex = queue.popleft()
 
         for v in elem.succs:
-            if v == target:
-                return distance
-            if v.flag == Color.GRAY:
+            if v.flag is not None:
                 continue
-            v.flag = Color.GRAY
+            v.flag = elem.flag + 1
+
+            if v == target:
+                return v.flag
+
             queue.append(v)
-        distance += 1
 
     return None
 
