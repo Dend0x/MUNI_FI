@@ -1,0 +1,15 @@
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\bin\Debug\net10.0\ukol1.exe
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\bin\Debug\net10.0\ukol1.deps.json
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\bin\Debug\net10.0\ukol1.runtimeconfig.json
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\bin\Debug\net10.0\ukol1.dll
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\bin\Debug\net10.0\ukol1.pdb
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.AssemblyInfoInputs.cache
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.AssemblyInfo.cs
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.csproj.CoreCompileInputs.cache
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.sourcelink.json
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.dll
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\refint\ukol1.dll
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.pdb
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ukol1.genruntimeconfig.cache
+C:\Programovani\IUP\MUNI_FI\pb006\ukol1\obj\Debug\net10.0\ref\ukol1.dll
