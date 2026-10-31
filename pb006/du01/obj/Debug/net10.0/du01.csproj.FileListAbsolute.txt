@@ -1,0 +1,15 @@
+C:\Programovani\MUNI_FI\pb006\du01\bin\Debug\net10.0\du01.exe
+C:\Programovani\MUNI_FI\pb006\du01\bin\Debug\net10.0\du01.deps.json
+C:\Programovani\MUNI_FI\pb006\du01\bin\Debug\net10.0\du01.runtimeconfig.json
+C:\Programovani\MUNI_FI\pb006\du01\bin\Debug\net10.0\du01.dll
+C:\Programovani\MUNI_FI\pb006\du01\bin\Debug\net10.0\du01.pdb
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.AssemblyInfoInputs.cache
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.AssemblyInfo.cs
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.csproj.CoreCompileInputs.cache
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.sourcelink.json
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.dll
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\refint\du01.dll
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.pdb
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\du01.genruntimeconfig.cache
+C:\Programovani\MUNI_FI\pb006\du01\obj\Debug\net10.0\ref\du01.dll
